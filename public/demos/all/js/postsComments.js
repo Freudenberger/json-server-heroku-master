@@ -61,7 +61,7 @@ const getCommentsHTML = (comments) => {
     else {
         for (item of comments) {
             htmlData += getCommentHTML(item);
-            htmlData += `<hr>`<br>
+            htmlData += `<hr><br>`
         }
     }
     return htmlData
@@ -76,7 +76,6 @@ const getCommentHTML = (comments) => {
 };
 
 const displayPostsData = (data) => {
-    console.log(data)
     const container = document.querySelector("#container");
     container.innerHTML = "";
     for (item of data) {

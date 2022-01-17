@@ -27,18 +27,29 @@ async function issueGetRequest()
     displayPostsData(postsData);
 };
 
+const getImagesHTML = (images) => {
+    let htmlData = "";
+        for (image of images) {
+            htmlData += `<img src="${image}" />`;
+            htmlData += `<br>`
+        }
+    return htmlData
+};
+
+
 const getItemHTML = (item) => {
     return `<div>
         <label>id:</label><span>${item.id}</span><br>
         <label>user name:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label>title:</label><span>${item.title}</span><br>
+        ${getImagesHTML(item.images)}
         <label>body:</label><span>${item.body}</span><br>
+        <span><a href="post.html?id=1">See comments...</a></span><br>
     </div>`;
 };
 
 const displayPostsData = (data) => {
-    console.log(data)
     const container = document.querySelector("#container");
     container.innerHTML = "";
     for (item of data) {
