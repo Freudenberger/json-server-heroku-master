@@ -45,6 +45,7 @@ const getItemHTML = (item) => {
         <label>date:</label><span>${item.date}</span><br>
         <label>title:</label><span>${item.title}</span><br>
         <label>description:</label><span>${item.body}</span><br>
+        <hr><br>
         <label>comments:</label><br>
         ${getCommentsHTML(item.comments)}
     </div>`;
@@ -60,6 +61,7 @@ const getCommentsHTML = (comments) => {
     else {
         for (item of comments) {
             htmlData += getCommentHTML(item);
+            htmlData += `<hr>`<br>
         }
     }
     return htmlData
