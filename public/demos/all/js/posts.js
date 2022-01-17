@@ -4,8 +4,7 @@ const issueGetRequest = () => {
     console.log('GET request:', endpoint);
     fetch(endpoint)
         .then(response => response.json())
-        .then(displayPostsData)
-        .then(attachEventHandlers);
+        .then(displayPostsData);
 };
 
 const getItemHTML = (item) => {
