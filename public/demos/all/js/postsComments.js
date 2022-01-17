@@ -31,6 +31,8 @@ async function issueGetRequest()
                 postsData[i].comments.push(userComments[j]);
             }
         }
+        // sort comments by date:
+        postsData[i].comments.sort((a,b) => a.date < b.date);
     }
 
     displayPostsData(postsData);
