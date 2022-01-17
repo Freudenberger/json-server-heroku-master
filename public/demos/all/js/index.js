@@ -179,4 +179,14 @@ const displayData = (data) => {
     }
 };
 
+// posts:
+const displayPostsData = (data) => {
+    console.log(data)
+    const container = document.querySelector("#postContainer");
+    container.innerHTML = "";
+    for (item of data) {
+        displayItem(item, container);
+    }
+};
+
 issueGetRequest();
