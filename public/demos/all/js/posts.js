@@ -4,30 +4,27 @@ const endpoints = [
   '../../users'
 ];
 
-//const issueGetRequest = () => {
-//    // get data from the server:
-//    console.log('GET request:', endpoint);
-//    fetch(endpoint)
-//        .then(response => response.json())
-//        .then(displayPostsData);
-//};
-
-const issueGetRequest = () => {
+async function issueGetRequest()
+{
     // get data from the server:
     console.log('GET request:', endpoints);
     const results = await Promise.all(endpoints.map((url) => fetch(url).then((r) => r.json())));
     const postsData = results[0]
     const usersData = results[1]
 
-    for (const i = 0; i < postsData.length; i++) {
-        for (const j = 0; j < usersData.length; j++) {
+    for (let i = 0; i < postsData.length; i++) {
+        for (let j = 0; j < usersData.length; j++) {
             if (usersData[j].id === postsData[i].user_id) {
-                postsData[i] = `${usersData[j].firstname} ${usersData[j].lastname}`
+                postsData[i].user_name = `${usersData[j].firstname} ${usersData[j].lastname}`;
+                break;
             }
+        }
+        if (postsData[i].user_name === undefined) {
+            postsData[i].user_name = "Unknown user";
         }
     }
 
-    displayPostsData(postsData)
+    displayPostsData(postsData);
 };
 
 const getItemHTML = (item) => {
@@ -35,6 +32,7 @@ const getItemHTML = (item) => {
         <label>id:</label><span>${item.id}</span><br>
         <label>user name:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
+        <label>title:</label><span>${item.title}</span><br>
         <label>body:</label><span>${item.body}</span><br>
     </div>`;
 };
