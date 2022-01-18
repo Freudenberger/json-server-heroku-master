@@ -37,7 +37,7 @@ async function issueGetRequest(post_id)
 const getImagesHTML = (images) => {
     let htmlData = "";
     if (images !== undefined && images.length > 0) {
-        htmlData += `<img src="${images[0].replace('256','512')}" />`;
+        htmlData += `<img src="${images[0].replace('256','512')}" style="width: 512px;"/>`;
 //        for (image of images) {
 //            htmlData += `<img src="${image}" />`;
 //            htmlData += `<br>`
@@ -57,7 +57,7 @@ const getItemHTML = (item) => {
         <label>user name:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
         ${getImagesHTML(item.images)}
-        <label>description:</label><span>${item.body}</span><br>
+        <label></label><span>${item.body}</span><br>
     </div>`;
 };
 //        <hr><br>
