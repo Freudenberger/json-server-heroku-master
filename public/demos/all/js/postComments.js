@@ -46,10 +46,10 @@ const getImagesHTML = (images) => {
 
 const getItemHTML = (item) => {
     return `<div>
+        <label>title:</label><span>${item.title}</span><br>
         <label>id:</label><span>${item.id}</span><br>
         <label>user name:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
-        <label>title:</label><span>${item.title}</span><br>
         ${getImagesHTML(item.images)}
         <label>description:</label><span>${item.body}</span><br>
     </div>`;

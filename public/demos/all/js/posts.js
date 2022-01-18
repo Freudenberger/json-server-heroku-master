@@ -37,15 +37,15 @@ const getImagesHTML = (images) => {
 };
 
 
+//        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
     return `<div>
-        <label>id:</label><span>${item.id}</span><br>
         <label>user name:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label>title:</label><span>${item.title}</span><br>
         ${getImagesHTML(item.images)}
-        <label>body:</label><span>${item.body}</span><br>
-        <span><a href="post.html?id=1">See comments...</a></span><br>
+        <label></label><span>${item.body.substring(0, 200)}</span><br>
+        <span><a href="post.html?id=${item.id}">See More...</a></span><br>
     </div>`;
 };
 
