@@ -2,4 +2,7 @@
   "name": "REST API jaktestowac.pl Demo",
   "version": "1.0.0",
   "description": "Simple json-base database to deploy to Heroku",
+  "repository": "",
+  "keywords": ["json-server, heroku, node, REST API"],
+  "author": ""
 }
