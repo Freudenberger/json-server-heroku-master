@@ -14,7 +14,7 @@
       "firstname": "Danial",
       "lastname": "Dicki",
       "password": "2Kellie20",
-      "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/bobbytwoshoes/128.jpg"
+      "avatar": ".\\data\\users\\face_1591133060.68834.jpg"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "firstname": "Daryl",
       "lastname": "Parisian",
       "password": "5Eleanore90",
-      "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/supjoey/128.jpg"
+      "avatar": ".\\data\\users\\face_1591133063.620005.jpg"
     },
     {
       "id": 4,
@@ -30,7 +30,7 @@
       "firstname": "Dortha",
       "lastname": "Blick",
       "password": "5Damien43",
-      "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/stevedesigner/128.jpg"
+      "avatar": ".\\data\\users\\face_1591133112.3790507.jpg"
     },
     {
       "id": 5,
@@ -38,7 +38,15 @@
       "firstname": "Lenore",
       "lastname": "Hoeger",
       "password": "6Selina95",
-      "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/juanmamartinez/128.jpg"
+      "avatar": ".\\data\\users\\face_1591133153.523801.jpg"
+    },
+    {
+      "id": 5,
+      "email": "Abc.Lea@Kreiger.net",
+      "firstname": "Kerra",
+      "lastname": "JD",
+      "password": "6Selina95",
+      "avatar": ".\\data\\users\\face_1591133363.1959925.jpg"
     }
   ],
   "posts": [
