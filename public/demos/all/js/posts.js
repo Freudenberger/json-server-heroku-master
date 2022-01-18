@@ -21,6 +21,8 @@ async function issueGetRequest()
             postsData[i].user_name = "Unknown user";
         }
     }
+    // sort posts by date:
+    postsData.sort((a,b) => a.date < b.date);
 
     displayPostsData(postsData);
 };
