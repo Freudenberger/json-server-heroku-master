@@ -49,12 +49,25 @@ button {
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
-button:hover {
+.button-primary:hover {
     color: #fff;
     background-color: #0069d9;
     border-color: #0062cc;
 }
 
+.button-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.button-disabled:hover {
+}
+
+.button-disabled {
+    color: #fff;
+    background-color: #bcbcbc;
+    border-color: #bcbcbc;
+}
 .alert {
     padding: .75rem 1.25rem;
     border: 1px solid transparent;

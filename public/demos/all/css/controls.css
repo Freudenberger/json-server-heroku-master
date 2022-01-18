@@ -57,6 +57,15 @@ button {
     background-color: #007bff;
     border-color: #007bff;
 }
+.button-disabled:hover {
+}
+
+.button-disabled {
+    color: #fff;
+    background-color: #bcbcbc;
+    border-color: #bcbcbc;
+}
+
 
 .alert {
     padding: .75rem 1.25rem;
