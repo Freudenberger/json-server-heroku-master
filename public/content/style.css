@@ -83,3 +83,15 @@ code {
     padding: .2rem .5rem;
     white-space: nowrap;
 }
+
+.button-primary:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.button-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
