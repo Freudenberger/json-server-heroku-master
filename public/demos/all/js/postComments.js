@@ -36,11 +36,12 @@ async function issueGetRequest(post_id)
 
 const getImagesHTML = (images) => {
     let htmlData = "";
-    if (images !== undefined) {
-        for (image of images) {
-            htmlData += `<img src="${image}" />`;
-            htmlData += `<br>`
-        }
+    if (images !== undefined && images.length > 0) {
+        htmlData += `<img src="${images[0]}" />`;
+//        for (image of images) {
+//            htmlData += `<img src="${image}" />`;
+//            htmlData += `<br>`
+//        }
     }
     return htmlData
 };
