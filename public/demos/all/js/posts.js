@@ -28,7 +28,7 @@ async function issueGetRequest()
 const getImagesHTML = (images) => {
     let htmlData = "";
     if (images !== undefined && images.length > 0) {
-        htmlData += `<img src="${images[0]}" />`;
+        htmlData += `<div align="center" ><img src="${images[0]}" /></div>`;
 //        for (image of images) {
 //            htmlData += `<img src="${image}" />`;
 //            htmlData += `<br>`
@@ -41,10 +41,10 @@ const getImagesHTML = (images) => {
 //        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
     return `<div>
+        ${getImagesHTML(item.images)}<br>
+        <label>title:</label><span>${item.title}</span><br>
         <label>user name:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
-        <label>title:</label><span>${item.title}</span><br>
-        ${getImagesHTML(item.images)}
         <label></label><span>${item.body.substring(0, 200)}</span><br>
         <span><a href="post.html?id=${item.id}">See More...</a></span><br>
     </div>`;

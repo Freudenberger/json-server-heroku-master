@@ -47,16 +47,16 @@ const getImagesHTML = (images) => {
 };
 
 //            <i class="fas fa-trash delete" id="${item.id}"></i>
+//        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
     return `<div>
         <div class="controls">
             <i class="fas fa-edit edit" id="${item.id}"></i>
         </div>
+        ${getImagesHTML(item.images)}<br>
         <label>title:</label><span>${item.title}</span><br>
-        <label>id:</label><span>${item.id}</span><br>
         <label>user name:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
-        ${getImagesHTML(item.images)}
         <label></label><span>${item.body}</span><br>
     </div>`;
 };
