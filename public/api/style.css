@@ -36,6 +36,11 @@ footer {
   /* padding-top: 2.5rem; */
   border-top: 1px solid #EEE;
 }
+footer .container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
 
 h2, h3, h4 {
     font-weight: 600;

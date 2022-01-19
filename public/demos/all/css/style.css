@@ -18,6 +18,15 @@ header {
 h1, h2 {
     font-family: 'Roboto';
 }
+footer {
+  /* padding-top: 2.5rem; */
+  border-top: 1px solid #EEE;
+}
+footer .container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
 img {
     height: 256px;
     padding: 3px;

@@ -55,7 +55,15 @@ header h1 {
     grid-area: main;
     padding: 10px;
 }
-
+footer {
+  /* padding-top: 2.5rem; */
+  border-top: 1px solid #EEE;
+}
+footer .container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
 #data {
     padding: 30px;
 }
