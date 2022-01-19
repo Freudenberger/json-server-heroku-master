@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "email": "Purdy_Liza@Feest.ca",
+      "email": "Moses_Armstrong@Armstrong.Feest.ca",
       "firstname": "Moses",
       "lastname": "Armstrong",
       "password": "0Lelia39",
@@ -10,7 +10,7 @@
     },
     {
       "id": 2,
-      "email": "Durward_Ondricka@hotmail.com",
+      "email": "Danial_Dicki@hotmail.dicki.com",
       "firstname": "Danial",
       "lastname": "Dicki",
       "password": "2Kellie20",
@@ -18,7 +18,7 @@
     },
     {
       "id": 3,
-      "email": "Alvena.Gislason@gmail.com",
+      "email": "Daryl.Parisian@gmail.com",
       "firstname": "Daryl",
       "lastname": "Parisian",
       "password": "5Eleanore90",
@@ -26,7 +26,7 @@
     },
     {
       "id": 4,
-      "email": "Larue.Schneider@Walker.name",
+      "email": "Dortha.Blick@Walker.name",
       "firstname": "Dortha",
       "lastname": "Blick",
       "password": "5Damien43",
@@ -34,7 +34,7 @@
     },
     {
       "id": 5,
-      "email": "Hoppe.Lea@Kreiger.net",
+      "email": "Lenore.Hoeger@test.net",
       "firstname": "Lenore",
       "lastname": "Hoeger",
       "password": "6Selina95",
@@ -42,7 +42,7 @@
     },
     {
       "id": 6,
-      "email": "Abc.Lea@Kreiger.net",
+      "email": "Kerra.JD@test.net",
       "firstname": "Kerra",
       "lastname": "JD",
       "password": "gdsa",

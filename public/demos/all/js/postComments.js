@@ -170,6 +170,7 @@ const handleUpdate = (ev) => {
         'body': container.querySelector('#body').value,
         'user_id': container.querySelector('#user_id').value,
         'date': container.querySelector('#date').value,
+        'images': [container.querySelector('#images').value],
     };
     const callback = (item) => {
         container.innerHTML = getItemHTML(item);
@@ -252,6 +253,7 @@ const displayForm = (item, container) => {
             <textarea rows="4" type="text" id="body" value="${item.body}">${item.body}</textarea><br>
             <input style="visibility:hidden;" type="text" id="user_id" value="${item.user_id}"><br>
             <input style="visibility:hidden;" type="text" id="date" value="${item.date}"><br>
+            <input style="visibility:hidden;" type="text" id="images" value="${item.images}"><br>
 
     <div align="center" >
             <label></label><br>

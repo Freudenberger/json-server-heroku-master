@@ -2,7 +2,7 @@ const rootURL = document.location.protocol + '//' + document.location.host + '/'
 const menuElement = document.querySelector("#menu");
 const methodElement = document.querySelector("#method");
 const codeContainer = document.querySelector("#code-container");
-const submitElement = document.querySelector("button");
+const submitElement = document.querySelector("#submit");
 let alertElement = document.querySelector(".alert");
 
 const jsonViewer = CodeMirror(document.getElementById('data-container'), {
@@ -207,8 +207,10 @@ const go = () => {
         ${extras}
     });`;
     console.log(code);
+    let success = false
     try {
         eval(code);
+        success = true
     } catch(e) {
         console.log(e);
     }
