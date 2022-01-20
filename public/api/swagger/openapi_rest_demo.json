@@ -1,0 +1,191 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST demo",
+    "description": "This is a sample REST serverform jaktestowac.pl .",
+    "termsOfService": "http://jaktestowac.pl/",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://api-test-kk10.herokuapp.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "post",
+      "description": "Posts with lot of contents"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "paths": {
+    "/posts": {
+      "post": {
+        "tags": [
+          "post"
+        ],
+        "summary": "uplad post",
+        "operationId": "uploadFile",
+        "requestBody": {
+          "description": "Date of creation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "date"
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title"
+          },
+          "body": {
+            "type": "string",
+            "description": "Post body"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "image": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "xml": {
+          "name": "Comment"
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "post_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "body": {
+            "type": "string",
+            "description": "Comment body"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "xml": {
+          "name": "Comment"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      }
+    }
+  }
+}
