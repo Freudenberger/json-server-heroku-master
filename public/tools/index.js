@@ -14,5 +14,5 @@ fetch('/db')
     });
 
 const swaggerElement = document.querySelector("#swagger");
-const pathToSchema = `${window.location.origin}${window.location.pathname}/swagger/openapi_rest_demo.json`
-swaggerElement.href = `https://editor.swagger.io/?url=${pathToSchema.replace('index.html', '').replace(/\/\//g, "/")}`
+const pathToSchema = `${window.location.origin}${window.location.pathname}swagger/openapi_rest_demo.json`
+swaggerElement.href = `https://editor.swagger.io/?url=${pathToSchema.replace('index.html', '')}`
