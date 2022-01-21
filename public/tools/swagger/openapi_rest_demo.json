@@ -17,22 +17,46 @@
   ],
   "tags": [
     {
-      "name": "post",
-      "description": "Posts with lot of contents"
+      "name": "posts",
+      "description": "Posts (blog entries) with lot of contents"
     },
     {
       "name": "user",
       "description": "Operations about user"
+    },
+    {
+      "name": "comments",
+      "description": "Operations about comment"
     }
   ],
   "paths": {
     "/posts": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get posts",
+        "operationId": "getPosts",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "date"
+      },
       "post": {
         "tags": [
-          "post"
+          "posts"
         ],
-        "summary": "uplad post",
-        "operationId": "uploadFile",
+        "summary": "Add post",
+        "operationId": "Create post",
         "requestBody": {
           "description": "Date of creation",
           "content": {
@@ -59,7 +83,140 @@
         "x-codegen-request-body-name": "date"
       }
     },
+    "/posts/{id}": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Find post by ID",
+        "description": "Returns a single post",
+        "operationId": "getPostById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid post id supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Updated post",
+        "description": "Update post.",
+        "operationId": "updatePost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of post that need to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated post object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid post supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Deletes a post",
+        "operationId": "deletePost",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Post id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {}
+          }
+        }
+      }
+    },
     "/users": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "getUsers",
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
       "post": {
         "tags": [
           "user"
@@ -85,6 +242,133 @@
           }
         },
         "x-codegen-request-body-name": "body"
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Find post by ID",
+        "description": "Returns a single user",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of post to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user id supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get comments",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "getComments",
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Create comment",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createComment",
+        "requestBody": {
+          "description": "Created Comment object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/comments/{id}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Find comments by ID",
+        "description": "Returns a single user",
+        "operationId": "getCommentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of comment to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user id supplied",
+            "content": {}
+          },
+          "404": {
+            "description": "Comment not found",
+            "content": {}
+          }
+        }
       }
     }
   },
