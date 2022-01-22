@@ -1,8 +1,8 @@
-const endpoint = '../../articles';
+const endpoint = '../../api/articles';
 const endpoints = [
-  '../../articles',
-  '../../users',
-  '../../comments'
+  '../../api/articles',
+  '../../api/users',
+  '../../api/comments'
 ];
 
 

@@ -1,4 +1,4 @@
-const rootURL = document.location.protocol + '//' + document.location.host + '/';
+const rootURL = document.location.protocol + '//' + document.location.host + '/api/';
 const menuElement = document.querySelector("#menu");
 const methodElement = document.querySelector("#method");
 const codeContainer = document.querySelector("#code-container");

@@ -49,7 +49,7 @@ module.exports = function (source) {
     };
 
     // GET /db
-    router.get('/db', function (req, res) {
+    router.get('/api/db', function (req, res) {
         res.jsonp(db.getState());
     });
 

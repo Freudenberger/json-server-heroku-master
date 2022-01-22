@@ -1,4 +1,4 @@
-fetch('/db')
+fetch('/api/db')
     .then(response => {
         return response.json();
     })
@@ -7,9 +7,9 @@ fetch('/db')
         let count = 0;
         for (endpoint in data) {
             count += data[endpoint].length;
-            urls.push(`<a href="/${endpoint}">/${endpoint}</a><sup>${data[endpoint].length}x</sup>`);
+            urls.push(`<a href="/api/${endpoint}">/${endpoint}</a><sup>${data[endpoint].length}x</sup>`);
         }
-        urls.push(`<a href="../db">/db</a><sup>${count}x</sup>`);
+        urls.push(`<a href="../api/db">/db</a><sup>${count}x</sup>`);
         document.getElementById('resources').innerHTML = urls.join('<br>');
     });
 

@@ -1,4 +1,4 @@
-const usersEndpoint = '../../users';
+const usersEndpoint = '../../api/users';
 
 async function issueGetRequest(user_id)
 {
