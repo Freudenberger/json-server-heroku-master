@@ -12,7 +12,21 @@ const reloadDB = (req, res, next) => {
         console.log('reloadDB successful');
         res.sendStatus(201);
       } else {
-        console.log('Invalid method for reloadDB');
+        next();
+      }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+};
+const dbRoute = (req, res, next) => {
+  try {
+      if (req.method === 'GET' && req.url.endsWith('/db')) {
+        const dbData = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8'));
+        res.json(dbData);
+        req.body = dbData
+        next();
+      } else {
         next();
       }
   } catch (error) {
@@ -28,6 +42,7 @@ const port = process.env.PORT || 3000;
 
 server.use(middlewares);
 server.use(reloadDB);
+server.use(dbRoute);
 server.use('/api', router);
 
 server.listen(port, () => {
