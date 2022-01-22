@@ -1,111 +1,40 @@
-const articlesEndpoint = '../../api/articles';
-const usersEndpoint = '../../api/users';
 const commentsEndpoint = '../../api/comments';
 
 
-async function issueGetRequest(article_id)
+async function issueGetRequest(comment_id)
 {
-    const articlesUrl = `${articlesEndpoint}/${article_id}`
-    const articlesData = await Promise.all([articlesUrl].map((url) => fetch(url).then((r) => r.json())));
-    const userUrl = `${usersEndpoint}/${articlesData[0].user_id}`
-    const usersData = await Promise.all([userUrl].map((url) => fetch(url).then((r) => r.json())));
+    const commentUrl = `${commentsEndpoint}/${comment_id}`
+    const commentsData = await Promise.all([commentUrl].map((url) => fetch(url).then((r) => r.json())));
 
-    const comments = await Promise.all([commentsEndpoint].map((url) => fetch(url).then((r) => r.json())));
+    const commentData = commentsData[0]
 
-    const articleData = articlesData[0]
-    const userData = usersData[0]
-    const userComments = comments[0]
-
-    if (userData.firstname === undefined) {
-        articleData.user_name = "Unknown user";
-    } else {
-        articleData.user_name = `${userData.firstname} ${userData.lastname}`;
-    }
-    articleData.comments = []
-    for (let j = 0; j < userComments.length; j++) {
-        if (userComments[j].article_id === articleData.id) {
-            articleData.comments.push(userComments[j]);
-        }
-    }
-    // sort comments by date:
-    articleData.comments.sort((a,b) => a.date < b.date);
-
-    displayArticlesData(articlesData);
+    displayCommentData(commentData);
     attachEventHandlers();
 };
 
-const getImagesHTML = (images) => {
-    let htmlData = "";
-    if (images !== undefined && images.length > 0) {
-        htmlData += `<div align="center" ><img src="${images[0].replace('256','512')}" /></div>`;
-//        for (image of images) {
-//            htmlData += `<img src="${image}" />`;
-//            htmlData += `<br>`
-//        }
-    }
-    return htmlData
-};
 
 //            <i class="fas fa-trash delete" id="${item.id}"></i>
 //        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
-    return `<div>
-        <div class="controls">
+    return `<div style="width:500px;">
+        <div class="controls" >
             <i class="fas fa-edit edit" id="${item.id}"></i>
         </div>
-        ${getImagesHTML(item.images)}<br>
-        <label>title:</label><span>${item.title}</span><br>
-        <label>user name:</label><span>${item.user_name}</span><br>
+        <label>id:</label><span>${item.id}</span><br>
         <label>date:</label><span>${item.date}</span><br>
-        <label></label><span>${item.body}</span><br>
+        <label>comment:</label><span>${item.body}</span><br>
     </div>`;
 };
 //        <hr><br>
 //        <label>comments:</label><br>
 //        ${getCommentsHTML(item.comments)}
 
-const getCommentsHTML = (comments) => {
-    let htmlData = "";
-    if (comments.length == 0) {
-    htmlData = `<div>
-        <span>No Comments</span><br>
-    </div>`;
-    }
-    else {
-        for (item of comments) {
-            htmlData += getCommentHTML(item);
-            htmlData += `<hr><br>`
-        }
-    }
-    return htmlData
-};
-
-const getCommentHTML = (comments) => {
-    return `<div>
-        <label>id:</label><span>${comments.id}</span><br>
-        <label>date:</label><span>${comments.date}</span><br>
-        <label>comment:</label><span>${comments.body}</span><br>
-        <span><a href="comment.html?id=${item.id}">See More...</a></span><br>
-    </div>`;
-};
-
-const displayArticlesData = (data) => {
+const displayCommentData = (item) => {
     const container = document.querySelector("#container");
     container.innerHTML = "";
-    for (item of data) {
-        displayItem(item, container);
-    }
-    const containerComments = document.querySelector("#containerComments");
-    containerComments.innerHTML = "";
-    for (item of data) {
-        displayComments(item, containerComments);
-    }
+    displayItem(item, container);
 };
 
-const displayComments = (item, container) => {
-    itemHTML = getCommentsHTML(item.comments);
-    container.innerHTML += `<div align="center" ><div class="card-wrapper-wide" align="left">${itemHTML}</div></div><br>`;
-};
 const displayItem = (item, container) => {
     itemHTML = getItemHTML(item);
     container.innerHTML += `<div align="center" ><div class="card-wrapper-wide" align="left">${itemHTML}</div></div>`;
@@ -118,17 +47,15 @@ function getParams()
     return values;
 }
 
-const article_id = getParams()['id']
-issueGetRequest(article_id);
-
-
+const comment_id = getParams()['id']
+issueGetRequest(comment_id);
 
 
 
 
 const issuePutRequest = (id, data, responseHandler) => {
     // update data on the server:
-    const url = articlesEndpoint + '/' + id;
+    const url = commentsEndpoint + '/' + id;
     console.log('PUT request:', url, data);
     fetch(url, {
             method: 'put',
@@ -144,7 +71,7 @@ const issuePutRequest = (id, data, responseHandler) => {
 
 const issueDeleteRequest = (id, responseHandler) => {
     // delete data on the server:
-    const url = articlesEndpoint + '/' + id;
+    const url = commentsEndpoint + '/' + id;
     console.log('DELETE request:', url);
     fetch(url, { method: 'delete' })
         .then(responseHandler);
@@ -152,8 +79,8 @@ const issueDeleteRequest = (id, responseHandler) => {
 
 const issuePostRequest = (data, responseHandler) => {
    // create data on the server:
-   console.log('POST request:', articlesEndpoint, data);
-   fetch(articlesEndpoint, {
+   console.log('POST request:', commentsEndpoint, data);
+   fetch(commentsEndpoint, {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -167,11 +94,9 @@ const handleUpdate = (ev) => {
     const id = ev.target.getAttribute('data-id');
     const container = ev.target.parentElement.parentElement;
     const data = {
-        'title': container.querySelector('#title').value,
         'body': container.querySelector('#body').value,
-        'user_id': container.querySelector('#user_id').value,
-        'date': container.querySelector('#date').value,
-        'images': [container.querySelector('#images').value],
+        'id': container.querySelector('#user_id').value,
+        'date': '22-01-2022',
     };
     const callback = (item) => {
         container.innerHTML = getItemHTML(item);
@@ -232,7 +157,7 @@ const attachFormEventHandlers = (item, container) => {
 
 const showEditForm = (ev) => {
     const id = ev.target.id;
-    const url = articlesEndpoint + '/' + id;
+    const url = commentsEndpoint + '/' + id;
     const cardElement = ev.target.parentElement.parentElement;
     fetch(url)
         .then(response => response.json())
@@ -245,22 +170,17 @@ const showEditForm = (ev) => {
 
 const displayForm = (item, container) => {
     container.innerHTML = `
-        <div style="margin-top:7px; width:500px;">
+        <div style="margin-top:7px; ">
             <label>id:</label><span>${item.id}</span><br>
-            <label>title:</label>
-            <input type="text" id="title" value="${item.title}"><br>
             </br>
             <label>body:</label><br>
             <textarea rows="4" type="text" id="body" style="width:350px;" value="${item.body}">${item.body}</textarea><br>
-            <input style="visibility:hidden;" type="text" id="user_id" value="${item.user_id}"><br>
             <input style="visibility:hidden;" type="text" id="date" value="${item.date}"><br>
-            <label>image:</label>
-            <input type="text" id="images" value="${item.images}"><br><br>
-    </div>
+
     <div align="center" >
             <label></label><br>
             <button type="button" data-id="${item.id}" class="update button-primary">Update</button>
             <button type="button" class="cancel">Cancel</button>
-        </div>
+        </div></div>
     `;
 };
