@@ -17,8 +17,8 @@
   ],
   "tags": [
     {
-      "name": "posts",
-      "description": "Posts (blog entries) with lot of contents"
+      "name": "articles",
+      "description": "Articles (blog entries) with lot of contents"
     },
     {
       "name": "user",
@@ -30,13 +30,13 @@
     }
   ],
   "paths": {
-    "/posts": {
+    "/articles": {
       "get": {
         "tags": [
-          "posts"
+          "articles"
         ],
-        "summary": "Get posts",
-        "operationId": "getPosts",
+        "summary": "Get articles",
+        "operationId": "getArticles",
         "responses": {
           "200": {
             "description": "successful operation",
@@ -53,16 +53,16 @@
       },
       "post": {
         "tags": [
-          "posts"
+          "articles"
         ],
-        "summary": "Add post",
-        "operationId": "Create post",
+        "summary": "Add article",
+        "operationId": "Create article",
         "requestBody": {
           "description": "Date of creation",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Post"
+                "$ref": "#/components/schemas/Articles"
               }
             }
           },
@@ -83,19 +83,19 @@
         "x-codegen-request-body-name": "date"
       }
     },
-    "/posts/{id}": {
+    "/articles/{id}": {
       "get": {
         "tags": [
-          "posts"
+          "articles"
         ],
-        "summary": "Find post by ID",
-        "description": "Returns a single post",
-        "operationId": "getPostById",
+        "summary": "Find article by ID",
+        "description": "Returns a single article",
+        "operationId": "getArticleById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of post to return",
+            "description": "ID of article to return",
             "required": true,
             "schema": {
               "type": "integer",
@@ -109,33 +109,33 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Post"
+                  "$ref": "#/components/schemas/Article"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid post id supplied",
+            "description": "Invalid article id supplied",
             "content": {}
           },
           "404": {
-            "description": "Post not found",
+            "description": "Article not found",
             "content": {}
           }
         }
       },
       "put": {
         "tags": [
-          "posts"
+          "articles"
         ],
-        "summary": "Updated post",
-        "description": "Update post.",
-        "operationId": "updatePost",
+        "summary": "Updated article",
+        "description": "Update article.",
+        "operationId": "updateArticle",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "id of post that need to be updated",
+            "description": "id of article that need to be updated",
             "required": true,
             "schema": {
               "type": "string"
@@ -143,11 +143,11 @@
           }
         ],
         "requestBody": {
-          "description": "Updated post object",
+          "description": "Updated article object",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Post"
+                "$ref": "#/components/schemas/Article"
               }
             }
           },
@@ -155,21 +155,21 @@
         },
         "responses": {
           "400": {
-            "description": "Invalid post supplied",
+            "description": "Invalid article supplied",
             "content": {}
           },
           "404": {
-            "description": "Post not found",
+            "description": "Article not found",
             "content": {}
           }
         }
       },
       "delete": {
         "tags": [
-          "posts"
+          "articles"
         ],
-        "summary": "Deletes a post",
-        "operationId": "deletePost",
+        "summary": "Deletes a article",
+        "operationId": "deleteArticle",
         "parameters": [
           {
             "name": "api_key",
@@ -181,7 +181,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Post id to delete",
+            "description": "Article id to delete",
             "required": true,
             "schema": {
               "type": "integer",
@@ -195,7 +195,7 @@
             "content": {}
           },
           "404": {
-            "description": "Post not found",
+            "description": "Article not found",
             "content": {}
           }
         }
@@ -249,14 +249,14 @@
         "tags": [
           "user"
         ],
-        "summary": "Find post by ID",
+        "summary": "Find Article by ID",
         "description": "Returns a single user",
         "operationId": "getUserById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of post to return",
+            "description": "ID of User to return",
             "required": true,
             "schema": {
               "type": "integer",
@@ -270,7 +270,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Post"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -280,7 +280,7 @@
             "content": {}
           },
           "404": {
-            "description": "Post not found",
+            "description": "User not found",
             "content": {}
           }
         }
@@ -389,7 +389,7 @@
           }
         }
       },
-      "Post": {
+      "Article": {
         "type": "object",
         "properties": {
           "id": {
@@ -402,7 +402,7 @@
           },
           "body": {
             "type": "string",
-            "description": "Post body"
+            "description": "Article body"
           },
           "date": {
             "type": "string",
@@ -416,7 +416,7 @@
           }
         },
         "xml": {
-          "name": "Comment"
+          "name": "Article"
         }
       },
       "Comment": {
@@ -426,7 +426,7 @@
             "type": "integer",
             "format": "int64"
           },
-          "post_id": {
+          "article_id": {
             "type": "integer",
             "format": "int64"
           },

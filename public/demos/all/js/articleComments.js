@@ -1,36 +1,36 @@
-const postsEndpoint = '../../posts';
+const articlesEndpoint = '../../articles';
 const usersEndpoint = '../../users';
 const commentsEndpoint = '../../comments';
 
 
-async function issueGetRequest(post_id)
+async function issueGetRequest(article_id)
 {
-    const postUrl = `${postsEndpoint}/${post_id}`
-    const postsData = await Promise.all([postUrl].map((url) => fetch(url).then((r) => r.json())));
-    const userUrl = `${usersEndpoint}/${postsData[0].user_id}`
+    const articlesUrl = `${articlesEndpoint}/${article_id}`
+    const articlesData = await Promise.all([articlesUrl].map((url) => fetch(url).then((r) => r.json())));
+    const userUrl = `${usersEndpoint}/${articlesData[0].user_id}`
     const usersData = await Promise.all([userUrl].map((url) => fetch(url).then((r) => r.json())));
 
     const comments = await Promise.all([commentsEndpoint].map((url) => fetch(url).then((r) => r.json())));
 
-    const postData = postsData[0]
+    const articleData = articlesData[0]
     const userData = usersData[0]
     const userComments = comments[0]
 
     if (userData.firstname === undefined) {
-        postData.user_name = "Unknown user";
+        articleData.user_name = "Unknown user";
     } else {
-        postData.user_name = `${userData.firstname} ${userData.lastname}`;
+        articleData.user_name = `${userData.firstname} ${userData.lastname}`;
     }
-    postData.comments = []
+    articleData.comments = []
     for (let j = 0; j < userComments.length; j++) {
-        if (userComments[j].post_id === postData.id) {
-            postData.comments.push(userComments[j]);
+        if (userComments[j].article_id === articleData.id) {
+            articleData.comments.push(userComments[j]);
         }
     }
     // sort comments by date:
-    postData.comments.sort((a,b) => a.date < b.date);
+    articleData.comments.sort((a,b) => a.date < b.date);
 
-    displayPostsData(postsData);
+    displayArticlesData(articlesData);
     attachEventHandlers();
 };
 
@@ -88,7 +88,7 @@ const getCommentHTML = (comments) => {
     </div>`;
 };
 
-const displayPostsData = (data) => {
+const displayArticlesData = (data) => {
     const container = document.querySelector("#container");
     container.innerHTML = "";
     for (item of data) {
@@ -117,8 +117,8 @@ function getParams()
     return values;
 }
 
-const post_id = getParams()['id']
-issueGetRequest(post_id);
+const article_id = getParams()['id']
+issueGetRequest(article_id);
 
 
 
@@ -127,7 +127,7 @@ issueGetRequest(post_id);
 
 const issuePutRequest = (id, data, responseHandler) => {
     // update data on the server:
-    const url = postsEndpoint + '/' + id;
+    const url = articlesEndpoint + '/' + id;
     console.log('PUT request:', url, data);
     fetch(url, {
             method: 'put',
@@ -143,7 +143,7 @@ const issuePutRequest = (id, data, responseHandler) => {
 
 const issueDeleteRequest = (id, responseHandler) => {
     // delete data on the server:
-    const url = postsEndpoint + '/' + id;
+    const url = articlesEndpoint + '/' + id;
     console.log('DELETE request:', url);
     fetch(url, { method: 'delete' })
         .then(responseHandler);
@@ -151,8 +151,8 @@ const issueDeleteRequest = (id, responseHandler) => {
 
 const issuePostRequest = (data, responseHandler) => {
    // create data on the server:
-   console.log('POST request:', postsEndpoint, data);
-   fetch(postsEndpoint, {
+   console.log('POST request:', articlesEndpoint, data);
+   fetch(articlesEndpoint, {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -231,7 +231,7 @@ const attachFormEventHandlers = (item, container) => {
 
 const showEditForm = (ev) => {
     const id = ev.target.id;
-    const url = postsEndpoint + '/' + id;
+    const url = articlesEndpoint + '/' + id;
     const cardElement = ev.target.parentElement.parentElement;
     fetch(url)
         .then(response => response.json())

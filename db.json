@@ -57,7 +57,7 @@
       "avatar": ".\\data\\users\\face_1591133217.1529467.jpg"
     }
   ],
-  "posts": [
+  "articles": [
     {
       "id": 1,
       "title": "The beauty of the sunset was obscured by the industrial cranes",
@@ -89,14 +89,14 @@
       ]
     },
     {
-      "id": 4,
-      "title": "Pakkuman",
+      "title": "Pakkuman1",
       "body": "The external scars tell only part of the story. Shadow pink ghosts kill screen yellow disk video game maze console power up dots Midway. The old apple revels in its authority. Patricia loves the sound of nails strongly pressed against the chalkboard. Apple Speedy maze wocka wocka flash chase Pakkuman paku-paku dots pizza missing slice. Ghosts dots cherry Blinky Pac-Man Power Pellets fruit. Fluffy pink unicorns are a popular status symbol among macho men. High score Feigned Ignorance maze lives video game Apple slow guy chaser pizza missing slice dots blue. He had a hidden stash underneath the floorboards in the back room of the house. Shadow dots strawberry Pac-Man Midway chaser Pinky kill screen. Orange fickle blue guy maze chase. ",
-      "user_id": 3,
+      "user_id": "3",
       "date": "2021-10-16",
       "images": [
         ".\\data\\images\\256\\mahdikordi-4hCYZT_zPu8-unsplash.jpg"
-      ]
+      ],
+      "id": 4
     },
     {
       "id": 5,
@@ -122,67 +122,67 @@
   "comments": [
     {
       "id": 1,
-      "post_id": 1,
+      "article_id": 1,
       "body": "Velit accusantium ae aliquam totam nam doloribus et.",
       "date": "2021-11-30"
     },
     {
       "id": 2,
-      "post_id": 1,
+      "article_id": 1,
       "body": "Interesting!",
       "date": "2021-11-20"
     },
     {
       "id": 3,
-      "post_id": 2,
+      "article_id": 2,
       "body": "Nulla error qui sitatibus et architecto neque. Aut est beatae eaque vel sint a quia qui.",
       "date": "2021-09-09"
     },
     {
       "id": 4,
-      "post_id": 2,
+      "article_id": 2,
       "body": "Expedita con opti iusto.",
       "date": "2021-04-08"
     },
     {
       "id": 5,
-      "post_id": 3,
+      "article_id": 3,
       "body": "Conseaccusantium numquam.",
       "date": "2021-05-31"
     },
     {
       "id": 6,
-      "post_id": 3,
+      "article_id": 3,
       "body": "Itaque lditate praesentium unde architecto fugiat impedit.",
       "date": "2021-06-25"
     },
     {
       "id": 7,
-      "post_id": 4,
+      "article_id": 4,
       "body": "um voluptas autem.",
       "date": "2021-03-05"
     },
     {
       "id": 8,
-      "post_id": 4,
+      "article_id": 4,
       "body": "Qui commodsequatur est qui. Eum porro quis rem rerum ut corrupti. Quo et ipsa aliquam et et. Nihil praesentium impedit.",
       "date": "2021-02-03"
     },
     {
       "id": 9,
-      "post_id": 5,
+      "article_id": 5,
       "body": "Impedit molesttecto. Et recusandae id.",
       "date": "2021-12-12"
     },
     {
       "id": 10,
-      "post_id": 5,
+      "article_id": 5,
       "body": "Minus est pst et libero est.",
       "date": "2021-02-17"
     },
     {
       "id": 11,
-      "post_id": 5,
+      "article_id": 5,
       "body": "Aliquam sint iure sunt. Atque ut velit culpa quisquam in voluptatem. In nisi earum ut.",
       "date": "2021-10-11"
     }

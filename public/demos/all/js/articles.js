@@ -1,30 +1,30 @@
-const postsEndpoint = '../../posts'
+const articlesEndpoint = '../../articles'
 const usersEndpoint = '../../users'
 
 
 async function issueGetRequest()
 {
     // get data from the server:
-    const results = await Promise.all([postsEndpoint, usersEndpoint].map((url) => fetch(url).then((r) => r.json())));
-    const postsData = results[0]
+    const results = await Promise.all([articlesEndpoint, usersEndpoint].map((url) => fetch(url).then((r) => r.json())));
+    const articlesData = results[0]
     const usersData = results[1]
 
-    for (let i = 0; i < postsData.length; i++) {
+    for (let i = 0; i < articlesData.length; i++) {
         for (let j = 0; j < usersData.length; j++) {
-            if (usersData[j].id?.toString() === postsData[i].user_id?.toString()) {
-                postsData[i].user_name = `${usersData[j].firstname} ${usersData[j].lastname}`;
-                postsData[i].user_id = usersData[j].id;
+            if (usersData[j].id?.toString() === articlesData[i].user_id?.toString()) {
+                articlesData[i].user_name = `${usersData[j].firstname} ${usersData[j].lastname}`;
+                articlesData[i].user_id = usersData[j].id;
                 break;
             }
         }
-        if (postsData[i].user_name === undefined) {
-            postsData[i].user_name = "Unknown user";
+        if (articlesData[i].user_name === undefined) {
+            articlesData[i].user_name = "Unknown user";
         }
     }
-    // sort posts by date:
-    postsData.sort((a,b) => a.date < b.date);
+    // sort articles by date:
+    articlesData.sort((a,b) => a.date < b.date);
 
-    displayPostsData(postsData);
+    displayPostsData(articlesData);
 };
 
 const getImagesHTML = (images) => {
@@ -43,12 +43,12 @@ const getImagesHTML = (images) => {
 //        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
     return `<div>
-        <a href="post.html?id=${item.id}">${getImagesHTML(item.images)}</a><br>
+        <a href="article.html?id=${item.id}">${getImagesHTML(item.images)}</a><br>
         <div align="center" ><strong>${item.title}</strong></div><br>
         <label>user name:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label></label><span>${item.body.substring(0, 200)}</span><br>
-        <span><a href="post.html?id=${item.id}">See More...</a></span><br>
+        <span><a href="article.html?id=${item.id}">See More...</a></span><br>
     </div>`;
 };
 

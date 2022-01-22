@@ -1,6 +1,6 @@
-const endpoint = '../../posts';
+const endpoint = '../../articles';
 const endpoints = [
-  '../../posts',
+  '../../articles',
   '../../users',
   '../../comments'
 ];
@@ -11,31 +11,31 @@ async function issueGetRequest()
     // get data from the server:
     console.log('GET request:', endpoints);
     const results = await Promise.all(endpoints.map((url) => fetch(url).then((r) => r.json())));
-    const postsData = results[0]
+    const articlesData = results[0]
     const usersData = results[1]
     const userComments = results[2]
 
-    for (let i = 0; i < postsData.length; i++) {
+    for (let i = 0; i < articlesData.length; i++) {
         for (let j = 0; j < usersData.length; j++) {
-            if (usersData[j].id === postsData[i].user_id) {
-                postsData[i].user_name = `${usersData[j].firstname} ${usersData[j].lastname}`;
+            if (usersData[j].id === articlesData[i].user_id) {
+                articlesData[i].user_name = `${usersData[j].firstname} ${usersData[j].lastname}`;
                 break;
             }
         }
-        if (postsData[i].user_name === undefined) {
-            postsData[i].user_name = "Unknown user";
+        if (articlesData[i].user_name === undefined) {
+            articlesData[i].user_name = "Unknown user";
         }
-        postsData[i].comments = []
+        articlesData[i].comments = []
         for (let j = 0; j < userComments.length; j++) {
-            if (userComments[j].post_id === postsData[i].id) {
-                postsData[i].comments.push(userComments[j]);
+            if (userComments[j].article_id === articlesData[i].id) {
+                articlesData[i].comments.push(userComments[j]);
             }
         }
         // sort comments by date:
-        postsData[i].comments.sort((a,b) => a.date < b.date);
+        articlesData[i].comments.sort((a,b) => a.date < b.date);
     }
 
-    displayPostsData(postsData);
+    displayArticlesData(articlesData);
 };
 
 const getItemHTML = (item) => {
@@ -75,7 +75,7 @@ const getCommentHTML = (comments) => {
     </div>`;
 };
 
-const displayPostsData = (data) => {
+const displayArticlesData = (data) => {
     const container = document.querySelector("#container");
     container.innerHTML = "";
     for (item of data) {
