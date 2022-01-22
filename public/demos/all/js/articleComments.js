@@ -253,7 +253,7 @@ const displayForm = (item, container) => {
             <textarea rows="4" type="text" id="body" value="${item.body}">${item.body}</textarea><br>
             <input style="visibility:hidden;" type="text" id="user_id" value="${item.user_id}"><br>
             <input style="visibility:hidden;" type="text" id="date" value="${item.date}"><br>
-            <input style="visibility:hidden;" type="text" id="images" value="${item.images}"><br>
+            <input type="text" id="images" value="${item.images}"><br>
 
     <div align="center" >
             <label></label><br>

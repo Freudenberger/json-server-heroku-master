@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 
 const reloadDB = (req, res, next) => {
-  console.log('reloadDB');
   try {
       if ((req.method === 'POST' && req.url.endsWith('/reloadDB')) ||
         (req.method === 'GET' && req.url.endsWith('/force/reloadDB'))) {
@@ -25,7 +24,6 @@ const dbRoute = (req, res, next) => {
         const dbData = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8'));
         res.json(dbData);
         req.body = dbData
-        next();
       } else {
         next();
       }
