@@ -28,7 +28,7 @@ const port = process.env.PORT || 3000;
 
 server.use(middlewares);
 server.use(reloadDB);
-server.use(router);
+server.use('/api', router);
 
 server.listen(port, () => {
     console.log(`Test Custom Data API listening on port ${port}!`)

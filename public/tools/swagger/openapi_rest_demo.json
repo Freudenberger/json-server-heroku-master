@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "https://api-test-kk10.herokuapp.com/"
+      "url": "https://api-test-kk10.herokuapp.com/api/"
     }
   ],
   "tags": [
@@ -62,7 +62,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Articles"
+                "$ref": "#/components/schemas/Article"
               }
             }
           },

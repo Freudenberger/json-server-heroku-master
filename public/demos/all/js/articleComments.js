@@ -1,6 +1,6 @@
-const articlesEndpoint = '../../articles';
-const usersEndpoint = '../../users';
-const commentsEndpoint = '../../comments';
+const articlesEndpoint = '../../api/articles';
+const usersEndpoint = '../../api/users';
+const commentsEndpoint = '../../api/comments';
 
 
 async function issueGetRequest(article_id)

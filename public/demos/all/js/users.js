@@ -1,4 +1,4 @@
-const endpoint = '../../users';
+const endpoint = '../../api/users';
 const issueGetRequest = () => {
     // get data from the server:
     console.log('GET request:', endpoint);

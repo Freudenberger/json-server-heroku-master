@@ -1,5 +1,5 @@
-const articlesEndpoint = '../../articles'
-const usersEndpoint = '../../users'
+const articlesEndpoint = '../../api/articles'
+const usersEndpoint = '../../api/users'
 
 
 async function issueGetRequest()
