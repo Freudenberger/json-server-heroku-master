@@ -154,11 +154,17 @@ const displayForm = (item, container) => {
 
 
 const getItemHTML = (item) => {
-    return `<div>
-        <div class="controls">
+    let controls = ""
+
+    if (item.id !== undefined && item.id !== 'undefined') {
+        controls = `<div class="controls" >
             <i class="fas fa-edit edit" id="${item.id}"></i>
             <i class="fas fa-trash delete" id="${item.id}"></i>
-        </div>
+        </div>`
+    }
+
+    return `<div>
+        ${controls}
         <label>id:</label><span>${item.id}</span><br>
         <label>firstname:</label><span>${item.firstname}</span><br>
         <label>lastname:</label><span>${item.lastname}</span><br>

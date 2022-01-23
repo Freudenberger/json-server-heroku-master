@@ -1,26 +1,18 @@
 const articlesEndpoint = '../../api/articles';
 const usersEndpoint = '../../api/users';
 const commentsEndpoint = '../../api/comments';
-
+let user_name = 'Unknown'
 
 async function issueGetRequest(article_id)
 {
     const articlesUrl = `${articlesEndpoint}/${article_id}`
     const articlesData = await Promise.all([articlesUrl].map((url) => fetch(url).then((r) => r.json())));
-    const userUrl = `${usersEndpoint}/${articlesData[0].user_id}`
-    const usersData = await Promise.all([userUrl].map((url) => fetch(url).then((r) => r.json())));
 
     const comments = await Promise.all([commentsEndpoint].map((url) => fetch(url).then((r) => r.json())));
 
-    const articleData = articlesData[0]
-    const userData = usersData[0]
+    let articleData = articlesData[0]
     const userComments = comments[0]
 
-    if (userData.firstname === undefined) {
-        articleData.user_name = "Unknown user";
-    } else {
-        articleData.user_name = `${userData.firstname} ${userData.lastname}`;
-    }
     articleData.comments = []
     for (let j = 0; j < userComments.length; j++) {
         if (userComments[j].article_id === articleData.id) {
@@ -29,10 +21,25 @@ async function issueGetRequest(article_id)
     }
     // sort comments by date:
     articleData.comments.sort((a,b) => a.date < b.date);
-
+    articleData = await Promise.all([addUserNameToArticle(articleData)]);
     displayArticlesData(articlesData);
     attachEventHandlers();
 };
+
+async function addUserNameToArticle(item) {
+    const userUrl = `${usersEndpoint}/${item.user_id}`
+    const usersData = await Promise.all([userUrl].map((url) => fetch(url).then((r) => r.json())));
+
+    const userData = usersData[0]
+
+    if (userData.firstname === undefined) {
+        user_name = "Unknown user";
+    } else {
+        user_name = `${userData.firstname} ${userData.lastname}`;
+    }
+    item.user_name = user_name;
+    return item
+}
 
 const getImagesHTML = (images) => {
     let htmlData = "";
@@ -49,10 +56,16 @@ const getImagesHTML = (images) => {
 //            <i class="fas fa-trash delete" id="${item.id}"></i>
 //        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
-    return `<div>
-        <div class="controls">
+    let controls = ""
+
+    if (item.id !== undefined && item.id !== 'undefined') {
+        controls = `<div class="controls" >
             <i class="fas fa-edit edit" id="${item.id}"></i>
-        </div>
+        </div>`
+    }
+
+    return `<div>
+        ${controls}
         ${getImagesHTML(item.images)}<br>
         <label>title:</label><span>${item.title}</span><br>
         <label>user name:</label><span>${item.user_name}</span><br>
@@ -174,6 +187,7 @@ const handleUpdate = (ev) => {
         'images': [container.querySelector('#images').value],
     };
     const callback = (item) => {
+        item.user_name = user_name;
         container.innerHTML = getItemHTML(item);
         attachEventHandlers();
     };

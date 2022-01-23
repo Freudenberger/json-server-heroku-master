@@ -59,7 +59,6 @@ header #add-new {
     justify-content: center;
 }
 #containerComments .card-wrapper-wide {
-    display: flex;
     width: 50%;
     justify-content: center;
     align-items: center;
@@ -67,9 +66,9 @@ header #add-new {
 #containerComments .card-wrapper-wide > div {
     background: #FFF;
     padding: 10px;
-    margin: 40px 0px 0px 40px;
-    width: 100%;
-    min-height: 280px;
+    margin: 20px 20px 20px 20px;
+    min-width: 180px;
+    min-height: 180px;
 }
 #container .card-wrapper-wide {
     display: flex;

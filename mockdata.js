@@ -54,4 +54,4 @@ for (let i=1; i <= 5; i++) {
         })
     }
 }
-console.log(JSON.stringify(db));
+console.log(JSON.stringify(db, null, 2));

@@ -13,13 +13,20 @@ async function issueGetRequest(comment_id)
 };
 
 
-//            <i class="fas fa-trash delete" id="${item.id}"></i>
+//
 //        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
-    return `<div style="width:500px;">
-        <div class="controls" >
+    let controls = ""
+
+    if (item.id !== undefined && item.id !== 'undefined') {
+        controls = `<div class="controls" >
             <i class="fas fa-edit edit" id="${item.id}"></i>
-        </div>
+            <i class="fas fa-trash delete" id="${item.id}"></i>
+        </div>`
+    }
+
+    return `<div style="width:500px;">
+        ${controls}
         <label>id:</label><span>${item.id}</span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label>comment:</label><span style="margin:10px;">${item.body}</span><br>
