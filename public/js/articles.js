@@ -1,5 +1,7 @@
 const articlesEndpoint = '../../api/articles'
 const usersEndpoint = '../../api/users'
+const pictureListEndpoint = '../../api/allimages';
+let picList = []
 
 
 async function issueGetRequest()
@@ -25,8 +27,76 @@ async function issueGetRequest()
     articlesData.sort((a,b) => a.date < b.date);
 
     displayPostsData(articlesData);
+    attachEventHandlers();
 };
 
+const attachEventHandlers = () => {
+    document.querySelector('#add-new').onclick = () => {
+        const container = document.querySelector('.add-new-panel');
+        container.querySelector('.body').value = '';
+        container.querySelector('.title').value = '';
+        let index = 0;
+        for(element of picList)
+        {
+           var opt = document.createElement("option");
+           opt.value= element;
+           opt.innerHTML = element; // whatever property it has
+
+           container.querySelector('.images').appendChild(opt);
+           index++;
+        }
+        container.classList.add('active');
+    };
+    document.querySelector('.close').onclick = () => {
+        document.querySelector('.add-new-panel').classList.remove('active');
+    };
+    document.querySelector('.add-new-panel .cancel').onclick = () => {
+        document.querySelector('.add-new-panel').classList.remove('active');
+    };
+    document.querySelector('.update.save').onclick = handleCreate;
+};
+
+function pad(num, size=2) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}
+
+const handleCreate = () => {
+    const container = document.querySelector('.add-new-panel');
+    
+    const today = new Date();
+    const date = today.getFullYear() + '-' + pad((today.getMonth()+1)) + '-' + pad(today.getDate());
+
+    data = {
+        'title': container.querySelector('.title').value,
+        'body': container.querySelector('.body').value,
+        'user_id': 1,
+        'date': date,
+        'images': [`.\\data\\images\\256\\${container.querySelector('.images').value}`]
+    }
+    issueArticleRequest(data, issueGetRequest);
+    document.querySelector('.add-new-panel').classList.remove('active');
+};
+const issueArticleRequest = (data, responseHandler) => {
+    // create data on the server:
+    console.log('POST request:', articlesEndpoint, data);
+    fetch(articlesEndpoint, {
+         method: 'post',
+         headers: {
+             'Accept': 'application/json',
+             'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(data)
+     }).then(responseHandler);
+ };
+const attachFormEventHandlers = (item, container) => {
+    container.querySelector('.update').onclick = handleUpdate;
+    container.querySelector('.cancel').onclick = () => {
+        container.innerHTML = getItemHTML(item);
+        attachEventHandlers();
+    }
+};
 const getImagesHTML = (images) => {
     let htmlData = "";
     if (images !== undefined && images.length > 0) {
@@ -67,4 +137,11 @@ const displayItem = (item, container) => {
     `;
 };
 
+async function getPictureList()
+{
+    picList = await Promise.all([pictureListEndpoint].map((url) => fetch(url).then((r) => r.json())));
+    picList = picList[0]
+};
+
+getPictureList();
 issueGetRequest();

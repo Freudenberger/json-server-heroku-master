@@ -28,7 +28,8 @@ footer .container {
     width: 70%;
 }
 img {
-    height: 256px;
+    max-height: 256px;
+    max-width: 256px;
     padding: 3px;
     border: solid 1px #CCC;
 }

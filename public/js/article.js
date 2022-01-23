@@ -57,7 +57,7 @@ async function addUserNameToArticle(item) {
 const getImagesHTML = (images) => {
     let htmlData = "";
     if (images !== undefined && images.length > 0) {
-        htmlData += `<div align="center" ><img src="${images[0].replace('256','512')}" /></div>`;
+        htmlData += `<div align="center" ><img src="${images[0]}" /></div>`;
 //        for (image of images) {
 //            htmlData += `<img src="${image}" />`;
 //            htmlData += `<br>`
@@ -74,6 +74,7 @@ const getItemHTML = (item) => {
     if (item.id !== undefined && item.id !== 'undefined') {
         controls = `<div class="controls" >
             <i class="fas fa-edit edit" id="${item.id}"></i>
+            <i class="fas fa-trash delete" id="${item.id}"></i>
         </div>`
     }
 

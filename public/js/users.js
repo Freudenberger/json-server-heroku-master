@@ -98,7 +98,6 @@ const attachEventHandlers = () => {
         container.querySelector('.lastname').value = '';
         container.querySelector('.email').value = '';
         let index = 0;
-        console.log(picList)
         for(element of picList)
         {
            var opt = document.createElement("option");
