@@ -430,6 +430,10 @@
             "type": "integer",
             "format": "int64"
           },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "body": {
             "type": "string",
             "description": "Comment body"
