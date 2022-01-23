@@ -39,11 +39,7 @@ header h1 {
     margin-left: 40px;
     font-size: 1.3em;
 }
-header #add-new {
-    float: right;
-    margin-top: -48px;
-    margin-right: 40px;
-}
+
 
 #containerComments {
     flex-wrap: wrap;

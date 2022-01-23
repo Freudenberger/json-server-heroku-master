@@ -1,4 +1,7 @@
 const endpoint = '../../api/users';
+const pictureListEndpoint = '../../api/userpics';
+let picList = []
+
 const issueGetRequest = () => {
     // get data from the server:
     console.log('GET request:', endpoint);
@@ -67,7 +70,7 @@ const handleCreate = () => {
         'firstname': container.querySelector('.firstname').value,
         'lastname': container.querySelector('.lastname').value,
         'email': container.querySelector('.email').value,
-        'avatar': container.querySelector('.avatar').value
+        'avatar': `.\\data\\users\\${container.querySelector('.avatar').value}`
     }
     issuePostRequest(data, issueGetRequest);
     document.querySelector('.add-new-panel').classList.remove('active');
@@ -92,7 +95,19 @@ const attachEventHandlers = () => {
     document.querySelector('#add-new').onclick = () => {
         const container = document.querySelector('.add-new-panel');
         container.querySelector('.firstname').value = '';
-        container.querySelector('.firstname').value = '';
+        container.querySelector('.lastname').value = '';
+        container.querySelector('.email').value = '';
+        let index = 0;
+        console.log(picList)
+        for(element of picList)
+        {
+           var opt = document.createElement("option");
+           opt.value= element;
+           opt.innerHTML = element; // whatever property it has
+
+           container.querySelector('.avatar').appendChild(opt);
+           index++;
+        }
         container.classList.add('active');
     };
     document.querySelector('.close').onclick = () => {
@@ -179,4 +194,12 @@ const displayData = (data) => {
     }
 };
 
+
+async function getPictureList()
+{
+    picList = await Promise.all([pictureListEndpoint].map((url) => fetch(url).then((r) => r.json())));
+    picList = picList[0]
+};
+
+getPictureList();
 issueGetRequest();

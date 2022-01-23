@@ -2,6 +2,7 @@ const articlesEndpoint = '../../api/articles';
 const usersEndpoint = '../../api/users';
 const commentsEndpoint = '../../api/comments';
 let user_name = 'Unknown'
+let article_id = undefined
 
 async function issueGetRequest(article_id)
 {
@@ -15,12 +16,13 @@ async function issueGetRequest(article_id)
 
     articleData.comments = []
     for (let j = 0; j < userComments.length; j++) {
-        if (userComments[j].article_id === articleData.id) {
+        if (userComments[j].article_id?.toString() === articleData.id?.toString()) {
             articleData.comments.push(userComments[j]);
         }
     }
     // sort comments by date:
     articleData.comments.sort((a,b) => a.date < b.date);
+    article_id = articleData.id;
     articleData = await Promise.all([addUserNameToArticle(articleData)]);
     displayArticlesData(articlesData);
     attachEventHandlers();
@@ -131,7 +133,7 @@ function getParams()
     return values;
 }
 
-const article_id = getParams()['id']
+article_id = getParams()['id']
 issueGetRequest(article_id);
 
 
@@ -163,10 +165,22 @@ const issueDeleteRequest = (id, responseHandler) => {
         .then(responseHandler);
 };
 
-const issuePostRequest = (data, responseHandler) => {
+const issueArticlePostRequest = (data, responseHandler) => {
    // create data on the server:
    console.log('POST request:', articlesEndpoint, data);
    fetch(articlesEndpoint, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(responseHandler);
+};
+const issueCommentPostRequest = (data, responseHandler) => {
+   // create data on the server:
+   console.log('POST request:', articlesEndpoint, data);
+   fetch(commentsEndpoint, {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -194,13 +208,22 @@ const handleUpdate = (ev) => {
     issuePutRequest(id, data, callback)
 };
 
-const handleCreate = () => {
+function pad(num, size=2) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}
+
+const handleCommentCreate = () => {
     const container = document.querySelector('.add-new-panel');
+    const today = new Date();
+    const date = today.getFullYear() + '-' + pad((today.getMonth()+1)) + '-' + pad(today.getDate());
     data = {
-        'title': container.querySelector('#title').value,
+        'article_id': article_id,
         'body': container.querySelector('#body').value,
+        'date': date
     }
-    issuePostRequest(data, issueGetRequest);
+    issueCommentPostRequest(data, issueGetRequest(article_id));
     document.querySelector('.add-new-panel').classList.remove('active');
 };
 
@@ -220,19 +243,18 @@ const attachEventHandlers = () => {
     for (elem of document.querySelectorAll('.edit')) {
         elem.onclick = showEditForm;
     }
-//    document.querySelector('#add-new').onclick = () => {
-//        const container = document.querySelector('.add-new-panel');
-//        container.querySelector('.firstname').value = '';
-//        container.querySelector('.firstname').value = '';
-//        container.classList.add('active');
-//    };
+    document.querySelector('#add-new').onclick = () => {
+        const container = document.querySelector('.add-new-panel');
+        container.querySelector('.body').value = '';
+        container.classList.add('active');
+    };
     document.querySelector('.close').onclick = () => {
         document.querySelector('.add-new-panel').classList.remove('active');
     };
     document.querySelector('.add-new-panel .cancel').onclick = () => {
         document.querySelector('.add-new-panel').classList.remove('active');
     };
-    document.querySelector('.update.save').onclick = handleCreate;
+    document.querySelector('.update.save').onclick = handleCommentCreate;
 
 };
 
