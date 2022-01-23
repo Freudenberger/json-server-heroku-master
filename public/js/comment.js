@@ -26,6 +26,8 @@ const getItemHTML = (item) => {
     }
 
     return `<div style="width:500px;">
+        <span><a href="article.html?id=${item.article_id}">Return to Article...</a></span><br>
+
         ${controls}
         <label>id:</label><span>${item.id}</span><br>
         <label>date:</label><span>${item.date}</span><br>
