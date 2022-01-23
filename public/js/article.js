@@ -9,31 +9,42 @@ async function issueGetRequest(article_id)
     const articlesUrl = `${articlesEndpoint}/${article_id}`
     const articlesData = await Promise.all([articlesUrl].map((url) => fetch(url).then((r) => r.json())));
 
-    const comments = await Promise.all([commentsEndpoint].map((url) => fetch(url).then((r) => r.json())));
-
+    const commentsUrl = `${commentsEndpoint}?article_id=${article_id}`
+    const comments = await Promise.all([commentsUrl].map((url) => fetch(url).then((r) => r.json())));
     let articleData = articlesData[0]
     const userComments = comments[0]
 
-    articleData.comments = []
-    for (let j = 0; j < userComments.length; j++) {
-        if (userComments[j].article_id?.toString() === articleData.id?.toString()) {
-            articleData.comments.push(userComments[j]);
-        }
-    }
+    articleData.comments = userComments;
+
     // sort comments by date:
     articleData.comments.sort((a,b) => a.date < b.date);
     article_id = articleData.id;
+    const commentsWithUsers = await Promise.all([addUserNameToComments(articleData.comments)]);
+    articleData.comments = commentsWithUsers[0]
     articleData = await Promise.all([addUserNameToArticle(articleData)]);
     displayArticlesData(articlesData);
     attachEventHandlers();
 };
 
+async function addUserNameToComments(comments) {
+    for (let index = 0; index < comments.length; index++) {
+        const comment = comments[index];
+        const userUrl = `${usersEndpoint}/${comment.user_id}`
+        const usersData = await Promise.all([userUrl].map((url) => fetch(url).then((r) => r.json())));
+        const userData = usersData[0]
+        if (userData.firstname === undefined) {
+            user_name = "Unknown user";
+        } else {
+            user_name = `${userData.firstname} ${userData.lastname}`;
+        }
+        comments[index].user_name = user_name;
+    }
+    return comments
+}
 async function addUserNameToArticle(item) {
     const userUrl = `${usersEndpoint}/${item.user_id}`
     const usersData = await Promise.all([userUrl].map((url) => fetch(url).then((r) => r.json())));
-
     const userData = usersData[0]
-
     if (userData.firstname === undefined) {
         user_name = "Unknown user";
     } else {
@@ -98,6 +109,7 @@ const getCommentsHTML = (comments) => {
 const getCommentHTML = (comments) => {
     return `<div>
         <label>id:</label><span>${comments.id}</span><br>
+        <label>author:</label><span>${comments.user_name}</span><br>
         <label>date:</label><span>${comments.date}</span><br>
         <label>comment:</label><span>${comments.body}</span><br>
         <span><a href="comment.html?id=${item.id}">See More...</a></span><br>

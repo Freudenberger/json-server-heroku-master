@@ -1,5 +1,6 @@
 const commentsEndpoint = '../../api/comments';
-
+const usersEndpoint = '../../api/users';
+let user_name = 'Unknown'
 
 async function issueGetRequest(comment_id)
 {
@@ -7,6 +8,17 @@ async function issueGetRequest(comment_id)
     const commentsData = await Promise.all([commentUrl].map((url) => fetch(url).then((r) => r.json())));
 
     const commentData = commentsData[0]
+
+    // find user:
+    const userUrl = `${usersEndpoint}/${commentData.user_id}`
+    const usersData = await Promise.all([userUrl].map((url) => fetch(url).then((r) => r.json())));
+    const userData = usersData[0]
+    if (userData.firstname === undefined) {
+        user_name = "Unknown user";
+    } else {
+        user_name = `${userData.firstname} ${userData.lastname}`;
+    }
+    commentData.user_name = user_name;
 
     displayCommentData(commentData);
     attachEventHandlers();
@@ -30,6 +42,7 @@ const getItemHTML = (item) => {
 
         ${controls}
         <label>id:</label><span>${item.id}</span><br>
+        <label>user:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label>comment:</label><span style="margin:10px;">${item.body}</span><br>
     </div>`;
@@ -94,10 +107,12 @@ const handleUpdate = (ev) => {
     const data = {
         'body': container.querySelector('#body').value,
         'id': container.querySelector('#id').value,
+        'user_id': container.querySelector('#user_id').value,
         'article_id': container.querySelector('#article_id').value,
         'date': container.querySelector('#date').value,
     };
     const callback = (item) => {
+        item.user_name = user_name;
         container.innerHTML = getItemHTML(item);
         attachEventHandlers();
     };
@@ -177,7 +192,8 @@ const displayForm = (item, container) => {
             <textarea rows="4" type="text" id="body" style="width:475px;" value="${item.body}">${item.body}</textarea><br>
             <input style="visibility:hidden;" type="text" id="date" value="${item.date}"><br>
             <input style="visibility:hidden;" type="text" id="article_id" value="${item.article_id}"><br>
-
+            <input style="visibility:hidden;" type="text" id="user_id" value="${item.user_id}"><br>
+            
     <div align="center" >
             <label></label><br>
             <button type="button" data-id="${item.id}" class="update button-primary">Update</button>
