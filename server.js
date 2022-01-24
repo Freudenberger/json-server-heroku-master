@@ -4,8 +4,7 @@ const path = require('path');
 
 const customRoutes = (req, res, next) => {
   try {
-      if ((req.method === 'POST' && req.url.endsWith('/reloadDB')) ||
-        (req.method === 'GET' && req.url.endsWith('/force/reloadDB'))) {
+      if (req.method === 'GET' && req.url.endsWith('/reloadDB')) {
         const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db-base.json'), 'utf8'));
         router.db.setState(db);
         console.log('reloadDB successful');

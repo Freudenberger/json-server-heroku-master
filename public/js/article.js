@@ -2,12 +2,15 @@ const articlesEndpoint = '../../api/articles';
 const usersEndpoint = '../../api/users';
 const commentsEndpoint = '../../api/comments';
 let user_name = 'Unknown'
+let users = []
 let article_id = undefined
 
 async function issueGetRequest(article_id)
 {
     const articlesUrl = `${articlesEndpoint}/${article_id}`
     const articlesData = await Promise.all([articlesUrl].map((url) => fetch(url).then((r) => r.json())));
+    const usersData = await Promise.all([usersEndpoint].map((url) => fetch(url).then((r) => r.json())));
+    users = usersData[0]
 
     const commentsUrl = `${commentsEndpoint}?article_id=${article_id}`
     const comments = await Promise.all([commentsUrl].map((url) => fetch(url).then((r) => r.json())));
@@ -56,8 +59,8 @@ async function addUserNameToArticle(item) {
 
 const getImagesHTML = (images) => {
     let htmlData = "";
-    if (images !== undefined && images.length > 0) {
-        htmlData += `<div align="center" ><img src="${images[0]}" /></div>`;
+    if (images !== undefined) {
+        htmlData += `<div align="center" ><img src="${images}" /></div>`;
 //        for (image of images) {
 //            htmlData += `<img src="${image}" />`;
 //            htmlData += `<br>`
@@ -82,7 +85,7 @@ const getItemHTML = (item) => {
         ${controls}
         ${getImagesHTML(item.images)}<br>
         <label>title:</label><span>${item.title}</span><br>
-        <label>user name:</label><span>${item.user_name}</span><br>
+        <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label></label><span>${item.body}</span><br>
     </div>`;
@@ -110,7 +113,7 @@ const getCommentsHTML = (comments) => {
 const getCommentHTML = (comments) => {
     return `<div>
         <label>id:</label><span>${comments.id}</span><br>
-        <label>author:</label><span>${comments.user_name}</span><br>
+        <label>author:</label><span><a href="user.html?id=${comments.user_id}">${comments.user_name}</a></span><br>
         <label>date:</label><span>${comments.date}</span><br>
         <label>comment:</label><span>${comments.body}</span><br>
         <span><a href="comment.html?id=${item.id}">See More...</a></span><br>
@@ -211,7 +214,7 @@ const handleUpdate = (ev) => {
         'body': container.querySelector('#body').value,
         'user_id': container.querySelector('#user_id').value,
         'date': container.querySelector('#date').value,
-        'images': [container.querySelector('#images').value],
+        'images': container.querySelector('#images').value,
     };
     const callback = (item) => {
         item.user_name = user_name;
@@ -234,6 +237,7 @@ const handleCommentCreate = () => {
     data = {
         'article_id': article_id,
         'body': container.querySelector('#body').value,
+        'user_id': container.querySelector('#user').value,
         'date': date
     }
     issueCommentPostRequest(data, issueGetRequest(article_id));
@@ -259,6 +263,16 @@ const attachEventHandlers = () => {
     document.querySelector('#add-new').onclick = () => {
         const container = document.querySelector('.add-new-panel');
         container.querySelector('.body').value = '';
+        let index = 0;
+        for(element of users)
+        {
+           var opt = document.createElement("option");
+           opt.value = element.id;
+           opt.innerHTML = `${element.firstname} ${element.lastname}`; 
+
+           container.querySelector('.user').appendChild(opt);
+           index++;
+        }
         container.classList.add('active');
     };
     document.querySelector('.close').onclick = () => {

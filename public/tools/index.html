@@ -21,9 +21,6 @@
             </a>
             <a href="./tools/index.html">
                 <button class="button-disabled" disabled readOnly>Tools</button>
-            </a>
-            <a href="../tester/index.html">
-                <button class="button-primary">API Tester</button>
             </a></h1>
 
         <span style="display: flex;align-items:center;justify-self: end;padding-right: 20px;">
@@ -61,19 +58,20 @@
         <a href="swagger/openapi_rest_demo.json">openapi_rest_demo.json</a><br>
         <h3>Online Swagger Editor</h3>
         <a href="https://editor.swagger.io/#" id="swagger">https://editor.swagger.io/</a><br>
+        <h2>REST API</h2>
+        <a href="./userpics">User pictures</a><br>
+        <a href="./allimages">Images for articles</a><br>
     </div>
     <br>
     <br>
     <hr>
     <div class="container">
         <h2>Restore DB</h2>
-        To restore db to initial state use <strong>POST</strong> on <strong>/reloadDB</strong> endpoint.
-        <br>
-        Or use <strong>GET</strong> on <strong>/force/reloadDB</strong> endpoint.
+        To restore db to initial state use <strong>GET</strong> on <strong>reloadDB</strong> endpoint.
         <br>
         <br>
         Or use this button:
-        <a href="/force/reloadDB">
+        <a href="/reloadDB">
             <button class="button-primary">Reload DB</button>
         </a>
         <br>

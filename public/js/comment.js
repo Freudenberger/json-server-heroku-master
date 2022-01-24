@@ -42,7 +42,7 @@ const getItemHTML = (item) => {
 
         ${controls}
         <label>id:</label><span>${item.id}</span><br>
-        <label>user:</label><span>${item.user_name}</span><br>
+        <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label>comment:</label><span style="margin:10px;">${item.body}</span><br>
     </div>`;

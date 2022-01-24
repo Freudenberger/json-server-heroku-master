@@ -2,14 +2,17 @@ const articlesEndpoint = '../../api/articles'
 const usersEndpoint = '../../api/users'
 const pictureListEndpoint = '../../api/allimages';
 let picList = []
+let users = []
 
 
 async function issueGetRequest()
 {
     // get data from the server:
     const results = await Promise.all([articlesEndpoint, usersEndpoint].map((url) => fetch(url).then((r) => r.json())));
+
     const articlesData = results[0]
     const usersData = results[1]
+    users = usersData
 
     for (let i = 0; i < articlesData.length; i++) {
         for (let j = 0; j < usersData.length; j++) {
@@ -45,6 +48,16 @@ const attachEventHandlers = () => {
            container.querySelector('.images').appendChild(opt);
            index++;
         }
+        index = 0;
+        for(element of users)
+        {
+           var opt = document.createElement("option");
+           opt.value = element.id;
+           opt.innerHTML = `${element.firstname} ${element.lastname}`; 
+
+           container.querySelector('.user').appendChild(opt);
+           index++;
+        }
         container.classList.add('active');
     };
     document.querySelector('.close').onclick = () => {
@@ -71,9 +84,9 @@ const handleCreate = () => {
     data = {
         'title': container.querySelector('.title').value,
         'body': container.querySelector('.body').value,
-        'user_id': 1,
+        'user_id': container.querySelector('.user').value,
         'date': date,
-        'images': [`.\\data\\images\\256\\${container.querySelector('.images').value}`]
+        'images': `.\\data\\images\\256\\${container.querySelector('.images').value}`
     }
     issueArticleRequest(data, issueGetRequest);
     document.querySelector('.add-new-panel').classList.remove('active');
@@ -99,8 +112,8 @@ const attachFormEventHandlers = (item, container) => {
 };
 const getImagesHTML = (images) => {
     let htmlData = "";
-    if (images !== undefined && images.length > 0) {
-        htmlData += `<div align="center" ><img src="${images[0]}" /></div>`;
+    if (images !== undefined) {
+        htmlData += `<div align="center" ><img src="${images}" /></div>`;
 //        for (image of images) {
 //            htmlData += `<img src="${image}" />`;
 //            htmlData += `<br>`

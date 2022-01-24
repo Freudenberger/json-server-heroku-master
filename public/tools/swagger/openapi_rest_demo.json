@@ -21,12 +21,12 @@
       "description": "Articles (blog entries) with lot of contents"
     },
     {
-      "name": "user",
-      "description": "Operations about user"
+      "name": "users",
+      "description": "Operations about users"
     },
     {
       "name": "comments",
-      "description": "Operations about comment"
+      "description": "Operations about comments"
     }
   ],
   "paths": {
@@ -204,7 +204,7 @@
     "/users": {
       "get": {
         "tags": [
-          "user"
+          "users"
         ],
         "summary": "Get user",
         "description": "This can only be done by the logged in user.",
@@ -219,7 +219,7 @@
       },
       "post": {
         "tags": [
-          "user"
+          "users"
         ],
         "summary": "Create user",
         "description": "This can only be done by the logged in user.",
@@ -247,7 +247,7 @@
     "/users/{id}": {
       "get": {
         "tags": [
-          "user"
+          "users"
         ],
         "summary": "Find Article by ID",
         "description": "Returns a single user",
@@ -408,11 +408,9 @@
             "type": "string",
             "format": "date-time"
           },
-          "image": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "images": {
+            "type": "string",
+            "description": "Image path"
           }
         },
         "xml": {
