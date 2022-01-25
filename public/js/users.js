@@ -45,7 +45,31 @@ const issuePostRequest = (data, responseHandler) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    }).then(responseHandler);
+    }).then(response => showResponse(response)).then(responseHandler);
+};
+
+
+let alertElement = document.querySelector(".alert");
+
+const showResponse = (response) => {
+    if (response.status === 201) {
+        showMessage('User was created', false)
+    } else {
+        showMessage('User was not created', true)
+    }
+};
+
+const showMessage = (message, isError=false) => {
+    alertElement.innerHTML = message;
+    alertElement.classList.remove('alert-error', 'alert-success');
+    if (isError) {
+        alertElement.classList.add('alert-error');
+    } else {
+        alertElement.classList.add('alert-success');
+    }
+    var newMessageElement = alertElement.cloneNode(true);
+    alertElement.parentNode.replaceChild(newMessageElement, alertElement);
+    alertElement = newMessageElement;
 };
 
 const handleUpdate = (ev) => {
