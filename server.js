@@ -35,12 +35,13 @@ const mandatory_non_empty_fields_article = ['user_id', 'title', 'body', 'date']
 const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
 
 function is_valid(body, mandatory_non_empty_fields) {
-  mandatory_non_empty_fields.forEach(element => {
-    if (body[element] === undefined || body[element]?.length === 0) {
+  for (let index = 0; index < mandatory_non_empty_fields.length; index++) {
+    const element = mandatory_non_empty_fields[index];
+    if (body[element] === undefined || body[element] === "" || body[element]?.length === 0) {
       return false;
     }
-  });
-  return true
+  }
+  return true;
 }
 
 const validations = (req, res, next) => {
@@ -51,13 +52,13 @@ const validations = (req, res, next) => {
         return
       }
     }
-    else if (req.method === 'POST' && req.url.endsWith('/api/comments')) {
+    if (req.method === 'POST' && req.url.endsWith('/api/comments')) {
       if (!is_valid(req.body, mandatory_non_empty_fields_comment)) {
         res.sendStatus(401);
         return
       }
     }
-    else if (req.method === 'POST' && req.url.endsWith('/api/articles')) {
+    if (req.method === 'POST' && req.url.endsWith('/api/articles')) {
       if (!is_valid(req.body, mandatory_non_empty_fields_article)) {
         res.sendStatus(401);
         return

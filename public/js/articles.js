@@ -69,6 +69,28 @@ const attachEventHandlers = () => {
     document.querySelector('.update.save').onclick = handleCreate;
 };
 
+let alertElement = document.querySelector(".alert");
+
+const showResponse = (response) => {
+    if (response.status === 201) {
+        showMessage('Article was created', false)
+    } else {
+        showMessage('Article was not created', true)
+    }
+};
+
+const showMessage = (message, isError=false) => {
+    alertElement.innerHTML = message;
+    alertElement.classList.remove('alert-error', 'alert-success');
+    if (isError) {
+        alertElement.classList.add('alert-error');
+    } else {
+        alertElement.classList.add('alert-success');
+    }
+    var newMessageElement = alertElement.cloneNode(true);
+    alertElement.parentNode.replaceChild(newMessageElement, alertElement);
+    alertElement = newMessageElement;
+};
 function pad(num, size=2) {
     num = num.toString();
     while (num.length < size) num = "0" + num;
@@ -101,7 +123,7 @@ const issueArticleRequest = (data, responseHandler) => {
              'Content-Type': 'application/json'
          },
          body: JSON.stringify(data)
-     }).then(responseHandler);
+     }).then(response => showResponse(response)).then(responseHandler);
  };
 const attachFormEventHandlers = (item, container) => {
     container.querySelector('.update').onclick = handleUpdate;
