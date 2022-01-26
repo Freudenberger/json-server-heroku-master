@@ -53,29 +53,29 @@ const validations = (req, res, next) => {
     if (req.method === 'POST' && req.url.endsWith('/api/users')) {
       // validate fields:
       if (!is_valid(req.body, mandatory_non_empty_fields_user)) {
-        res.sendStatus(401);
+        res.sendStatus(422);
         return
       }
       // validate email:
       if (!validateEmail(req.body['email'])) {
-        res.sendStatus(401);
+        res.sendStatus(422);
         return
       }
       const dbData = fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8');
       if (dbData.includes(req.body['email'])) {
-        res.sendStatus(401);
+        res.sendStatus(422);
         return
       }
     }
     if (req.method === 'POST' && req.url.endsWith('/api/comments')) {
       if (!is_valid(req.body, mandatory_non_empty_fields_comment)) {
-        res.sendStatus(401);
+        res.sendStatus(422);
         return
       }
     }
     if (req.method === 'POST' && req.url.endsWith('/api/articles')) {
       if (!is_valid(req.body, mandatory_non_empty_fields_article)) {
-        res.sendStatus(401);
+        res.sendStatus(422);
         return
       }
     }
