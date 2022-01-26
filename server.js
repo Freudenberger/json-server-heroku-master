@@ -43,11 +43,26 @@ function is_valid(body, mandatory_non_empty_fields) {
   }
   return true;
 }
-
+const validateEmail = (email) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
 const validations = (req, res, next) => {
   try {
     if (req.method === 'POST' && req.url.endsWith('/api/users')) {
+      // validate fields:
       if (!is_valid(req.body, mandatory_non_empty_fields_user)) {
+        res.sendStatus(401);
+        return
+      }
+      // validate email:
+      if (!validateEmail(req.body['email'])) {
+        res.sendStatus(401);
+        return
+      }
+      const dbData = fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8');
+      if (dbData.includes(req.body['email'])) {
         res.sendStatus(401);
         return
       }
