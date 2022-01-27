@@ -55,14 +55,6 @@
       "lastname": "Lea",
       "password": "fasd",
       "avatar": ".\\data\\users\\face_1591133217.1529467.jpg"
-    },
-    {
-      "email": "aosesarmstrong@arn.caa",
-      "firstname": "Moses",
-      "lastname": "Armstrong",
-      "password": "0Lelia39",
-      "avatar": ".\\data\\users\\face_1591133479.7144732.jpg",
-      "id": 8
     }
   ],
   "articles": [
