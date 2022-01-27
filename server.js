@@ -8,7 +8,7 @@ const customRoutes = (req, res, next) => {
       const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db-base.json'), 'utf8'));
       router.db.setState(db);
       console.log('reloadDB successful');
-      res.sendStatus(201);
+      res.status(201).send({message: "Database successfully restored"});
     } else if (req.method === 'GET' && req.url.endsWith('/db')) {
       const dbData = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8'));
       res.json(dbData);
@@ -26,7 +26,7 @@ const customRoutes = (req, res, next) => {
       }
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    res.status(500).send(formatErrorResponse("Fatal error. Please contact administrator."));
   }
 };
 
@@ -124,8 +124,7 @@ const validations = (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.json(formatErrorResponse("Fatal error. Please contact administrator."));
-    res.sendStatus(500);
+    res.status(500).send(formatErrorResponse("Fatal error. Please contact administrator."));
   }
 }
 
