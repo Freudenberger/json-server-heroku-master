@@ -146,7 +146,7 @@ const showConfirmationMessage = () => {
 };
 
 const updateJSON = () => {
-    console.log('formatting...');
+    // console.log('formatting...');
     if (getMethod() === 'get') {
         jsonViewer.setOption('readOnly', true);
     } else {
@@ -201,12 +201,17 @@ const go = () => {
     // inject some additional callback functions:
     code = code.slice(0, code.lastIndexOf('});'));
     code += `
-        displayData(data);
-        displayCode(); 
-        showConfirmationMessage();
+        if (data.error !== undefined) {
+            showMessage('Entity was not created: ' + JSON.stringify(data), isError=true);
+            return;
+        } else {
+            displayData(data);
+            displayCode(); 
+            showConfirmationMessage();
+        }
         ${extras}
     });`;
-    console.log(code);
+    // console.log(code);
     let success = false
     try {
         eval(code);

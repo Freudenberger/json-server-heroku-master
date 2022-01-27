@@ -43,45 +43,52 @@ function is_valid(body, mandatory_non_empty_fields) {
   }
   return true;
 }
+
 const validateEmail = (email) => {
   return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    /^\S+@\S+\.\S+$/
   );
 };
+
+function formatErrorResponse(message, details = undefined) {
+  return {error: {message: message, details: details}}
+}
+
 const validations = (req, res, next) => {
   try {
     if (req.method === 'POST' && req.url.endsWith('/api/users')) {
       // validate fields:
       if (!is_valid(req.body, mandatory_non_empty_fields_user)) {
-        res.sendStatus(422);
+        res.status(422).send(formatErrorResponse("One of mandatory field is invalid", mandatory_non_empty_fields_user));
         return
       }
       // validate email:
       if (!validateEmail(req.body['email'])) {
-        res.sendStatus(422);
+        res.status(422).send(formatErrorResponse("Invalid email"));
         return
       }
       const dbData = fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8');
       if (dbData.includes(req.body['email'])) {
-        res.sendStatus(422);
+        res.status(409).send(formatErrorResponse("Email not unique"));
         return
       }
     }
     if (req.method === 'POST' && req.url.endsWith('/api/comments')) {
       if (!is_valid(req.body, mandatory_non_empty_fields_comment)) {
-        res.sendStatus(422);
+        res.status(422).send(formatErrorResponse("One of mandatory field is invalid", mandatory_non_empty_fields_comment));
         return
       }
     }
     if (req.method === 'POST' && req.url.endsWith('/api/articles')) {
       if (!is_valid(req.body, mandatory_non_empty_fields_article)) {
-        res.sendStatus(422);
+        res.status(422).send(formatErrorResponse("One of mandatory field is invalid", mandatory_non_empty_fields_article));
         return
       }
     }
     next();
   } catch (error) {
     console.log(error);
+    res.json(formatErrorResponse("Fatal error. Please contact administrator."));
     res.sendStatus(500);
   }
 }

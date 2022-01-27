@@ -41,7 +41,7 @@ async function issueGetRequest()
 const getItemHTML = (item) => {
     return `<div>
         <label>id:</label><span>${item.id}</span><br>
-        <label>user name:</label><span>${item.user_name}</span><br>
+        <label>user:</label><span>${item.user_name}</span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label>title:</label><span>${item.title}</span><br>
         <label>description:</label><span>${item.body}</span><br>

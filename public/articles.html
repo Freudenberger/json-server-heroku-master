@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>REST API Demo | Article</title>
+    <title>REST API Demo</title>
     <link rel="icon" href="./data/icons/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
@@ -14,7 +14,7 @@
     <div style="display: grid;grid-template-columns: 4fr 1fr;">
         <h1><a href="." style="text-decoration: none; color: inherit;">REST API Demo</a>
             <a href="./articles.html">
-                <button class="button-primary">Articles</button>
+                <button class="button-disabled" disabled readOnly>Articles</button>
             </a>
             <a href="./users.html">
                 <button class="button-primary">Users</button>
@@ -23,9 +23,8 @@
                 <button class="button-primary">Comments</button>
             </a>
             Actions:
-            <button id="add-new">Add Comment</button>
+            <button id="add-new">Add Article</button>
         </h1>
-
         <span style="display: flex;align-items:center;justify-self: end;padding-right: 20px;">
 	  <a href="https://jaktestowac.pl" style="text-decoration: none; color: white;" target="_blank" rel="noopener">
 		  <img src="./data/icons/favicon.png" style="width: 30px !important;height: 30px !important;padding: 0;"
@@ -35,16 +34,21 @@
 	  </span>
     </div>
 </header>
+<div class="alert" role="alert"></div>
 <div id="container"></div>
-<div id="containerComments"></div>
 <section class="add-new-panel">
     <div>
-        <h2>Add New Comment</h2>
-
+        <h2>Add New Entry</h2>
+        <label>Title:</label>
+        <input type="text" class="title" value=""><br>
         <label>User:</label>
         <select name="user" class="user" id="user" ></select><br>
-        <label>Comment:</label><br>
-        <textarea rows="4" class="body" id="body" style="width:350px;" >${item.body}</textarea><br>
+
+        <label>Body:</label><br>
+        <textarea rows="4" class="body" id="body" style="width:350px;" ></textarea><br>
+        <label>Picture:</label><br>
+        <select name="images" class="images" id="images" ></select><br>
+
         <label></label>
         <button type="button" class="update save button-primary">Save</button>
         <button type="button" class="cancel">Cancel</button>
@@ -52,7 +56,6 @@
         <button class="close" id="close">&times;</button>
     </div>
 </section>
-<script type="text/javascript" src="js/article.js"></script>
 </body>
 <footer>
     <div class="container" style="font-size:12px;">
@@ -63,4 +66,5 @@
     </div>
     <script type="text/javascript" src="version.js"></script>
 </footer>
+<script type="text/javascript" src="js/articles.js"></script>
 </html>

@@ -13,17 +13,7 @@
 <header>
     <div style="display: grid;grid-template-columns: 4fr 1fr;">
         <h1><a href="." style="text-decoration: none; color: inherit;">REST API Demo</a>
-            <a href=".">
-                <button class="button-disabled" disabled readOnly>Main Page</button>
-            </a>
-            <a href="./users.html">
-                <button class="button-primary">Users</button>
-            </a>
-            <a href="./tools/index.html">
-                <button class="button-primary">Tools</button>
-            </a>
-            Actions:
-            <button id="add-new">Add Article</button>
+            
         </h1>
         <span style="display: flex;align-items:center;justify-self: end;padding-right: 20px;">
 	  <a href="https://jaktestowac.pl" style="text-decoration: none; color: white;" target="_blank" rel="noopener">
@@ -34,28 +24,36 @@
 	  </span>
     </div>
 </header>
-<div class="alert" role="alert"></div>
-<div id="container"></div>
-<section class="add-new-panel">
-    <div>
-        <h2>Add New Entry</h2>
-        <label>Title:</label>
-        <input type="text" class="title" value=""><br>
-        <label>User:</label>
-        <select name="user" class="user" id="user" ></select><br>
 
-        <label>Body:</label><br>
-        <textarea rows="4" class="body" id="body" style="width:350px;" ></textarea><br>
-        <label>Picture:</label><br>
-        <select name="images" class="images" id="images" ></select><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container" style="font-size:12px;align-content: center;display: flex;align-items: center;justify-content: center;">
+    <h1>Witaj na stronie do testów REST API!</h1>
+</div>
+<div class="container" style="font-size:12px;align-content: center;display: flex;align-items: center;justify-content: center;">
+Możesz na niej poćwiczyć testy UI oraz testy API w bezpiecznym środowisku.
+</div>
+<br>
+<br>
+<br>
+<div class="container" style="align-content: center;display: flex;align-items: center;justify-content: center;font-size: 24px;">
+<span style="display: flex;align-items:center;justify-self: center;">
+        <img src="../data/icons/favicon.png" style="width: 50px !important;height: 50px !important;padding: 0;border: none;"
+             alt="">&nbsp&nbspjaktestowac.pl
+</span>
+</div>
 
-        <label></label>
-        <button type="button" class="update save button-primary">Save</button>
-        <button type="button" class="cancel">Cancel</button>
-
-        <button class="close" id="close">&times;</button>
-    </div>
-</section>
+<div class="container" style="font-size:12px;align-content: center;display: flex;align-items: center;justify-content: center;">
+    <a href="./articles.html">
+        <button class="button-primary" style="margin: 20;font-size: 28px;">GUI</button>
+    </a>
+    <a href="./tools/index.html">
+        <button class="button-primary" style="margin: 20;font-size: 28px;">API Tools</button>
+    </a>
+</div>
 </body>
 <footer>
     <div class="container" style="font-size:12px;">

@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "email": "Moses_Armstrong@Armstrong.Feest.ca",
+      "email": "Moses.Armstrong@Feest.ca",
       "firstname": "Moses",
       "lastname": "Armstrong",
       "password": "0Lelia39",
@@ -10,7 +10,7 @@
     },
     {
       "id": 2,
-      "email": "Danial_Dicki@hotmail.dicki.com",
+      "email": "Danial.Dicki@dicki.test",
       "firstname": "Danial",
       "lastname": "Dicki",
       "password": "2Kellie20",
@@ -18,7 +18,7 @@
     },
     {
       "id": 3,
-      "email": "Daryl.Parisian@gmail.com",
+      "email": "Daryl.Parisian@gmail.test",
       "firstname": "Daryl",
       "lastname": "Parisian",
       "password": "5Eleanore90",
@@ -50,11 +50,19 @@
     },
     {
       "id": 7,
-      "email": "Mas.Lea@test.test.net",
+      "email": "Mas.Lea@test.test",
       "firstname": "Mas",
       "lastname": "Lea",
       "password": "fasd",
       "avatar": ".\\data\\users\\face_1591133217.1529467.jpg"
+    },
+    {
+      "email": "aosesarmstrong@arn.caa",
+      "firstname": "Moses",
+      "lastname": "Armstrong",
+      "password": "0Lelia39",
+      "avatar": ".\\data\\users\\face_1591133479.7144732.jpg",
+      "id": 8
     }
   ],
   "articles": [
