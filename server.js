@@ -2,6 +2,7 @@ const jsonServer = require('./json-server');
 const fs = require('fs');
 const path = require('path');
 
+
 const customRoutes = (req, res, next) => {
   try {
     if (req.method === 'GET' && req.url.endsWith('/reloadDB')) {
@@ -141,4 +142,8 @@ server.use('/api', router);
 
 server.listen(port, () => {
   console.log(`Test Custom Data API listening on port ${port}!`)
+  // const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), 'utf8'));
+  // schema['servers'][0]['url'] = pathToSchema
+  // fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema))
 });
+

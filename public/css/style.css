@@ -31,7 +31,7 @@ img {
     max-height: 256px;
     max-width: 256px;
     padding: 3px;
-    border: solid 1px #CCC;
+    border: solid 0px #CCC;
 }
 header h1 {
     color: white;
