@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "https://api-test-kk10.herokuapp.com/api/"
+      "url": "#CHANGE_ME"
     }
   ],
   "tags": [
