@@ -20,7 +20,7 @@
                 <button class="button-primary">Tester</button>
             </a>
             <a href="../swagger/index.html">
-                <button class="button-primary">Swagger</button>
+                <button class="button-primary">Swagger UI</button>
             </a></h1>
 
         <span style="display: flex;align-items:center;justify-self: end;padding-right: 20px;">
@@ -42,59 +42,40 @@
     <tr>
         <td>
             <div class="container">
-                <h2>Pages</h2>
+                <h2>GUI: Pages</h2>
                 <ul>
                     <li><a href="../users.html">Users</a></li>
-                    <li><a href="..">Articles</a></li>
+                    <li><a href="../user.html?id=1">Single user</a></li>
+                    <li><a href="../articles.html">Articles</a></li>
+                    <li><a href="../article.html?id=1">Single article</a></li>
                     <li><a href="../comments.html">Comments</a></li>
+                    <li><a href="../comment.html?id=1">Single Comment</a></li>
                 </ul>
             </div>
             <div class="container">
-                <h2>Endpoints</h2>
+                <h2>API: Endpoints</h2>
         
                 <div id="resources"></div>
-        
+                <h3>Additional endpoints</h3>
+                    <a href="./userpics">User pictures</a><br>
+                    <a href="./allimages">Images for articles</a><br>
+                    ⚠ Using/clicking endopint below restore database to itial state
+                    <a href="/reloadDB">reloadDB</a><br>
                 <h2>API Tester</h2>
                 <a href="../tester/">Tester</a><br>
             </div>
         </td>
         <td>
             <div class="container">
-                <h2>Swagger</h2>
-                <h3>Schema</h3>
-                <a href="schema/openapi_rest_demo.json">openapi_rest_demo.json</a><br>
-                <h3>Swagger</h3>
-                <a href="../swagger/index.html" id="swagger">Swagger</a><br>
-                <h3>Online Swagger Editor</h3>
-                <a href="https://editor.swagger.io/#?url=schema/openapi_rest_demo.json" id="swaggerEditor">https://editor.swagger.io/</a><br>
-                <h2>Other Endpoints</h2>
-                <a href="./userpics">User pictures</a><br>
-                <a href="./allimages">Images for articles</a><br>
+                <h2>API: Documentation</h2>
+                <a href="../swagger/index.html" id="swagger">Swagger UI</a><br>
+                <a href="schema/openapi_rest_demo.json">Open API schema</a><br>
+                <a href="https://editor.swagger.io/#?url=schema/openapi_rest_demo.json" id="swaggerEditor">Online Swagger Editor</a><br>
             </div>
         </td>
     </tr>
 </table>
 </div>
-
-
-    <br>
-    <br>
-    <hr>
-    <div class="container">
-        <h2>Restore DB</h2>
-        To restore db to initial state use <strong>GET</strong> on <strong>reloadDB</strong> endpoint.
-        <br>
-        <br>
-        Or use this button:
-        <a href="/reloadDB">
-            <button class="button-primary">Reload DB</button>
-        </a>
-        <br>
-        <br>
-        Success is indicated by status <strong>201 Created</strong>.
-    </div>
-    <br>
-    <br>
 </main>
 
 <footer>
