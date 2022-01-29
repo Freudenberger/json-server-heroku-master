@@ -1,6 +1,6 @@
 const articlesEndpoint = '../../api/articles'
 const usersEndpoint = '../../api/users'
-const pictureListEndpoint = '../../api/allimages';
+const pictureListEndpoint = '../../api/allimage';
 let picList = []
 let users = []
 
@@ -45,7 +45,7 @@ const attachEventHandlers = () => {
            opt.value= element;
            opt.innerHTML = element; // whatever property it has
 
-           container.querySelector('.images').appendChild(opt);
+           container.querySelector('.image').appendChild(opt);
            index++;
         }
         index = 0;
@@ -108,7 +108,7 @@ const handleCreate = () => {
         'body': container.querySelector('.body').value,
         'user_id': container.querySelector('.user').value,
         'date': date,
-        'images': `.\\data\\images\\256\\${container.querySelector('.images').value}`
+        'image': `.\\data\\images\\256\\${container.querySelector('.image').value}`
     }
     issueArticleRequest(data, issueGetRequest);
     document.querySelector('.add-new-panel').classList.remove('active');
@@ -132,10 +132,10 @@ const attachFormEventHandlers = (item, container) => {
         attachEventHandlers();
     }
 };
-const getImagesHTML = (images) => {
+const getImagesHTML = (image) => {
     let htmlData = "";
-    if (images !== undefined) {
-        htmlData += `<div align="center" ><img src="${images}" /></div>`;
+    if (image !== undefined) {
+        htmlData += `<div align="center" ><img src="${image}" /></div>`;
 //        for (image of images) {
 //            htmlData += `<img src="${image}" />`;
 //            htmlData += `<br>`
@@ -148,7 +148,7 @@ const getImagesHTML = (images) => {
 //        <label>id:</label><span>${item.id}</span><br>
 const getItemHTML = (item) => {
     return `<div>
-        <a href="article.html?id=${item.id}">${getImagesHTML(item.images)}</a><br>
+        <a href="article.html?id=${item.id}">${getImagesHTML(item.image)}</a><br>
         <div align="center" ><strong>${item.title}</strong></div><br>
         <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>

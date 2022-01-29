@@ -43,7 +43,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
+                  "$ref": "#/components/schemas/Article"
                 }
               }
             }
@@ -74,7 +74,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
+                  "$ref": "#/components/schemas/Article"
                 }
               }
             }
@@ -374,25 +374,14 @@
   },
   "components": {
     "schemas": {
-      "ApiResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "type": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
       "Article": {
         "type": "object",
         "properties": {
           "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user_id": {
             "type": "integer",
             "format": "int64"
           },
@@ -408,7 +397,7 @@
             "type": "string",
             "format": "date"
           },
-          "images": {
+          "image": {
             "type": "string",
             "description": "Image path"
           }
@@ -428,11 +417,15 @@
             "type": "string",
             "description": "Article body"
           },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "date": {
             "type": "string",
             "format": "date"
           },
-          "images": {
+          "image": {
             "type": "string",
             "description": "Image path"
           }

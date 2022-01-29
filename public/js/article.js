@@ -57,10 +57,10 @@ async function addUserNameToArticle(item) {
     return item
 }
 
-const getImagesHTML = (images) => {
+const getImagesHTML = (image) => {
     let htmlData = "";
-    if (images !== undefined) {
-        htmlData += `<div align="center" ><img src="${images}" /></div>`;
+    if (image !== undefined) {
+        htmlData += `<div align="center" ><img src="${image}" /></div>`;
 //        for (image of images) {
 //            htmlData += `<img src="${image}" />`;
 //            htmlData += `<br>`
@@ -83,7 +83,7 @@ const getItemHTML = (item) => {
 
     return `<div>
         ${controls}
-        ${getImagesHTML(item.images)}<br>
+        ${getImagesHTML(item.image)}<br>
         <label>title:</label><span>${item.title}</span><br>
         <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
@@ -214,7 +214,7 @@ const handleUpdate = (ev) => {
         'body': container.querySelector('#body').value,
         'user_id': container.querySelector('#user_id').value,
         'date': container.querySelector('#date').value,
-        'images': container.querySelector('#images').value,
+        'image': container.querySelector('#image').value,
     };
     const callback = (item) => {
         item.user_name = user_name;
@@ -322,7 +322,7 @@ const displayForm = (item, container) => {
             <input style="visibility:hidden;" type="text" id="user_id" value="${item.user_id}"><br>
             <input style="visibility:hidden;" type="text" id="date" value="${item.date}"><br>
             <label>image:</label>
-            <input type="text" id="images" value="${item.images}"><br><br>
+            <input type="text" id="image" value="${item.image}"><br><br>
     </div>
     <div align="center" >
             <label></label><br>

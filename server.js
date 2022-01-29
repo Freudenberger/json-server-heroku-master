@@ -32,7 +32,7 @@ const customRoutes = (req, res, next) => {
         const files = fs.readdirSync(path.join(__dirname, '/public/data/users'));
         res.json(files);
         req.body = files
-      } else if (req.method === 'GET' && req.url.endsWith('/allimages')) {
+      } else if (req.method === 'GET' && req.url.endsWith('/allimage')) {
         const files = fs.readdirSync(path.join(__dirname, '/public/data/images/256'));
         res.json(files);
         req.body = files
@@ -48,7 +48,7 @@ const customRoutes = (req, res, next) => {
 const mandatory_non_empty_fields_user = ['firstname', 'lastname', 'email', 'avatar']
 const all_fields_user = ['firstname', 'lastname', 'email', 'avatar', "password"]
 const mandatory_non_empty_fields_article = ['user_id', 'title', 'body', 'date']
-const all_fields_article = ['user_id', 'title', 'body', 'date', 'images']
+const all_fields_article = ['user_id', 'title', 'body', 'date', 'image']
 const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
 const all_fields_comment = ['user_id', 'article_id', 'body', 'date']
 
