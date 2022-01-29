@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "#CHANGE_ME"
+      "url": "http://localhost:3000/api"
     }
   ],
   "tags": [
@@ -147,7 +147,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Article"
+                "$ref": "#/components/schemas/ArticleUpdate"
               }
             }
           },
@@ -406,7 +406,31 @@
           },
           "date": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
+          },
+          "images": {
+            "type": "string",
+            "description": "Image path"
+          }
+        },
+        "xml": {
+          "name": "Article"
+        }
+      },
+      "ArticleUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title"
+          },
+          "body": {
+            "type": "string",
+            "description": "Article body"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
           },
           "images": {
             "type": "string",
@@ -438,7 +462,7 @@
           },
           "date": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           }
         },
         "xml": {

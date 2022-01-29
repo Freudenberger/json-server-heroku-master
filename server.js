@@ -7,13 +7,17 @@ let updatedSchema = false;
 const customRoutes = (req, res, next) => {
   try {
     if (!updatedSchema) {
-      console.log(req.headers)
-      const host = req.headers.host;
-      const referer = req.headers.referer;
-      const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), 'utf8'));
-      schema['servers'][0]['url'] = `${referer.split(':')[0]}://${host}/api`;
-      fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema));
-      updatedSchema = true;
+      try {
+        console.log(req.headers)
+        const host = req.headers.host;
+        const referer = req.headers.referer;
+        const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), 'utf8'));
+        schema['servers'][0]['url'] = `${referer.split(':')[0]}://${host}/api`;
+        fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema));
+        updatedSchema = true;
+      } catch (error) {
+        console.log(error);
+      }
     }
     if (req.method === 'GET' && req.url.endsWith('/reloadDB')) {
       const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db-base.json'), 'utf8'));

@@ -250,8 +250,12 @@ const handleDelete = (ev) => {
     if (!areYouSure) {
         return;
     }
-    issueDeleteRequest(id, issueGetRequest);
+    issueDeleteRequest(id, actionAfterDelete);
 };
+
+const actionAfterDelete = () => {
+    location.href = './articles.html';
+}
 
 const attachEventHandlers = () => {
     for (elem of document.querySelectorAll('.delete')) {

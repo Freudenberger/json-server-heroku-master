@@ -1,13 +1,15 @@
 const commentsEndpoint = '../../api/comments';
 const usersEndpoint = '../../api/users';
-let user_name = 'Unknown'
+let user_name = 'Unknown';
+let article_id = undefined;
 
 async function issueGetRequest(comment_id)
 {
     const commentUrl = `${commentsEndpoint}/${comment_id}`
     const commentsData = await Promise.all([commentUrl].map((url) => fetch(url).then((r) => r.json())));
 
-    const commentData = commentsData[0]
+    const commentData = commentsData[0];
+    article_id = commentData.article_id;
 
     // find user:
     const userUrl = `${usersEndpoint}/${commentData.user_id}`
@@ -135,8 +137,12 @@ const handleDelete = (ev) => {
     if (!areYouSure) {
         return;
     }
-    issueDeleteRequest(id, issueGetRequest);
+    issueDeleteRequest(id, actionAfterDelete);
 };
+
+const actionAfterDelete = () => {
+    location.href = `article.html?id=${article_id}`;
+}
 
 const attachEventHandlers = () => {
     for (elem of document.querySelectorAll('.delete')) {
