@@ -22,11 +22,15 @@
         },
         {
             "name": "users",
-            "description": "Operations about users"
+            "description": "Users"
         },
         {
             "name": "comments",
-            "description": "Operations about comments"
+            "description": "Comments"
+        },
+        {
+            "name": "other",
+            "description": "Other operations"
         }
     ],
     "paths": {
@@ -252,8 +256,7 @@
                 "responses": {
                     "200": {
                         "description": "Article deleted",
-                        "content": {
-                        }
+                        "content": {}
                     },
                     "404": {
                         "description": "Article not found",
@@ -517,8 +520,7 @@
                 "responses": {
                     "200": {
                         "description": "User deleted",
-                        "content": {
-                        }
+                        "content": {}
                     },
                     "404": {
                         "description": "User not found",
@@ -778,8 +780,7 @@
                 "responses": {
                     "200": {
                         "description": "Comment deleted",
-                        "content": {
-                        }
+                        "content": {}
                     },
                     "404": {
                         "description": "Comment not found",
@@ -815,6 +816,38 @@
                         "content": {}
                     }
                 }
+            }
+        },
+        "/userpics": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Get user pictures",
+                "operationId": "getUserPictures",
+                "responses": {
+                    "default": {
+                        "description": "successful operation",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "body"
+            }
+        },
+        "/allimages": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Get articles pictures",
+                "operationId": "getArticlesPictures",
+                "responses": {
+                    "default": {
+                        "description": "successful operation",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "body"
             }
         }
     },

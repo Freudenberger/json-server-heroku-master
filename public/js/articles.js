@@ -1,6 +1,6 @@
 const articlesEndpoint = '../../api/articles'
 const usersEndpoint = '../../api/users'
-const pictureListEndpoint = '../../api/allimage';
+const pictureListEndpoint = '../../api/allimages';
 let picList = []
 let users = []
 

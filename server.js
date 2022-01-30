@@ -32,7 +32,7 @@ const customRoutes = (req, res, next) => {
         const files = fs.readdirSync(path.join(__dirname, '/public/data/users'));
         res.json(files);
         req.body = files
-      } else if (req.method === 'GET' && req.url.endsWith('/allimage')) {
+      } else if (req.method === 'GET' && req.url.endsWith('/allimages')) {
         const files = fs.readdirSync(path.join(__dirname, '/public/data/images/256'));
         res.json(files);
         req.body = files
