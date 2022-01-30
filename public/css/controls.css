@@ -46,6 +46,7 @@ button {
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+
 .button-primary:hover {
     color: #fff;
     background-color: #0069d9;
@@ -123,3 +124,50 @@ button {
     from {opacity :1;}
     to {opacity :0;}
 }
+
+.containerTools {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+table {
+    margin-left: 0;
+  }
+  
+  td {
+    border: 0;
+    padding: 0 1em .5em 0;
+    color: #014c8c;
+  }
+  
+  td:first-child {
+    width: 1%;
+    white-space: nowrap;
+  }
+  
+
+@media only screen and (max-width: 1000px) {
+    header {
+        font-size: 0.75rem;
+    }
+    button {
+        font-size: 0.75rem;
+        padding: 5px;
+    }
+    header h1 {
+        margin-left: 10px !important;
+    }
+  }
+  @media only screen and (max-width: 650px) {
+      header {
+          font-size: 0.5rem;
+      }
+      button {
+          font-size: 0.5rem;
+          padding: 5px;
+      }
+      header h1 {
+          margin-left: 10px !important;
+      }
+    }
