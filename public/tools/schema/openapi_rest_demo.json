@@ -60,7 +60,7 @@
                     "articles"
                 ],
                 "summary": "Add article",
-                "operationId": "Create article",
+                "operationId": "postArticle",
                 "requestBody": {
                     "description": "Date of creation",
                     "content": {
@@ -134,7 +134,7 @@
                 ],
                 "summary": "Updates an article",
                 "description": "Updates an article.",
-                "operationId": "updateArticle",
+                "operationId": "putArticle",
                 "parameters": [
                     {
                         "name": "id",
@@ -184,7 +184,7 @@
                 ],
                 "summary": "Updates an article",
                 "description": "Updates an article.",
-                "operationId": "updateArticle",
+                "operationId": "patchArticle",
                 "parameters": [
                     {
                         "name": "id",
@@ -316,7 +316,7 @@
                 ],
                 "summary": "Create user",
                 "description": "This can only be done by the logged in user.",
-                "operationId": "createUser",
+                "operationId": "postUser",
                 "requestBody": {
                     "description": "Created user object",
                     "content": {
@@ -398,7 +398,7 @@
                 ],
                 "summary": "Updates user",
                 "description": "Updates user.",
-                "operationId": "updateUser",
+                "operationId": "putUser",
                 "parameters": [
                     {
                         "name": "id",
@@ -448,7 +448,7 @@
                 ],
                 "summary": "Updates user",
                 "description": "Updates user.",
-                "operationId": "updateUser",
+                "operationId": "patchUser",
                 "parameters": [
                     {
                         "name": "id",
@@ -658,7 +658,7 @@
                 ],
                 "summary": "Updates comment",
                 "description": "Updates comment.",
-                "operationId": "updateComment",
+                "operationId": "putComment",
                 "parameters": [
                     {
                         "name": "id",
@@ -708,7 +708,7 @@
                 ],
                 "summary": "Updates comment",
                 "description": "Updates comment.",
-                "operationId": "updateComment",
+                "operationId": "patchComment",
                 "parameters": [
                     {
                         "name": "id",
@@ -855,8 +855,8 @@
                 "tags": [
                     "other"
                 ],
-                "summary": "Get articles pictures",
-                "operationId": "getArticlesPictures",
+                "summary": "Restore DB",
+                "operationId": "restoreDB",
                 "responses": {
                     "default": {
                         "description": "successful operation",
