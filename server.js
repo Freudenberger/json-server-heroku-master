@@ -55,13 +55,10 @@ const all_fields_article = ['user_id', 'title', 'body', 'date', 'image']
 const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
 const all_fields_comment = ['user_id', 'article_id', 'body', 'date']
 
-function are_mandatory_fields_valid(body, mandatory_non_empty_fields, max_field_length = 10000) {
+function are_mandatory_fields_valid(body, mandatory_non_empty_fields) {
   for (let index = 0; index < mandatory_non_empty_fields.length; index++) {
     const element = mandatory_non_empty_fields[index];
     if (body[element] === undefined || body[element] === "" || body[element]?.length === 0) {
-      return false;
-    }
-    if (body[element]?.toString().length > max_field_length) {
       return false;
     }
   }
@@ -98,7 +95,7 @@ const validations = (req, res, next) => {
     if (req.method === 'POST' && req.url.endsWith('/api/users')) {
       // validate mandatory fields:
       if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_user)) {
-        res.status(422).send(formatErrorResponse("One of mandatory field is invalid (empty, invalid or too long)", mandatory_non_empty_fields_user));
+        res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_user));
         return
       }
       // validate email:
@@ -119,7 +116,7 @@ const validations = (req, res, next) => {
     }
     if (req.method === 'POST' && req.url.endsWith('/api/comments')) {
       if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_comment)) {
-        res.status(422).send(formatErrorResponse("One of mandatory field is invalid (empty, invalid or too long)", mandatory_non_empty_fields_comment));
+        res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_comment));
         return
       }
       // validate all fields:
@@ -130,7 +127,7 @@ const validations = (req, res, next) => {
     }
     if (req.method === 'POST' && req.url.endsWith('/api/articles')) {
       if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_article)) {
-        res.status(422).send(formatErrorResponse("One of mandatory field is invalid (empty, invalid or too long)", mandatory_non_empty_fields_article));
+        res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_article));
         return
       }
       // validate all fields:

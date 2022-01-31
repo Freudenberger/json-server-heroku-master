@@ -62,7 +62,6 @@
         "summary": "Add article",
         "operationId": "postArticle",
         "requestBody": {
-          "description": "Date of creation",
           "content": {
             "application/json": {
               "schema": {
