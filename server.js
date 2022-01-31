@@ -15,7 +15,7 @@ const customRoutes = (req, res, next) => {
         const newAddr = `${referer.split(':')[0]}://${host}/api`;
         if (newAddr !== schema['servers'][0]['url']) {
           schema['servers'][0]['url'] = newAddr;
-          fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema));
+          fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema, null, 2));
         }
         updatedSchema = true;
       } catch (error) {
@@ -26,22 +26,22 @@ const customRoutes = (req, res, next) => {
       const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db-base.json'), 'utf8'));
       router.db.setState(db);
       console.log('restoreDB successful');
-      res.status(201).send({message: "Database successfully restored"});
+      res.status(201).send({ message: "Database successfully restored" });
     } else if (req.method === 'GET' && req.url.endsWith('/db')) {
       const dbData = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8'));
       res.json(dbData);
       req.body = dbData
-      } else if (req.method === 'GET' && req.url.endsWith('/userpics')) {
-        const files = fs.readdirSync(path.join(__dirname, '/public/data/users'));
-        res.json(files);
-        req.body = files
-      } else if (req.method === 'GET' && req.url.endsWith('/allimages')) {
-        const files = fs.readdirSync(path.join(__dirname, '/public/data/images/256'));
-        res.json(files);
-        req.body = files
-      } else {
-        next();
-      }
+    } else if (req.method === 'GET' && req.url.endsWith('/userpics')) {
+      const files = fs.readdirSync(path.join(__dirname, '/public/data/users'));
+      res.json(files);
+      req.body = files
+    } else if (req.method === 'GET' && req.url.endsWith('/allimages')) {
+      const files = fs.readdirSync(path.join(__dirname, '/public/data/images/256'));
+      res.json(files);
+      req.body = files
+    } else {
+      next();
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send(formatErrorResponse("Fatal error. Please contact administrator."));
@@ -90,7 +90,7 @@ const validateEmail = (email) => {
 };
 
 function formatErrorResponse(message, details = undefined) {
-  return {error: {message: message, details: details}}
+  return { error: { message: message, details: details } }
 }
 
 const validations = (req, res, next) => {
