@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>REST API Demo</title>
+    <title>REST API Demo | Articles</title>
     <link rel="icon" href="./data/icons/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
@@ -14,13 +14,13 @@
     <div style="display: grid;grid-template-columns: 4fr 1fr;">
         <h1><a href="." style="text-decoration: none; color: inherit;">REST API Demo</a>
             <a href="./articles.html">
-                <button class="button-disabled" disabled readOnly>Articles</button>
+                <button id="btnArticles" class="button-disabled" disabled readOnly>Articles</button>
             </a>
             <a href="./users.html">
-                <button class="button-primary">Users</button>
+                <button id="btnUsers" class="button-primary">Users</button>
             </a>
             <a href="./comments.html">
-                <button class="button-primary">Comments</button>
+                <button id="btnComments" class="button-primary">Comments</button>
             </a>
             Actions:
             <button id="add-new">Add Article</button>

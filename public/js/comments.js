@@ -34,29 +34,29 @@ async function issueGetRequest()
     displayCommentsData(userComments);
 };
 
-const getItemHTML = (item) => {
-    return `<div>
-        <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
-        <label>date:</label><span>${item.date}</span><br>
-        <span><strong>${item.title}</strong></span><br>
-        <span>${item.body?.substring(0, 200)} (...)</span><br>
-        <span><a href="article.html?id=${item.id}">See whole article...</a></span><br>
-        <br>
-        <hr>
-        <h3>Comments:</h3>
-        <hr>
-        ${getCommentsHTML(item.comments)}
-    </div>`;
-};
+// const getItemHTML = (item) => {
+//     return `<div>
+//         <label>user:</label><span><a href="user.html?id=${item.user_id}" id="gotoUser${item.user_id}-${item.id}">${item.user_name}</a></span><br>
+//         <label>date:</label><span>${item.date}</span><br>
+//         <span><strong>${item.title}</strong></span><br>
+//         <span>${item.body?.substring(0, 200)} (...)</span><br>
+//         <span><a href="article.html?id=${item.id}" id="gotoArticle${item.id}">See whole article...</a></span><br>
+//         <br>
+//         <hr>
+//         <h3>Comments:</h3>
+//         <hr>
+//         ${getCommentsHTML(item.comments)}
+//     </div>`;
+// };
 
 
 const getCommentHTML = (comment) => {
     return `<div>
-        <label>article:</label></br><span><strong><a href="article.html?id=${comment.article.id}">${comment.article.title?.substring(0, 50)} (...)</a></strong></span><br>
-        <label>user:</label><span><a href="user.html?id=${comment.user_id}">${comment.user_name}</a></span><br>
+        <label>article:</label></br><span><strong><a href="article.html?id=${comment.article.id}" id="gotoArticle${comment.article.id}">${comment.article.title?.substring(0, 50)} (...)</a></strong></span><br>
+        <label>user:</label><span><a href="user.html?id=${comment.user_id}" id="gotoUser${comment.user_id}-${comment.id}">${comment.user_name}</a></span><br>
         <label>date:</label><span>${comment.date}</span><br>
         <label>comment:</label><span>${comment.body}</span><br>
-        <span><a href="comment.html?id=${comment.id}">See comment...</a></span><br>
+        <span><a href="comment.html?id=${comment.id}" id="gotoComment${comment.id}">See comment...</a></span><br>
     </div>`;
 };
 

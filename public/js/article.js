@@ -113,10 +113,10 @@ const getCommentsHTML = (comments) => {
 const getCommentHTML = (comments) => {
     return `<div>
         <label>id:</label><span>${comments.id}</span><br>
-        <label>author:</label><span><a href="user.html?id=${comments.user_id}">${comments.user_name}</a></span><br>
+        <label>author:</label><span><a href="user.html?id=${comments.user_id}" id="gotoUser${comments.id}-${comments.user_id}">${comments.user_name}</a></span><br>
         <label>date:</label><span>${comments.date}</span><br>
         <label>comment:</label><span>${comments.body}</span><br>
-        <span><a href="comment.html?id=${item.id}">See More...</a></span><br>
+        <span><a href="comment.html?id=${item.id}" id="gotoComment${item.id}">See More...</a></span><br>
     </div>`;
 };
 

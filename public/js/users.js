@@ -197,7 +197,7 @@ const getItemHTML = (item) => {
         <label>firstname:</label><span>${item.firstname}</span><br>
         <label>lastname:</label><span>${item.lastname}</span><br>
         <label>email:</label><span>${item.email}</span><br>
-        <label>avatar:</label><a href="user.html?id=${item.id}"><img src="${item.avatar}" /></a>
+        <label>avatar:</label><a href="user.html?id=${item.id}" id="gotoUser${item.id}"><img src="${item.avatar}" /></a>
     </div>`;
 };
 

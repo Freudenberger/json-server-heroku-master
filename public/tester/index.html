@@ -17,13 +17,13 @@
     <div style="display: grid;grid-template-columns: 4fr 1fr;">
         <h1><a href=".." style="text-decoration: none; color: inherit;">REST API Demo</a>
             <a href="../tools/index.html">
-                <button class="button-primary">Tools</button>
+                <button id="btnTools" class="button-primary">Tools</button>
             </a>
             <a href="../tester/index.html">
-                <button class="button-disabled" disabled readOnly>Tester</button>
+                <button id="btnTester" class="button-disabled" disabled readOnly>Tester</button>
             </a>
             <a href="../tools/swagger.html">
-                <button class="button-primary">Swagger</button>
+                <button id="btnSwagger" class="button-primary">Swagger</button>
             </a></h1>
 
         <span style="display: flex;align-items:center;justify-self: end;padding-right: 20px;">
@@ -83,13 +83,4 @@
 <script type="text/javascript" src="js/commands.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 </body>
-<footer>
-    <div class="container" style="font-size:12px;">
-        Version: <span id="version"></span>
-        <p>Copyright
-            <script>document.write(new Date().getFullYear());</script>
-            <a href="https://jaktestowac.pl" target="_blank" rel="noopener">jaktestowac.pl</a></p>
-    </div>
-    <script type="text/javascript" src="../version.js"></script>
-</footer>
 </html>

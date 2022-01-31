@@ -40,11 +40,11 @@ const getItemHTML = (item) => {
     }
 
     return `<div style="width:500px;">
-        <span><a href="article.html?id=${item.article_id}">Return to Article...</a></span><br>
+        <span><a href="article.html?id=${item.article_id}" id="gotoArticle${item.article_id}">Return to Article...</a></span><br>
 
         ${controls}
         <label>id:</label><span>${item.id}</span><br>
-        <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
+        <label>user:</label><span><a href="user.html?id=${item.user_id}" id="gotoUser${item.user_id}-${item.id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label>comment:</label><span style="margin:10px;">${item.body}</span><br>
     </div>`;
