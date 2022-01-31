@@ -75,8 +75,8 @@ button {
     float: right;
     opacity: 0;
 
-    animation:server-response 3.5s 1;
-    -webkit-animation:server-response 3.5s 1;
+    animation:server-response 10.5s 1;
+    -webkit-animation:server-response 10.5s 1;
     animation-fill-mode: forwards;
 
     animation-delay:2s;

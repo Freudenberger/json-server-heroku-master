@@ -66,7 +66,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Article"
+                "$ref": "#/components/schemas/ArticleUpdate"
               }
             }
           },
@@ -322,7 +322,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserUpdate"
               }
             }
           },
@@ -586,7 +586,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Comment"
+                "$ref": "#/components/schemas/CommentUpdate"
               }
             }
           },
