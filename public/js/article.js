@@ -82,7 +82,7 @@ const getItemHTML = (item) => {
     }
 
     return `<div>
-        ${controls}
+        ${controls}<br>
         ${getImagesHTML(item.image)}<br>
         <label>title:</label><span>${item.title}</span><br>
         <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>

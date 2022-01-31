@@ -52,11 +52,11 @@ async function issueGetRequest()
 
 const getCommentHTML = (comment) => {
     return `<div>
-        <label>article:</label></br><span><strong><a href="article.html?id=${comment.article.id}" id="gotoArticle${comment.article.id}">${comment.article.title?.substring(0, 50)} (...)</a></strong></span><br>
+        <label>article:</label></br><span><a href="article.html?id=${comment.article.id}" id="gotoArticle${comment.article.id}">${comment.article.title?.substring(0, 50)} (...)</a></span><br>
         <label>user:</label><span><a href="user.html?id=${comment.user_id}" id="gotoUser${comment.user_id}-${comment.id}">${comment.user_name}</a></span><br>
         <label>date:</label><span>${comment.date}</span><br>
         <label>comment:</label><span>${comment.body}</span><br>
-        <span><a href="comment.html?id=${comment.id}" id="gotoComment${comment.id}">See comment...</a></span><br>
+        <span><strong><a href="comment.html?id=${comment.id}" id="gotoComment${comment.id}">See comment...</a></strong></span><br>
     </div>`;
 };
 
