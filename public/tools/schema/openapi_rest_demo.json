@@ -821,7 +821,7 @@
         "/userpics": {
             "get": {
                 "tags": [
-                    "Other"
+                    "other"
                 ],
                 "summary": "Get user pictures",
                 "operationId": "getUserPictures",
@@ -837,7 +837,23 @@
         "/allimages": {
             "get": {
                 "tags": [
-                    "Other"
+                    "other"
+                ],
+                "summary": "Get articles pictures",
+                "operationId": "getArticlesPictures",
+                "responses": {
+                    "default": {
+                        "description": "successful operation",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "body"
+            }
+        },
+        "/restoreDB": {
+            "get": {
+                "tags": [
+                    "other"
                 ],
                 "summary": "Get articles pictures",
                 "operationId": "getArticlesPictures",

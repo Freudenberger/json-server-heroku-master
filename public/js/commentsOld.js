@@ -50,7 +50,7 @@ const getItemHTML = (item) => {
         <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
         <span><strong>${item.title}</strong></span><br>
-        <span>${item.body?.substring(0, 200)}</span><br>
+        <span>${item.body?.substring(0, 200)} (...)</span><br>
         <span><a href="article.html?id=${item.id}">See whole article...</a></span><br>
         <br>
         <hr>

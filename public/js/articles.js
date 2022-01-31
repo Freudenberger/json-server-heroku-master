@@ -152,7 +152,7 @@ const getItemHTML = (item) => {
         <div align="center" ><strong>${item.title}</strong></div><br>
         <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
-        <label></label><span>${item.body?.substring(0, 200)}</span><br>
+        <label></label><span>${item.body?.substring(0, 200)} (...)</span><br>
         <span><a href="article.html?id=${item.id}">See More...</a></span><br>
     </div>`;
 };

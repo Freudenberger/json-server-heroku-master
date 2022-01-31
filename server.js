@@ -12,17 +12,20 @@ const customRoutes = (req, res, next) => {
         const host = req.headers.host;
         const referer = req.headers.referer;
         const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), 'utf8'));
-        schema['servers'][0]['url'] = `${referer.split(':')[0]}://${host}/api`;
-        fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema));
+        const newAddr = `${referer.split(':')[0]}://${host}/api`;
+        if (newAddr !== schema['servers'][0]['url']) {
+          schema['servers'][0]['url'] = newAddr;
+          fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema));
+        }
         updatedSchema = true;
       } catch (error) {
         console.log(error);
       }
     }
-    if (req.method === 'GET' && req.url.endsWith('/reloadDB')) {
+    if (req.method === 'GET' && req.url.endsWith('/restoreDB')) {
       const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db-base.json'), 'utf8'));
       router.db.setState(db);
-      console.log('reloadDB successful');
+      console.log('restoreDB successful');
       res.status(201).send({message: "Database successfully restored"});
     } else if (req.method === 'GET' && req.url.endsWith('/db')) {
       const dbData = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8'));

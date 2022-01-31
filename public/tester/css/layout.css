@@ -33,7 +33,6 @@ h1, h2 {
 img {
     height: 256px;
     padding: 3px;
-    border: solid 1px #CCC;
 }
 header h1 {
     color: white;
@@ -127,3 +126,29 @@ footer .container {
     border: none;
     background: transparent;
 }
+
+
+@media only screen and (max-width: 1000px) {
+    header {
+        font-size: 0.75rem;
+    }
+    button {
+        font-size: 0.75rem;
+        padding: 5px;
+    }
+    header h1 {
+        margin-left: 10px !important;
+    }
+  }
+  @media only screen and (max-width: 650px) {
+      header {
+          font-size: 0.5rem;
+      }
+      button {
+          font-size: 0.5rem;
+          padding: 5px;
+      }
+      header h1 {
+          margin-left: 10px !important;
+      }
+    }

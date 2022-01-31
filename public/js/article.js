@@ -284,6 +284,7 @@ const attachEventHandlers = () => {
     };
     document.querySelector('.add-new-panel .cancel').onclick = () => {
         document.querySelector('.add-new-panel').classList.remove('active');
+        location.reload();
     };
     document.querySelector('.update.save').onclick = handleCommentCreate;
 
@@ -293,6 +294,7 @@ const attachFormEventHandlers = (item, container) => {
     container.querySelector('.update').onclick = handleUpdate;
     container.querySelector('.cancel').onclick = () => {
         container.innerHTML = getItemHTML(item);
+        location.reload();
         attachEventHandlers();
     }
 };
