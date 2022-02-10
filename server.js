@@ -92,7 +92,7 @@ function formatErrorResponse(message, details = undefined) {
 
 const validations = (req, res, next) => {
   try {
-    if (req.url.endsWith('/api/users') || req.url.endsWith('/api/comments') || req.url.endsWith('/api/articles')) {
+    if ((req.url.endsWith('/api/users') || req.url.endsWith('/api/comments') || req.url.endsWith('/api/articles')) && req.body?.length > 0) {
       try {
         JSON.parse(req.body)
       } catch (error) {
