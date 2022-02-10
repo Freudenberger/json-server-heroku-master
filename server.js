@@ -92,6 +92,16 @@ function formatErrorResponse(message, details = undefined) {
 
 const validations = (req, res, next) => {
   try {
+    if (req.url.endsWith('/api/users') || req.url.endsWith('/api/comments') || req.url.endsWith('/api/articles')) {
+      try {
+        JSON.parse(req.body)
+      } catch (error) {
+        console.log(error);
+        res.status(400).send(formatErrorResponse("Bad request - malformed JSON"));
+        return
+      }
+    }
+
     if (req.method === 'POST' && req.url.endsWith('/api/users')) {
       // validate mandatory fields:
       if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_user)) {
@@ -150,8 +160,8 @@ const port = process.env.PORT || 3000;
 
 server.use(middlewares);
 server.use(customRoutes);
-server.use(jsonServer.bodyParser);
 server.use(validations);
+server.use(jsonServer.bodyParser);
 server.use('/api', router);
 
 server.listen(port, () => {

@@ -72,8 +72,8 @@
           "required": false
         },
         "responses": {
-          "200": {
-            "description": "successful operation",
+          "201": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -81,6 +81,10 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
           },
           "422": {
             "description": "Invalid article supplied",
@@ -167,6 +171,10 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
+          },
           "404": {
             "description": "Article not found",
             "content": {}
@@ -217,6 +225,10 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
+          },
           "404": {
             "description": "Article not found",
             "content": {}
@@ -234,13 +246,6 @@
         "summary": "Deletes a article",
         "operationId": "deleteArticle",
         "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -282,6 +287,10 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Article exists",
+            "content": {}
+          },
           "400": {
             "description": "Invalid ID supplied",
             "content": {}
@@ -299,7 +308,6 @@
           "users"
         ],
         "summary": "Get users",
-        "description": "This can only be done by the logged in user.",
         "operationId": "getUsers",
         "responses": {
           "default": {
@@ -314,7 +322,6 @@
           "users"
         ],
         "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
         "operationId": "postUser",
         "requestBody": {
           "description": "Created user object",
@@ -328,8 +335,8 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "successful operation",
+          "201": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -338,8 +345,12 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
+          },
           "409": {
-            "description": "Invalid user email",
+            "description": "Conflict - Invalid user email",
             "content": {}
           },
           "422": {
@@ -355,7 +366,7 @@
         "tags": [
           "users"
         ],
-        "summary": "Find User by ID",
+        "summary": "Find user by ID",
         "description": "Returns a single user",
         "operationId": "getUserById",
         "parameters": [
@@ -402,7 +413,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "id of user that need to be updated",
+            "description": "Id of user that need to be updated",
             "required": true,
             "schema": {
               "type": "string"
@@ -430,6 +441,10 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
           },
           "404": {
             "description": "User not found",
@@ -481,6 +496,10 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
+          },
           "404": {
             "description": "User not found",
             "content": {}
@@ -498,13 +517,6 @@
         "summary": "Deletes a user",
         "operationId": "deleteUser",
         "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -546,6 +558,10 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "User exists",
+            "content": {}
+          },
           "400": {
             "description": "Invalid user ID",
             "content": {}
@@ -563,7 +579,6 @@
           "comments"
         ],
         "summary": "Get comments",
-        "description": "This can only be done by the logged in user.",
         "operationId": "getComments",
         "responses": {
           "default": {
@@ -578,7 +593,6 @@
           "comments"
         ],
         "summary": "Create comment",
-        "description": "This can only be done by the logged in user.",
         "operationId": "createComment",
         "requestBody": {
           "description": "Created Comment object",
@@ -592,8 +606,8 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "successful operation",
+          "201": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -601,6 +615,10 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
           },
           "422": {
             "description": "Invalid comment supplied",
@@ -691,6 +709,10 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
+          },
           "404": {
             "description": "Comment not found",
             "content": {}
@@ -741,6 +763,10 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
+          },
           "404": {
             "description": "Comment not found",
             "content": {}
@@ -758,13 +784,6 @@
         "summary": "Deletes a comment",
         "operationId": "deleteComment",
         "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -806,6 +825,10 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Comment exists",
+            "content": {}
+          },
           "400": {
             "description": "Invalid comment ID",
             "content": {}
