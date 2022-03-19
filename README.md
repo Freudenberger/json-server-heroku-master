@@ -96,3 +96,8 @@ You also have to make changes to the port, you can't hardcode a dev-port. But yo
 ```js
 const port = process.env.PORT || 4000;
 ```
+
+## Deploy to **Vercel**
+<a href="https://vercel.com/new/git/external?repository-url=https://github.com/Freudenberger/json-server-heroku-master/tree/master">
+    <img src="https://vercel.com/button" alt="Deploy with Vercel"/>
+</a>
