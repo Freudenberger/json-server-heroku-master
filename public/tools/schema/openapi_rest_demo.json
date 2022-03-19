@@ -47,7 +47,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Article"
+                  "$ref": "#/components/schemas/Articles"
                 }
               }
             }
@@ -310,9 +310,15 @@
         "summary": "Get users",
         "operationId": "getUsers",
         "responses": {
-          "default": {
+          "200": {
             "description": "successful operation",
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
           }
         },
         "x-codegen-request-body-name": "body"
@@ -581,9 +587,15 @@
         "summary": "Get comments",
         "operationId": "getComments",
         "responses": {
-          "default": {
+          "200": {
             "description": "successful operation",
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comments"
+                }
+              }
+            }
           }
         },
         "x-codegen-request-body-name": "body"
@@ -923,9 +935,20 @@
           "name": "Article"
         }
       },
+      "Articles": {
+        "type": "array",
+        "items":
+        {
+          "$ref": "#/components/schemas/Article"
+        }
+      },
       "ArticleUpdate": {
         "type": "object",
         "properties": {
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "title": {
             "type": "string",
             "description": "Title"
@@ -933,10 +956,6 @@
           "body": {
             "type": "string",
             "description": "Article body"
-          },
-          "user_id": {
-            "type": "integer",
-            "format": "int64"
           },
           "date": {
             "type": "string",
@@ -979,6 +998,13 @@
           "name": "Comment"
         }
       },
+      "Comments": {
+        "type": "array",
+        "items":
+        {
+          "$ref": "#/components/schemas/Comment"
+        }
+      },
       "CommentUpdate": {
         "type": "object",
         "properties": {
@@ -1001,6 +1027,13 @@
         },
         "xml": {
           "name": "Comment"
+        }
+      },
+      "Users": {
+        "type": "array",
+        "items":
+        {
+          "$ref": "#/components/schemas/User"
         }
       },
       "User": {
