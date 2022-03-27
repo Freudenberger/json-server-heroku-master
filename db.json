@@ -55,6 +55,22 @@
       "lastname": "Lea",
       "password": "fasd",
       "avatar": ".\\data\\users\\face_1591133217.1529467.jpg"
+    },
+    {
+      "id": 8,
+      "email": "Josh.Brook@test.test",
+      "firstname": "Josh",
+      "lastname": "Brook",
+      "password": "23423425",
+      "avatar": ".\\data\\users\\face_1591134851.6068161.jpg"
+    },
+    {
+      "id": 9,
+      "email": "Daryl.Brook@test.test",
+      "firstname": "Daryl",
+      "lastname": "Brook",
+      "password": "6223432",
+      "avatar": ".\\data\\users\\face_1591134851.6068265.jpg"
     }
   ],
   "articles": [
