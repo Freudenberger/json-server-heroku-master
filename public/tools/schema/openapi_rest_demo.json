@@ -905,6 +905,7 @@
     "schemas": {
       "Article": {
         "type": "object",
+        "required":  ["user_id", "title", "body", "date"],
         "properties": {
           "id": {
             "type": "integer",
@@ -972,6 +973,7 @@
       },
       "Comment": {
         "type": "object",
+        "required":  ["user_id", "article_id", "body", "date"],
         "properties": {
           "id": {
             "type": "integer",
@@ -1038,6 +1040,7 @@
       },
       "User": {
         "type": "object",
+        "required": ["email", "firstname", "lastname", "avatar"],
         "properties": {
           "id": {
             "type": "integer",
