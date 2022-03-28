@@ -218,6 +218,17 @@ const validations = (req, res, next) => {
         return
       }
     }
+    if (req.method === 'PUT' && urlEnds.includes('/api/articles')) {
+      if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_article)) {
+        res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_article));
+        return
+      }
+      // validate all fields:
+      if (!are_all_fields_valid(req.body, all_fields_article)) {
+        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_article));
+        return
+      }
+    }
     next();
   } catch (error) {
     console.log(error);

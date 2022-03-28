@@ -173,6 +173,7 @@ const showEditForm = (ev) => {
     return false;
 };
 
+{/* <input type="text" id="email" value="${item.email}"><br> */}
 const displayForm = (item, container) => {
     container.innerHTML = `
         <div style="margin-top:7px;">
@@ -184,7 +185,7 @@ const displayForm = (item, container) => {
             <input type="text" id="lastname" value="${item.lastname}"><br>
             
             <label>email:</label>
-            <input type="text" id="email" value="${item.email}"><br>
+            <label>${item.email}</label><br>
             
             <label>avatar:</label>
             <input type="text" id="avatar" value="${item.avatar}"><br>
