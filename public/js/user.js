@@ -1,4 +1,5 @@
 const usersEndpoint = '../../api/users';
+let alertElement = document.querySelector(".alert");
 
 async function issueGetRequest(user_id)
 {
@@ -7,6 +8,43 @@ async function issueGetRequest(user_id)
 
     displayUserData(usersData);
     attachEventHandlers();
+};
+
+const showResponseOnDelete = (response) => {
+    if (response.status === 200) {
+        showMessage('User was deleted', false)
+    } else {
+        showMessage('User was not deleted', true)
+    }
+};
+
+const showResponseOnUpdate = (response) => {
+    if (response.status === 200) {
+        showMessage('User was updated', false)
+    } else {
+        showMessage('User was not updated', true)
+    }
+};
+
+const showResponse = (response) => {
+    if (response.status === 201) {
+        showMessage('User was created', false)
+    } else {
+        showMessage('User was not created', true)
+    }
+};
+
+const showMessage = (message, isError=false) => {
+    alertElement.innerHTML = message;
+    alertElement.classList.remove('alert-error', 'alert-success');
+    if (isError) {
+        alertElement.classList.add('alert-error');
+    } else {
+        alertElement.classList.add('alert-success');
+    }
+    var newMessageElement = alertElement.cloneNode(true);
+    alertElement.parentNode.replaceChild(newMessageElement, alertElement);
+    alertElement = newMessageElement;
 };
 
 
@@ -22,7 +60,10 @@ const issuePutRequest = (id, data, responseHandler) => {
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
+        .then(response => {
+            showResponseOnUpdate(response)
+            return response.json()
+        })
         .then(responseHandler);
 };
 

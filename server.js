@@ -12,12 +12,14 @@ const customRoutes = (req, res, next) => {
         const host = req.headers.host;
         const referer = req.headers.referer;
         const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), 'utf8'));
-        const newAddr = `${referer.split(':')[0]}://${host}/api`;
-        if (newAddr !== schema['servers'][0]['url']) {
-          schema['servers'][0]['url'] = newAddr;
-          fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema, null, 2));
+        if (referer !== undefined) {
+          const newAddr = `${referer.split(':')[0]}://${host}/api`;
+          if (newAddr !== schema['servers'][0]['url']) {
+            schema['servers'][0]['url'] = newAddr;
+            fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema, null, 2));
+          }
+          updatedSchema = true;
         }
-        updatedSchema = true;
       } catch (error) {
         console.log(error);
       }
@@ -54,6 +56,15 @@ const mandatory_non_empty_fields_article = ['user_id', 'title', 'body', 'date']
 const all_fields_article = ['user_id', 'title', 'body', 'date', 'image']
 const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
 const all_fields_comment = ['user_id', 'article_id', 'body', 'date']
+const all_fields_plugin = ["name", "status", "version"]
+const plugin_statuses = ["on", "off", "obsolete"]
+
+function is_plugin_status_valid(body) {
+  if (plugin_statuses.findIndex(body[element]) === -1) {
+    return false
+  }
+  return true
+}
 
 function are_mandatory_fields_valid(body, mandatory_non_empty_fields) {
   for (let index = 0; index < mandatory_non_empty_fields.length; index++) {
@@ -86,8 +97,8 @@ const validateEmail = (email) => {
   );
 };
 
-function formatErrorResponse(message, details = undefined) {
-  return { error: { message: message, details: details } }
+function formatErrorResponse(message, details = undefined, id = undefined) {
+  return { error: { message: message, details: details }, id }
 }
 
 const validations = (req, res, next) => {
@@ -127,6 +138,39 @@ const validations = (req, res, next) => {
         return
       }
     }
+    if (req.method === 'PUT' && urlEnds.includes('/api/users/')) {
+      const urlParts = urlEnds.split('/')
+      const userId = urlParts[urlParts.length - 1]
+      console.log(userId)
+      // validate mandatory fields:
+      if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_user)) {
+        res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_user));
+        return
+      }
+      // validate all fields:
+      if (!are_all_fields_valid(req.body, all_fields_user)) {
+        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_user));
+        return
+      }
+      const dbData = fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8');
+      const dbDataJson = JSON.parse(dbData)
+      const foundMail = dbDataJson['users'].find(user => {
+        if (user['id']?.toString() !== userId?.toString() && user['email'] === req.body['email']) {
+          return user
+        }
+      })
+      if (foundMail !== undefined) {
+        res.status(409).send(formatErrorResponse("Email not unique"));
+        return
+      }
+    }
+    if (req.method === 'PATCH' && urlEnds.includes('/api/users')) {
+      // validate all fields:
+      if (!are_all_fields_valid(req.body, all_fields_user)) {
+        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_user));
+        return
+      }
+    }
     if (req.method === 'POST' && urlEnds.endsWith('/api/comments')) {
       if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_comment)) {
         res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_comment));
@@ -135,6 +179,31 @@ const validations = (req, res, next) => {
       // validate all fields:
       if (!are_all_fields_valid(req.body, all_fields_comment)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_comment));
+        return
+      }
+    }
+    if (req.method !== 'GET' && urlEnds.endsWith('/api/plugins')) {
+      console.log(req.headers)
+      const authorization = req.headers['Authorization']
+      if (authorization !== 'Basic dXNlcjpwYXNz') { // user:pass
+        res.status(403).send(formatErrorResponse("Invalid authorization"));
+        return
+      }
+      // validate fields:
+      if (!are_all_fields_valid(req.body, all_fields_plugin)) {
+        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_plugin));
+        return
+      }
+      if (!is_plugin_status_valid(req.body)) {
+        res.status(422).send(formatErrorResponse("Plugin status is invalid", plugin_statuses));
+        return
+      }
+    }
+    if (req.method === 'GET' && urlEnds.endsWith('/api/plugins')) {
+      console.log(req.headers)
+      const authorization = req.headers['Authorization']
+      if (authorization !== 'Bearer SecretToken') {
+        res.status(403).send(formatErrorResponse("Invalid token"));
         return
       }
     }

@@ -272,5 +272,27 @@
       "body": "World mrs and vexed china since after often.",
       "date": "2021-12-13"
     }
+  ],
+  "plugins": [
+    {
+      "name": "data-csv",
+      "status": "on",
+      "version": 1.5
+    },
+    {
+      "name": "sql",
+      "status": "off",
+      "version": 2.0
+    },
+    {
+      "name": "wordpress",
+      "status": "off",
+      "version": 4.0
+    },
+    {
+      "name": "json-parser",
+      "status": "off",
+      "version": 2.2
+    }
   ]
 }

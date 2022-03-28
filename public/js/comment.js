@@ -2,6 +2,7 @@ const commentsEndpoint = '../../api/comments';
 const usersEndpoint = '../../api/users';
 let user_name = 'Unknown';
 let article_id = undefined;
+let alertElement = document.querySelector(".alert");
 
 async function issueGetRequest(comment_id)
 {
@@ -65,6 +66,27 @@ const displayItem = (item, container) => {
 };
 
 
+const showResponseOnUpdate = (response) => {
+    if (response.status === 200) {
+        showMessage('Comment was updated', false)
+    } else {
+        showMessage('Comment was not updated', true)
+    }
+};
+
+const showMessage = (message, isError=false) => {
+    alertElement.innerHTML = message;
+    alertElement.classList.remove('alert-error', 'alert-success');
+    if (isError) {
+        alertElement.classList.add('alert-error');
+    } else {
+        alertElement.classList.add('alert-success');
+    }
+    var newMessageElement = alertElement.cloneNode(true);
+    alertElement.parentNode.replaceChild(newMessageElement, alertElement);
+    alertElement = newMessageElement;
+};
+
 
 const issuePutRequest = (id, data, responseHandler) => {
     // update data on the server:
@@ -78,7 +100,10 @@ const issuePutRequest = (id, data, responseHandler) => {
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
+        .then(response => {
+            showResponseOnUpdate(response)
+            return response.json()
+        })
         .then(responseHandler);
 };
 

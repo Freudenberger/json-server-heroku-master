@@ -71,6 +71,22 @@ const attachEventHandlers = () => {
 
 let alertElement = document.querySelector(".alert");
 
+const showResponseOnDelete = (response) => {
+    if (response.status === 200) {
+        showMessage('Article was deleted', false)
+    } else {
+        showMessage('Article was not deleted', true)
+    }
+};
+
+const showResponseOnUpdate = (response) => {
+    if (response.status === 200) {
+        showMessage('Article was updated', false)
+    } else {
+        showMessage('Article was not updated', true)
+    }
+};
+
 const showResponse = (response) => {
     if (response.status === 201) {
         showMessage('Article was created', false)

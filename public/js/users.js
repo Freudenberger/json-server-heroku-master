@@ -23,8 +23,11 @@ const issuePutRequest = (id, data, responseHandler) => {
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
-        .then(responseHandler);
+        .then(response => {
+            showResponseOnUpdate(response)
+            return response.json()
+        })
+        .then(responseHandler)
 };
 
 const issueDeleteRequest = (id, responseHandler) => {
@@ -32,6 +35,10 @@ const issueDeleteRequest = (id, responseHandler) => {
     const url = endpoint + '/' + id;
     console.log('DELETE request:', url);
     fetch(url, { method: 'delete' })
+        .then(response => {
+            showResponseOnDelete(response)
+            return response.json()
+        })
         .then(responseHandler);
 };
 
@@ -50,6 +57,22 @@ const issuePostRequest = (data, responseHandler) => {
 
 
 let alertElement = document.querySelector(".alert");
+
+const showResponseOnDelete = (response) => {
+    if (response.status === 200) {
+        showMessage('User was deleted', false)
+    } else {
+        showMessage('User was not deleted', true)
+    }
+};
+
+const showResponseOnUpdate = (response) => {
+    if (response.status === 200) {
+        showMessage('User was updated', false)
+    } else {
+        showMessage('User was not updated', true)
+    }
+};
 
 const showResponse = (response) => {
     if (response.status === 201) {
@@ -82,7 +105,9 @@ const handleUpdate = (ev) => {
         'avatar': container.querySelector('#avatar').value
     };
     const callback = (item) => {
-        container.innerHTML = getItemHTML(item);
+        if (item["error"] === undefined) {
+            container.innerHTML = getItemHTML(item);
+        }
         attachEventHandlers();
     };
     issuePutRequest(id, data, callback)
@@ -216,7 +241,6 @@ const displayData = (data) => {
         displayItem(item, container);
     }
 };
-
 
 async function getPictureList()
 {

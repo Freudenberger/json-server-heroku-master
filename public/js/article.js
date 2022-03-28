@@ -153,7 +153,20 @@ article_id = getParams()['id']
 issueGetRequest(article_id);
 
 
+let alertElement = document.querySelector(".alert");
 
+const showMessage = (message, isError=false) => {
+    alertElement.innerHTML = message;
+    alertElement.classList.remove('alert-error', 'alert-success');
+    if (isError) {
+        alertElement.classList.add('alert-error');
+    } else {
+        alertElement.classList.add('alert-success');
+    }
+    var newMessageElement = alertElement.cloneNode(true);
+    alertElement.parentNode.replaceChild(newMessageElement, alertElement);
+    alertElement = newMessageElement;
+};
 
 
 
@@ -169,8 +182,27 @@ const issuePutRequest = (id, data, responseHandler) => {
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
+        .then(response => {
+            showResponseOnUpdate(response)
+            return response.json()
+        })
         .then(responseHandler);
+};
+
+const showResponseOnDelete = (response) => {
+    if (response.status === 200) {
+        showMessage('Article was deleted', false)
+    } else {
+        showMessage('Article was not deleted', true)
+    }
+};
+
+const showResponseOnUpdate = (response) => {
+    if (response.status === 200) {
+        showMessage('Article was updated', false)
+    } else {
+        showMessage('Article was not updated', true)
+    }
 };
 
 const issueDeleteRequest = (id, responseHandler) => {
@@ -178,6 +210,10 @@ const issueDeleteRequest = (id, responseHandler) => {
     const url = articlesEndpoint + '/' + id;
     console.log('DELETE request:', url);
     fetch(url, { method: 'delete' })
+        .then(response => {
+            showResponseOnUpdate(response)
+            return response.json()
+        })
         .then(responseHandler);
 };
 

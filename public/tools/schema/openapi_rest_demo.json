@@ -899,9 +899,26 @@
         },
         "x-codegen-request-body-name": "body"
       }
+    },
+    "plugins": {
+      "get": {
+        "security": [{
+          "basicAuth": []
+        }]
+      }
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
     "schemas": {
       "Article": {
         "type": "object",
