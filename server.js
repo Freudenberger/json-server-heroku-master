@@ -60,7 +60,7 @@ const all_fields_plugin = ["name", "status", "version"]
 const plugin_statuses = ["on", "off", "obsolete"]
 
 function is_plugin_status_valid(body) {
-  if (plugin_statuses.findIndex(body[element]) === -1) {
+  if (plugin_statuses.findIndex(status => status === body["status"]) === -1) {
     return false
   }
   return true
@@ -182,9 +182,9 @@ const validations = (req, res, next) => {
         return
       }
     }
-    if (req.method !== 'GET' && urlEnds.endsWith('/api/plugins')) {
-      console.log(req.headers)
-      const authorization = req.headers['Authorization']
+    if (req.method !== 'GET' && urlEnds.includes('/api/plugins')) {
+      // console.log(req.headers)
+      const authorization = req.headers['authorization']
       if (authorization !== 'Basic dXNlcjpwYXNz') { // user:pass
         res.status(403).send(formatErrorResponse("Invalid authorization"));
         return
@@ -199,9 +199,9 @@ const validations = (req, res, next) => {
         return
       }
     }
-    if (req.method === 'GET' && urlEnds.endsWith('/api/plugins')) {
+    if (req.method === 'GET' && urlEnds.includes('/api/plugins')) {
       console.log(req.headers)
-      const authorization = req.headers['Authorization']
+      const authorization = req.headers['authorization']
       if (authorization !== 'Bearer SecretToken') {
         res.status(403).send(formatErrorResponse("Invalid token"));
         return
