@@ -1,8 +1,20 @@
 const jsonServer = require('./json-server');
 const fs = require('fs');
 const path = require('path');
+const { getRandomBasedOnDay, tomorrow } = require('./consts');
 
 let updatedSchema = false;
+const mandatory_non_empty_fields_user = ['firstname', 'lastname', 'email', 'avatar']
+const all_fields_user = ['firstname', 'lastname', 'email', 'avatar', "password"]
+const mandatory_non_empty_fields_article = ['user_id', 'title', 'body', 'date']
+const all_fields_article = ['user_id', 'title', 'body', 'date', 'image']
+const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
+const all_fields_comment = ['user_id', 'article_id', 'body', 'date']
+const all_fields_plugin = ["name", "status", "version"]
+const plugin_statuses = ["on", "off", "obsolete"]
+const bearerToken = 'Bearer SecretToken'
+const basicAuth = 'Basic dXNlcjpwYXNz' // user:pass
+
 
 const customRoutes = (req, res, next) => {
   try {
@@ -50,14 +62,6 @@ const customRoutes = (req, res, next) => {
   }
 };
 
-const mandatory_non_empty_fields_user = ['firstname', 'lastname', 'email', 'avatar']
-const all_fields_user = ['firstname', 'lastname', 'email', 'avatar', "password"]
-const mandatory_non_empty_fields_article = ['user_id', 'title', 'body', 'date']
-const all_fields_article = ['user_id', 'title', 'body', 'date', 'image']
-const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
-const all_fields_comment = ['user_id', 'article_id', 'body', 'date']
-const all_fields_plugin = ["name", "status", "version"]
-const plugin_statuses = ["on", "off", "obsolete"]
 
 function is_plugin_status_valid(body) {
   if (plugin_statuses.findIndex(status => status === body["status"]) === -1) {
@@ -114,6 +118,10 @@ const validations = (req, res, next) => {
     }
 
     const urlEnds = req.url.replace(/\/\/+/g, '/')
+    if (req.method === 'GET' && urlEnds.includes('/api/token')) {
+      res.status(200).send({token: getRandomBasedOnDay(), validUntil: tomorrow()});
+      return
+    }
 
     if (req.method === 'POST' && urlEnds.endsWith('/api/users')) {
       // validate mandatory fields:
@@ -185,7 +193,7 @@ const validations = (req, res, next) => {
     if (req.method !== 'GET' && urlEnds.includes('/api/plugins')) {
       // console.log(req.headers)
       const authorization = req.headers['authorization']
-      if (authorization !== 'Basic dXNlcjpwYXNz') { // user:pass
+      if (authorization !== basicAuth) {
         res.status(403).send(formatErrorResponse("Invalid authorization"));
         return
       }
@@ -202,7 +210,7 @@ const validations = (req, res, next) => {
     if (req.method === 'GET' && urlEnds.includes('/api/plugins')) {
       console.log(req.headers)
       const authorization = req.headers['authorization']
-      if (authorization !== 'Bearer SecretToken') {
+      if (authorization !== bearerToken || authorization !== `Bearer ${getRandomBasedOnDay()}`) {
         res.status(403).send(formatErrorResponse("Invalid token"));
         return
       }

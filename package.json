@@ -35,6 +35,7 @@
     "please-upgrade-node": "^3.0.2",
     "pluralize": "^7.0.0",
     "request": "^2.83.0",
+    "seedrandom": "^3.0.5",
     "server-destroy": "^1.0.1",
     "update-notifier": "^2.3.0",
     "yargs": "^10.0.3"

@@ -900,6 +900,28 @@
         "x-codegen-request-body-name": "body"
       }
     },
+    "/token": {
+      "get": {
+        "tags": [
+          "other"
+        ],
+        "summary": "Gets token needed for plugins",
+        "operationId": "getPluginsToken",
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
     "/plugins": {
       "get": {
         "security": [{
@@ -1361,6 +1383,21 @@
         "items":
         {
           "$ref": "#/components/schemas/Plugin"
+        }
+      },
+      "Token": {
+        "type": "object",
+        "required":  ["token", "validUntil"],
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "validUntil": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Plugin"
         }
       }
     }
