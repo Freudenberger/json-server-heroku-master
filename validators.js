@@ -4,12 +4,12 @@ const { getRandomBasedOnDay, tomorrow } = require('./consts');
 
 let updatedSchema = false;
 const mandatory_non_empty_fields_user = ['firstname', 'lastname', 'email', 'avatar']
-const all_fields_user = ['firstname', 'lastname', 'email', 'avatar', "password"]
+const all_fields_user = ['id', 'firstname', 'lastname', 'email', 'avatar', "password"]
 const mandatory_non_empty_fields_article = ['user_id', 'title', 'body', 'date']
-const all_fields_article = ['user_id', 'title', 'body', 'date', 'image']
+const all_fields_article = ['id', 'user_id', 'title', 'body', 'date', 'image']
 const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
-const all_fields_comment = ['user_id', 'article_id', 'body', 'date']
-const all_fields_plugin = ["name", "status", "version"]
+const all_fields_comment = ['id', 'user_id', 'article_id', 'body', 'date']
+const all_fields_plugin = ['id', "name", "status", "version"]
 const plugin_statuses = ["on", "off", "obsolete"]
 const bearerToken = 'Bearer SecretToken'
 const basicAuth = 'Basic dXNlcjpwYXNz' // user:pass
@@ -38,10 +38,12 @@ function are_all_fields_valid(body, all_possible_fields, max_field_length = 1000
   for (let index = 0; index < keys.length; index++) {
     const key = keys[index];
     if (!all_possible_fields.includes(key)) {
+      console.log(`Field validation: ${key} not in ${all_possible_fields}`)
       return false
     }
     const element = body[keys];
     if (element?.toString().length > max_field_length) {
+      console.log(`Field validation: ${key} longer than ${max_field_length}`)
       return false;
     }
   }
@@ -94,6 +96,9 @@ const customRoutes = (req, res, next) => {
       const files = fs.readdirSync(path.join(__dirname, '/public/data/images/256'));
       res.json(files);
       req.body = files
+    } else if (req.method === 'GET' && req.url.endsWith('/pluginstatuses')) {
+      res.json(plugin_statuses);
+      req.body = plugin_statuses
     } else {
       next();
     }
@@ -170,7 +175,7 @@ const validations = (req, res, next) => {
         return
       }
     }
-    if (req.method === 'POST' && urlEnds.endsWith('/api/comments')) {
+    if (req.method === 'POST' && urlEnds.includes('/api/comments')) {
       if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_comment)) {
         res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_comment));
         return
@@ -178,6 +183,33 @@ const validations = (req, res, next) => {
       // validate all fields:
       if (!are_all_fields_valid(req.body, all_fields_comment)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_comment));
+        return
+      }
+    }
+    if (req.method !== 'GET' && req.method !== 'HEAD' && urlEnds.includes('/api/comments')) {
+      // validate all fields:
+      if (!are_all_fields_valid(req.body, all_fields_comment)) {
+        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_comment));
+        return
+      }
+      const dbData = fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8');
+      const dbDataJson = JSON.parse(dbData)
+      const foundUser = dbDataJson['users'].find(user => {
+        if (user['id']?.toString() === req.body['user_id'].toString()) {
+          return user
+        }
+      })
+      if (foundUser === undefined) {
+        res.status(404).send(formatErrorResponse("User not found"));
+        return
+      }
+      // console.log("foundUser", foundUser)
+      const userAuth = btoa(foundUser.email + ":" + foundUser.password);
+
+      const authorization = req.headers['authorization']
+      // console.log("userAuth:", userAuth, "headers auth:", authorization)
+      if (authorization !== `Basic ${userAuth}`) {
+        res.status(403).send(formatErrorResponse("Invalid authorization"));
         return
       }
     }

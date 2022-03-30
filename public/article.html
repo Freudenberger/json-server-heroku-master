@@ -44,8 +44,15 @@
 
         <label>User:</label>
         <select name="user" class="user" id="user" ></select><br>
+        
+        <label>Email:</label>
+        <input type="text" class="body" value="" id="email" ><br>
+        
+        <label>Pass:</label>
+        <input class="body" type="password" autocomplete="off" value="" id="pass" ><br>
+
         <label>Comment:</label><br>
-        <textarea rows="4" class="body" id="body" style="width:350px;" >${item.body}</textarea><br>
+        <textarea rows="4" class="body" id="body" style="width:350px;" ></textarea><br>
         <label></label>
         <button type="button" class="update save button-primary">Save</button>
         <button type="button" class="cancel">Cancel</button>

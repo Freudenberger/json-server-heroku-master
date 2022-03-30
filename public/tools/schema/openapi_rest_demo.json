@@ -601,6 +601,9 @@
         "x-codegen-request-body-name": "body"
       },
       "post": {
+        "security": [{
+          "basicAuth": []
+        }],
         "tags": [
           "comments"
         ],
@@ -685,6 +688,9 @@
         "tags": [
           "comments"
         ],
+        "security": [{
+          "basicAuth": []
+        }],
         "summary": "Updates comment",
         "description": "Updates comment.",
         "operationId": "putComment",
@@ -736,6 +742,9 @@
         }
       },
       "patch": {
+        "security": [{
+          "basicAuth": []
+        }],
         "tags": [
           "comments"
         ],
@@ -790,6 +799,9 @@
         }
       },
       "delete": {
+        "security": [{
+          "basicAuth": []
+        }],
         "tags": [
           "comments"
         ],
@@ -891,6 +903,22 @@
         ],
         "summary": "Restore DB",
         "operationId": "restoreDB",
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/pluginstatuses": {
+      "get": {
+        "tags": [
+          "other"
+        ],
+        "summary": "Get list of valid plugin statuses",
+        "operationId": "getPluginStatuses",
         "responses": {
           "default": {
             "description": "successful operation",

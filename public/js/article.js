@@ -189,6 +189,14 @@ const issuePutRequest = (id, data, responseHandler) => {
         .then(responseHandler);
 };
 
+const showResponseOnCommentCreate = (response) => {
+    if (response.status === 201) {
+        showMessage('Comment was created', false)
+    } else {
+        showMessage('Comment was not updated', true)
+    }
+};
+
 const showResponseOnDelete = (response) => {
     if (response.status === 200) {
         showMessage('Article was deleted', false)
@@ -229,16 +237,21 @@ const issueArticlePostRequest = (data, responseHandler) => {
         body: JSON.stringify(data)
     }).then(responseHandler);
 };
-const issueCommentPostRequest = (data, responseHandler) => {
+const issueCommentPostRequest = (data, responseHandler, basicAuth) => {
    // create data on the server:
-   console.log('POST request:', articlesEndpoint, data);
+   console.log('POST request:', commentsEndpoint, data);
    fetch(commentsEndpoint, {
         method: 'post',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${basicAuth}`
         },
         body: JSON.stringify(data)
+    })
+    .then(response => {
+        showResponseOnCommentCreate(response)
+        return response.json()
     }).then(responseHandler);
 };
 
@@ -276,7 +289,7 @@ const handleCommentCreate = () => {
         'user_id': container.querySelector('#user').value,
         'date': date
     }
-    issueCommentPostRequest(data, issueGetRequest(article_id));
+    issueCommentPostRequest(data, issueGetRequest(article_id), btoa(`${container.querySelector('#email').value}:${container.querySelector('#pass').value}`));
     document.querySelector('.add-new-panel').classList.remove('active');
 };
 

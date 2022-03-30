@@ -36,8 +36,8 @@ const getItemHTML = (item) => {
     if (item.id !== undefined && item.id !== 'undefined') {
         controls = `<div class="controls" >
             <i class="fas fa-edit edit" id="${item.id}"></i>
-            <i class="fas fa-trash delete" id="${item.id}"></i>
         </div>`
+        // <i class="fas fa-trash delete" id="${item.id}"></i>
     }
 
     return `<div style="width:500px;">
@@ -69,6 +69,8 @@ const displayItem = (item, container) => {
 const showResponseOnUpdate = (response) => {
     if (response.status === 200) {
         showMessage('Comment was updated', false)
+    } else if (response.status === 409) {
+        showMessage('Comment was updated. Invalid credentials!', false)
     } else {
         showMessage('Comment was not updated', true)
     }
@@ -88,7 +90,7 @@ const showMessage = (message, isError=false) => {
 };
 
 
-const issuePutRequest = (id, data, responseHandler) => {
+const issuePutRequest = (id, data, responseHandler, basicAuth) => {
     // update data on the server:
     const url = commentsEndpoint + '/' + id;
     console.log('PUT request:', url, data);
@@ -96,7 +98,8 @@ const issuePutRequest = (id, data, responseHandler) => {
             method: 'put',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${basicAuth}`
             },
             body: JSON.stringify(data)
         })
@@ -140,10 +143,12 @@ const handleUpdate = (ev) => {
     };
     const callback = (item) => {
         item.user_name = user_name;
-        container.innerHTML = getItemHTML(item);
+        if (item["error"] === undefined) {
+            container.innerHTML = getItemHTML(item);
+        }
         attachEventHandlers();
     };
-    issuePutRequest(id, data, callback)
+    issuePutRequest(id, data, callback, btoa(`${container.querySelector('#email').value}:${container.querySelector('#pass').value}`))
 };
 
 const handleCreate = () => {
@@ -218,15 +223,16 @@ const showEditForm = (ev) => {
 const displayForm = (item, container) => {
     container.innerHTML = `
         <div style="margin-top:7px; ">
-            <label>id:</label><span>${item.id}</span><br>
-            </br>
-            <label>body:</label><br>
+            <label>comment id:</label><span>${item.id}</span><br>
             <input style="visibility:hidden;" type="text" id="id" value="${item.id}"><br>
+            <label>body:</label><br>
             <textarea rows="4" type="text" id="body" style="width:475px;" value="${item.body}">${item.body}</textarea><br>
             <input style="visibility:hidden;" type="text" id="date" value="${item.date}"><br>
             <input style="visibility:hidden;" type="text" id="article_id" value="${item.article_id}"><br>
             <input style="visibility:hidden;" type="text" id="user_id" value="${item.user_id}"><br>
-            
+            To update provide your credentials:<br>
+            Email:<br><input class="body" type="text" id="email" ><br>
+            Password:<br><input class="body" type="password" autocomplete="off" value="" id="pass" "><br><br>
     <div align="center" >
             <label></label><br>
             <button type="button" data-id="${item.id}" class="update button-primary">Update</button>
@@ -234,8 +240,6 @@ const displayForm = (item, container) => {
         </div></div>
     `;
 };
-
-
 
 
 function getParams()
