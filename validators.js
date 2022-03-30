@@ -27,6 +27,7 @@ function are_mandatory_fields_valid(body, mandatory_non_empty_fields) {
   for (let index = 0; index < mandatory_non_empty_fields.length; index++) {
     const element = mandatory_non_empty_fields[index];
     if (body[element] === undefined || body[element] === "" || body[element]?.length === 0) {
+      console.log(`Field validation: field ${element} not valid ${body[element]}`)
       return false;
     }
   }
@@ -167,6 +168,16 @@ const validations = (req, res, next) => {
         res.status(409).send(formatErrorResponse("Email not unique"));
         return
       }
+      const foundUser = dbDataJson['users'].find(user => {
+        if (user['id']?.toString() === userId?.toString()) {
+          return user
+        }
+      })
+      if (foundUser === undefined) {
+        req.method = 'POST';
+        req.url = req.url.replace(userId, '')
+        req.body.id = userId
+      }
     }
     if (req.method === 'PATCH' && urlEnds.includes('/api/users')) {
       // validate all fields:
@@ -234,6 +245,20 @@ const validations = (req, res, next) => {
       if (!are_all_fields_valid(req.body, all_fields_article)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_article));
         return
+      }
+      const urlParts = urlEnds.split('/')
+      const articleId = urlParts[urlParts.length - 1]
+      const dbData = fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8');
+      const dbDataJson = JSON.parse(dbData)
+      const foundArticle = dbDataJson['articles'].find(article => {
+        if (article['id']?.toString() === articleId?.toString()) {
+          return article
+        }
+      })
+      if (foundArticle === undefined) {
+        req.method = 'POST';
+        req.url = req.url.replace(articleId, '')
+        req.body.id = articleId
       }
     }
     
