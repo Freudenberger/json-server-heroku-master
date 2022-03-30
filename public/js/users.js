@@ -201,7 +201,7 @@ const displayForm = (item, container) => {
             <input type="text" id="lastname" value="${item.lastname}"><br>
             
             <label>email:</label>
-            <label>${item.email}</label><br>
+            <input type="text" id="email" disabled readOnly value="${item.email}"><br>
             
             <label>avatar:</label>
             <input type="text" id="avatar" value="${item.avatar}"><br>
