@@ -98,7 +98,9 @@ const handleUpdate = (ev) => {
         'avatar': container.querySelector('#avatar').value
     };
     const callback = (item) => {
-        container.innerHTML = getItemHTML(item);
+        if (item["error"] === undefined) {
+            container.innerHTML = getItemHTML(item);
+        }
         attachEventHandlers();
     };
     issuePutRequest(id, data, callback)

@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { getRandomBasedOnDay, tomorrow } = require('./consts');
+const { getRandomBasedOnDay, tomorrow, plugin_statuses, bearerToken, basicAuth, formatErrorResponse } = require('./consts');
 
-let updatedSchema = false;
 const mandatory_non_empty_fields_user = ['firstname', 'lastname', 'email', 'avatar']
 const all_fields_user = ['id', 'firstname', 'lastname', 'email', 'avatar', "password"]
 const mandatory_non_empty_fields_article = ['user_id', 'title', 'body', 'date']
@@ -10,9 +9,6 @@ const all_fields_article = ['id', 'user_id', 'title', 'body', 'date', 'image']
 const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
 const all_fields_comment = ['id', 'user_id', 'article_id', 'body', 'date']
 const all_fields_plugin = ['id', "name", "status", "version"]
-const plugin_statuses = ["on", "off", "obsolete"]
-const bearerToken = 'Bearer SecretToken'
-const basicAuth = 'Basic dXNlcjpwYXNz' // user:pass
 
 
 
@@ -57,57 +53,6 @@ const validateEmail = (email) => {
   );
 };
 
-function formatErrorResponse(message, details = undefined, id = undefined) {
-  return { error: { message: message, details: details }, id }
-}
-
-const customRoutes = (req, res, next) => {
-  try {
-    if (!updatedSchema) {
-      try {
-        const host = req.headers.host;
-        const referer = req.headers.referer;
-        const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), 'utf8'));
-        if (referer !== undefined) {
-          const newAddr = `${referer.split(':')[0]}://${host}/api`;
-          if (newAddr !== schema['servers'][0]['url']) {
-            schema['servers'][0]['url'] = newAddr;
-            fs.writeFileSync(path.join(__dirname, 'public/tools/schema/openapi_rest_demo.json'), JSON.stringify(schema, null, 2));
-          }
-          updatedSchema = true;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (req.method === 'GET' && req.url.endsWith('/restoreDB')) {
-      const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db-base.json'), 'utf8'));
-      router.db.setState(db);
-      console.log('restoreDB successful');
-      res.status(201).send({ message: "Database successfully restored" });
-    } else if (req.method === 'GET' && req.url.endsWith('/db')) {
-      const dbData = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8'));
-      res.json(dbData);
-      req.body = dbData
-    } else if (req.method === 'GET' && req.url.endsWith('/userpics')) {
-      const files = fs.readdirSync(path.join(__dirname, '/public/data/users'));
-      res.json(files);
-      req.body = files
-    } else if (req.method === 'GET' && req.url.endsWith('/allimages')) {
-      const files = fs.readdirSync(path.join(__dirname, '/public/data/images/256'));
-      res.json(files);
-      req.body = files
-    } else if (req.method === 'GET' && req.url.endsWith('/pluginstatuses')) {
-      res.json(plugin_statuses);
-      req.body = plugin_statuses
-    } else {
-      next();
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(formatErrorResponse("Fatal error. Please contact administrator."));
-  }
-};
 
 const validations = (req, res, next) => {
   try {
@@ -302,5 +247,4 @@ const validations = (req, res, next) => {
 }
 
 
-exports.customRoutes = customRoutes
 exports.validations = validations

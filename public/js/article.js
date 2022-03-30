@@ -266,8 +266,10 @@ const handleUpdate = (ev) => {
         'image': container.querySelector('#image').value,
     };
     const callback = (item) => {
-        item.user_name = user_name;
-        container.innerHTML = getItemHTML(item);
+        if (item["error"] === undefined) {
+            item.user_name = user_name;
+            container.innerHTML = getItemHTML(item);
+        }
         attachEventHandlers();
     };
     issuePutRequest(id, data, callback)
