@@ -73,7 +73,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful operation",
+            "description": "Article created",
             "content": {
               "application/json": {
                 "schema": {
@@ -172,7 +172,7 @@
             }
           },
           "201": {
-            "description": "Successful operation",
+            "description": "Article created",
             "content": {
               "application/json": {
                 "schema": {
@@ -340,7 +340,7 @@
         "summary": "Create user",
         "operationId": "postUser",
         "requestBody": {
-          "description": "Created user object",
+          "description": "Creats user object",
           "content": {
             "application/json": {
               "schema": {
@@ -352,7 +352,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful operation",
+            "description": "User created",
             "content": {
               "application/json": {
                 "schema": {
@@ -459,7 +459,7 @@
             }
           },
           "201": {
-            "description": "Successful operation",
+            "description": "User created",
             "content": {
               "application/json": {
                 "schema": {
@@ -642,7 +642,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful operation",
+            "description": "Comment created",
             "content": {
               "application/json": {
                 "schema": {
@@ -748,7 +748,7 @@
             }
           },
           "201": {
-            "description": "Successful operation",
+            "description": "Comment created",
             "content": {
               "application/json": {
                 "schema": {
