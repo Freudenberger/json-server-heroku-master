@@ -194,7 +194,7 @@ const displayForm = (item, container) => {
             <input type="text" id="avatar" value="${item.avatar}"><br>
             
             <label>email:</label>
-            <input  style="visibility:hidden;"  type="text" id="pass" disabled readOnly value="${item.password}"><br>
+            <input  style="visibility:hidden;"  type="text" id="password" disabled readOnly value="${item.password}"><br>
             <label></label>
             <button type="button" data-id="${item.id}" class="update button-primary">Update</button>
             <button type="button" class="cancel">Cancel</button>
