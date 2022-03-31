@@ -95,7 +95,8 @@ const handleUpdate = (ev) => {
         'firstname': container.querySelector('#firstname').value,
         'lastname': container.querySelector('#lastname').value,
         'email': container.querySelector('#email').value,
-        'avatar': container.querySelector('#avatar').value
+        'avatar': container.querySelector('#avatar').value,
+        'password': container.querySelector('#password').value
     };
     const callback = (item) => {
         if (item["error"] === undefined) {
@@ -192,6 +193,8 @@ const displayForm = (item, container) => {
             <label>avatar:</label>
             <input type="text" id="avatar" value="${item.avatar}"><br>
             
+            <label>email:</label>
+            <input  style="visibility:hidden;"  type="text" id="pass" disabled readOnly value="${item.password}"><br>
             <label></label>
             <button type="button" data-id="${item.id}" class="update button-primary">Update</button>
             <button type="button" class="cancel">Cancel</button>

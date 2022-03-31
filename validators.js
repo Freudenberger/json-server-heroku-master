@@ -57,7 +57,7 @@ const validateEmail = (email) => {
 const validations = (req, res, next) => {
   try {
     const urlEnds = req.url.replace(/\/\/+/g, '/')
-    if ((req.url.endsWith('/api/users') || req.url.endsWith('/api/comments') || req.url.endsWith('/api/articles')) && req.body?.length > 0) {
+    if ((req.url.includes('/api/users') || req.url.includes('/api/comments') || req.url.includes('/api/articles') || req.url.includes('/api/plugins')) && req.body?.length > 0) {
       try {
         JSON.parse(req.body)
       } catch (error) {
