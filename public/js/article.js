@@ -4,6 +4,7 @@ const commentsEndpoint = '../../api/comments';
 let user_name = 'Unknown'
 let users = []
 let article_id = undefined
+let articleData
 
 async function issueGetRequest(article_id)
 {
@@ -14,7 +15,7 @@ async function issueGetRequest(article_id)
 
     const commentsUrl = `${commentsEndpoint}?article_id=${article_id}`
     const comments = await Promise.all([commentsUrl].map((url) => fetch(url).then((r) => r.json())));
-    let articleData = articlesData[0]
+    articleData = articlesData[0]
     const userComments = comments[0]
 
     articleData.comments = userComments;
@@ -84,7 +85,7 @@ const getItemHTML = (item) => {
     return `<div>
         ${controls}<br>
         ${getImagesHTML(item.image)}<br>
-        <label>title:</label><span>${item.title}</span><br>
+        <label>title:</label><span>${item.title}</span><i class="fas fa-edit editName" id="${item.id}"></i><br>
         <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_name}</a></span><br>
         <label>date:</label><span>${item.date}</span><br>
         <label></label><span>${item.body}</span><br>
@@ -169,6 +170,25 @@ const showMessage = (message, isError=false) => {
 };
 
 
+
+const issuePatchRequest = (id, data, responseHandler) => {
+    // update data on the server:
+    const url = articlesEndpoint + '/' + id;
+    console.log('PATCH request:', url, data);
+    fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            showResponseOnUpdate(response)
+            return response.json()
+        })
+        .then(responseHandler);
+};
 
 const issuePutRequest = (id, data, responseHandler) => {
     // update data on the server:
@@ -275,6 +295,21 @@ const handleUpdate = (ev) => {
     issuePutRequest(id, data, callback)
 };
 
+const handleUpdateName = (ev) => {
+    const id = ev.target.getAttribute('data-id');
+    const container = ev.target.parentElement.parentElement;
+    const data = {
+        'title': container.querySelector('#title').value
+    };
+    const callback = (item) => {
+        if (item["error"] === undefined) {
+            item.user_name = user_name;
+            container.innerHTML = getItemHTML(item);
+        }
+        attachEventHandlers();
+    };
+    issuePatchRequest(id, data, callback)
+};
 function pad(num, size=2) {
     num = num.toString();
     while (num.length < size) num = "0" + num;
@@ -315,6 +350,9 @@ const attachEventHandlers = () => {
     for (elem of document.querySelectorAll('.edit')) {
         elem.onclick = showEditForm;
     }
+    for (elem of document.querySelectorAll('.editName')) {
+        elem.onclick = showEditNameForm;
+    }
     document.querySelector('#add-new').onclick = () => {
         const container = document.querySelector('.add-new-panel');
         container.querySelector('.body').value = '';
@@ -350,6 +388,14 @@ const attachFormEventHandlers = (item, container) => {
     }
 };
 
+const attachNameFormEventHandlers = (item, container) => {
+    container.querySelector('.updateName').onclick = handleUpdateName;
+    container.querySelector('.cancel').onclick = () => {
+        container.innerHTML = getItemHTML(item);
+        location.reload();
+        attachEventHandlers();
+    }
+};
 const showEditForm = (ev) => {
     const id = ev.target.id;
     const url = articlesEndpoint + '/' + id;
@@ -359,6 +405,18 @@ const showEditForm = (ev) => {
         .then(item => {
             displayForm(item, cardElement);
             attachFormEventHandlers(item, cardElement);
+        });
+    return false;
+};
+const showEditNameForm = (ev) => {
+    const id = ev.target.id;
+    const url = articlesEndpoint + '/' + id;
+    const cardElement = ev.target.parentElement.parentElement;
+    fetch(url)
+        .then(response => response.json())
+        .then(item => {
+            displayNameForm(item, cardElement);
+            attachNameFormEventHandlers(item, cardElement);
         });
     return false;
 };
@@ -380,6 +438,22 @@ const displayForm = (item, container) => {
     <div align="center" >
             <label></label><br>
             <button type="button" data-id="${item.id}" class="update button-primary">Update</button>
+            <button type="button" class="cancel">Cancel</button>
+        </div>
+    `;
+};
+
+const displayNameForm = (item, container) => {
+    container.innerHTML = `
+    <div style="margin-top:7px; width:1200px;">
+        ${getImagesHTML(item.image)}<br>
+            <label>title:</label>
+            <input type="text" id="title" value="${item.title}"><br>
+            <label>user:</label><span><a href="user.html?id=${item.user_id}">${item.user_id}</a></span><br>
+            <label>date:</label><span>${item.date}</span><br>
+            <label></label><span>${item.body}</span><br>
+            <label></label><br>
+            <button type="button" data-id="${item.id}" class="updateName button-primary">Update</button>
             <button type="button" class="cancel">Cancel</button>
         </div>
     `;
