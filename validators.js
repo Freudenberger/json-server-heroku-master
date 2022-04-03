@@ -30,7 +30,7 @@ function are_mandatory_fields_valid(body, mandatory_non_empty_fields) {
   return true;
 }
 
-function are_all_fields_valid(body, all_possible_fields, max_field_length = 10000) {
+function are_all_fields_valid(body, all_possible_fields, mandatory_non_empty_fields, max_field_length = 10000) {
   const keys = Object.keys(body);
   for (let index = 0; index < keys.length; index++) {
     const key = keys[index];
@@ -42,6 +42,12 @@ function are_all_fields_valid(body, all_possible_fields, max_field_length = 1000
     if (element?.toString().length > max_field_length) {
       console.log(`Field validation: ${key} longer than ${max_field_length}`)
       return false;
+    }
+    if (mandatory_non_empty_fields.includes(key)) {
+      if(element === undefined || element?.toString().length === 0) {
+        console.log(`Field validation: ${key} is empty! Mandatory fields: ${mandatory_non_empty_fields}`)
+        return false;
+      }
     }
   }
   return true;
@@ -79,7 +85,7 @@ const validations = (req, res, next) => {
         return
       }
       // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_user)) {
+      if (!are_all_fields_valid(req.body, all_fields_user, mandatory_non_empty_fields_user)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_user));
         return
       }
@@ -98,7 +104,7 @@ const validations = (req, res, next) => {
         return
       }
       // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_user)) {
+      if (!are_all_fields_valid(req.body, all_fields_user, mandatory_non_empty_fields_user)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_user));
         return
       }
@@ -126,7 +132,7 @@ const validations = (req, res, next) => {
     }
     if (req.method === 'PATCH' && urlEnds.includes('/api/users')) {
       // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_user)) {
+      if (!are_all_fields_valid(req.body, all_fields_user, mandatory_non_empty_fields_user)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_user));
         return
       }
@@ -137,14 +143,14 @@ const validations = (req, res, next) => {
         return
       }
       // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_comment)) {
+      if (!are_all_fields_valid(req.body, all_fields_comment, mandatory_non_empty_fields_comment)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_comment));
         return
       }
     }
     if (req.method !== 'GET' && req.method !== 'HEAD' && urlEnds.includes('/api/comments')) {
       // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_comment)) {
+      if (!are_all_fields_valid(req.body, all_fields_comment, mandatory_non_empty_fields_comment)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_comment));
         return
       }
@@ -176,7 +182,14 @@ const validations = (req, res, next) => {
         return
       }
       // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_article)) {
+      if (!are_all_fields_valid(req.body, all_fields_article, mandatory_non_empty_fields_article)) {
+        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_article));
+        return
+      }
+    }
+    if (req.method === 'PATCH' && urlEnds.includes('/api/articles')) {
+      // validate all fields:
+      if (!are_all_fields_valid(req.body, all_fields_article, mandatory_non_empty_fields_article)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_article));
         return
       }
@@ -187,7 +200,7 @@ const validations = (req, res, next) => {
         return
       }
       // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_article)) {
+      if (!are_all_fields_valid(req.body, all_fields_article, mandatory_non_empty_fields_article)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_article));
         return
       }
