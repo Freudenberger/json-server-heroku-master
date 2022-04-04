@@ -1,3 +1,4 @@
+
 const articlesEndpoint = '../../api/articles';
 const usersEndpoint = '../../api/users';
 const commentsEndpoint = '../../api/comments';
@@ -184,7 +185,7 @@ const issuePatchRequest = (id, data, responseHandler) => {
             body: JSON.stringify(data)
         })
         .then(response => {
-            showResponseOnUpdate(response)
+            showResponseOnUpdate(response, 'Article')
             return response.json()
         })
         .then(responseHandler);
@@ -203,33 +204,33 @@ const issuePutRequest = (id, data, responseHandler) => {
             body: JSON.stringify(data)
         })
         .then(response => {
-            showResponseOnUpdate(response)
+            showResponseOnUpdate(response, 'Article')
             return response.json()
         })
         .then(responseHandler);
 };
 
-const showResponseOnCommentCreate = (response) => {
+const showResponseOnCreate = (response, item) => {
     if (response.status === 201) {
-        showMessage('Comment was created', false)
+        showMessage(`${item} was created`, false)
     } else {
-        showMessage('Comment was not updated', true)
+        showMessage(`${item} was not created`, true)
     }
 };
 
-const showResponseOnDelete = (response) => {
+const showResponseOnDelete = (response, item) => {
     if (response.status === 200) {
-        showMessage('Article was deleted', false)
+        showMessage(`${item} was deleted`, false)
     } else {
-        showMessage('Article was not deleted', true)
+        showMessage(`${item} was not deleted`, true)
     }
 };
 
-const showResponseOnUpdate = (response) => {
+const showResponseOnUpdate = (response, item) => {
     if (response.status === 200) {
-        showMessage('Article was updated', false)
+        showMessage(`${item} was updated`, false)
     } else {
-        showMessage('Article was not updated', true)
+        showMessage(`${item} was not updated`, true)
     }
 };
 
@@ -239,7 +240,7 @@ const issueDeleteRequest = (id, responseHandler) => {
     console.log('DELETE request:', url);
     fetch(url, { method: 'delete' })
         .then(response => {
-            showResponseOnUpdate(response)
+            showResponseOnDelete(response, 'Article')
             return response.json()
         })
         .then(responseHandler);
@@ -270,7 +271,7 @@ const issueCommentPostRequest = (data, responseHandler, basicAuth) => {
         body: JSON.stringify(data)
     })
     .then(response => {
-        showResponseOnCommentCreate(response)
+        showResponseOnCreate(response, 'Comment')
         return response.json()
     }).then(responseHandler);
 };
@@ -320,10 +321,14 @@ const handleCommentCreate = () => {
     const container = document.querySelector('.add-new-panel');
     const today = new Date();
     const date = today.getFullYear() + '-' + pad((today.getMonth()+1)) + '-' + pad(today.getDate());
+
+    const userEmail = container.querySelector('#user').value
+    const foundUser = users.find(u => u.email === userEmail)
+
     data = {
         'article_id': article_id,
         'body': container.querySelector('#body').value,
-        'user_id': container.querySelector('#user').value,
+        'user_id': foundUser?.id ?? userEmail,
         'date': date
     }
     issueCommentPostRequest(data, issueGetRequest(article_id), btoa(`${container.querySelector('#email').value}:${container.querySelector('#pass').value}`));
@@ -356,16 +361,16 @@ const attachEventHandlers = () => {
     document.querySelector('#add-new').onclick = () => {
         const container = document.querySelector('.add-new-panel');
         container.querySelector('.body').value = '';
-        let index = 0;
-        for(element of users)
-        {
-           var opt = document.createElement("option");
-           opt.value = element.id;
-           opt.innerHTML = `${element.firstname} ${element.lastname}`; 
+        // let index = 0;
+        // for(element of users)
+        // {
+        //    var opt = document.createElement("option");
+        //    opt.value = element.id;
+        //    opt.innerHTML = `${element.firstname} ${element.lastname}`; 
 
-           container.querySelector('.user').appendChild(opt);
-           index++;
-        }
+        //    container.querySelector('.user').appendChild(opt);
+        //    index++;
+        // }
         container.classList.add('active');
     };
     document.querySelector('.close').onclick = () => {

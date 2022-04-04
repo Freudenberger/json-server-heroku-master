@@ -38,13 +38,14 @@ function are_all_fields_valid(body, all_possible_fields, mandatory_non_empty_fie
       console.log(`Field validation: ${key} not in ${all_possible_fields}`)
       return false
     }
-    const element = body[keys];
+    const element = body[key];
     if (element?.toString().length > max_field_length) {
       console.log(`Field validation: ${key} longer than ${max_field_length}`)
       return false;
     }
     if (mandatory_non_empty_fields.includes(key)) {
       if(element === undefined || element?.toString().length === 0) {
+        console.log(body)
         console.log(`Field validation: ${key} is empty! Mandatory fields: ${mandatory_non_empty_fields}`)
         return false;
       }
@@ -137,17 +138,6 @@ const validations = (req, res, next) => {
         return
       }
     }
-    if (req.method === 'POST' && urlEnds.includes('/api/comments')) {
-      if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_comment)) {
-        res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_comment));
-        return
-      }
-      // validate all fields:
-      if (!are_all_fields_valid(req.body, all_fields_comment, mandatory_non_empty_fields_comment)) {
-        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_comment));
-        return
-      }
-    }
     if (req.method !== 'GET' && req.method !== 'HEAD' && urlEnds.includes('/api/comments')) {
       // validate all fields:
       if (!are_all_fields_valid(req.body, all_fields_comment, mandatory_non_empty_fields_comment)) {
@@ -165,13 +155,26 @@ const validations = (req, res, next) => {
         res.status(404).send(formatErrorResponse("User not found"));
         return
       }
-      // console.log("foundUser", foundUser)
-      const userAuth = btoa(foundUser.email + ":" + foundUser.password);
+      console.log("foundUser:", foundUser)
+      // const userAuth = btoa(foundUser.email + ":" + foundUser.password);
+      const userAuth = Buffer.from(foundUser.email + ":" + foundUser.password, 'utf8').toString('base64')
 
       const authorization = req.headers['authorization']
-      // console.log("userAuth:", userAuth, "headers auth:", authorization)
+      console.log("expected auth: ", userAuth)
+      console.log("actual headers:", authorization)
       if (authorization !== `Basic ${userAuth}`) {
         res.status(403).send(formatErrorResponse("Invalid authorization"));
+        return
+      }
+    }
+    if (req.method === 'POST' && urlEnds.includes('/api/comments')) {
+      if (!are_mandatory_fields_valid(req.body, mandatory_non_empty_fields_comment)) {
+        res.status(422).send(formatErrorResponse("One of mandatory field is missing", mandatory_non_empty_fields_comment));
+        return
+      }
+      // validate all fields:
+      if (!are_all_fields_valid(req.body, all_fields_comment, mandatory_non_empty_fields_comment)) {
+        res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_comment));
         return
       }
     }
