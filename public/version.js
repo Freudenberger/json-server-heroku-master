@@ -1,3 +1,3 @@
 const versionElement = document.querySelector("#version");
 
-versionElement.innerHTML = "1.0"
+versionElement.innerHTML = "1.0";
