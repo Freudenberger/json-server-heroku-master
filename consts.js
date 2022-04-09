@@ -1,14 +1,28 @@
 const seedrandom = require('seedrandom');
-const plugin_statuses = ["on", "off", "obsolete"]
+const { logDebug } = require('./loggerApi');
+const pluginStatuses = ["on", "off", "obsolete"]
 const bearerToken = 'Bearer SecretToken'
 const basicAuth = 'Basic dXNlcjpwYXNz' // user:pass
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 
 function formatErrorResponse(message, details = undefined, id = undefined) {
-    return { error: { message: message, details: details }, id }
-  }
+    const body = { error: { message: message, details: details }, id }
+    logDebug('formatErrorResponse:', body)
+    return body
+}
 
-function getRandomBasedOnDay() {
+function getRandomIdBasedOnDay(length=32) {
+    var result = '';
+    var charactersLength = characters.length;
+    const generator = seedrandom(formatYmd(new Date()));
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(generator() * charactersLength));
+    }
+    return result;
+}
+
+function getRandomIntBasedOnDay() {
     const generator = seedrandom(formatYmd(new Date()));
     const randomValue = generator()
 
@@ -24,10 +38,13 @@ function tomorrow() {
 
 const formatYmd = date => date.toISOString().slice(0, 10);
 
-exports.getRandomBasedOnDay = getRandomBasedOnDay;
-exports.formatYmd = formatYmd;
-exports.tomorrow = tomorrow;
-exports.plugin_statuses = plugin_statuses;
-exports.bearerToken = bearerToken;
-exports.basicAuth = basicAuth;
-exports.formatErrorResponse = formatErrorResponse;
+module.exports = {
+    getRandomIntBasedOnDay,
+    getRandomIdBasedOnDay,
+    formatYmd,
+    tomorrow,
+    pluginStatuses,
+    bearerToken,
+    basicAuth,
+    formatErrorResponse
+}

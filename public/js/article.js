@@ -322,7 +322,7 @@ const handleCommentCreate = () => {
     const today = new Date();
     const date = today.getFullYear() + '-' + pad((today.getMonth()+1)) + '-' + pad(today.getDate());
 
-    const userEmail = container.querySelector('#user').value
+    const userEmail = container.querySelector('#email').value
     const foundUser = users.find(u => u.email === userEmail)
 
     data = {

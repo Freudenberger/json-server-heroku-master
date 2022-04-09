@@ -7,7 +7,8 @@ let updatedSchema = false;
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const path = require('path');
-const { plugin_statuses, formatErrorResponse } = require('./consts');
+const { pluginStatuses, formatErrorResponse } = require('./consts');
+const { logDebug } = require('./loggerApi');
 const middlewares = jsonServer.defaults();
 const port = process.env.PORT || 3000;
 
@@ -34,7 +35,7 @@ const customRoutes = (req, res, next) => {
     if (req.method === 'GET' && req.url.endsWith('/restoreDB')) {
       const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db-base.json'), 'utf8'));
       router.db.setState(db);
-      console.log('restoreDB successful');
+      logDebug('restoreDB successful');
       res.status(201).send({ message: "Database successfully restored" });
     } else if (req.method === 'GET' && req.url.endsWith('/db')) {
       const dbData = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8'));
@@ -49,13 +50,13 @@ const customRoutes = (req, res, next) => {
       res.json(files);
       req.body = files
     } else if (req.method === 'GET' && req.url.endsWith('/pluginstatuses')) {
-      res.json(plugin_statuses);
-      req.body = plugin_statuses
+      res.json(pluginStatuses);
+      req.body = pluginStatuses
     } else {
       next();
     }
   } catch (error) {
-    console.log(error);
+    logDebug('Fatal error:', error);
     res.status(500).send(formatErrorResponse("Fatal error. Please contact administrator."));
   }
 };
@@ -67,6 +68,6 @@ server.use(validations);
 server.use('/api', router);
 
 server.listen(port, () => {
-  console.log(`Test Custom Data API listening on port ${port}!`)
+  logDebug(`Test Custom Data API listening on port ${port}!`)
 });
 

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { getRandomBasedOnDay, tomorrow, plugin_statuses, bearerToken, basicAuth, formatErrorResponse } = require('./consts');
+const { tomorrow, pluginStatuses, bearerToken, basicAuth, formatErrorResponse, getRandomIdBasedOnDay } = require('./consts');
+const { logDebug } = require('./loggerApi');
 
 const mandatory_non_empty_fields_user = ['firstname', 'lastname', 'email', 'avatar']
 const all_fields_user = ['id', 'firstname', 'lastname', 'email', 'avatar', "password"]
@@ -9,11 +10,12 @@ const all_fields_article = ['id', 'user_id', 'title', 'body', 'date', 'image']
 const mandatory_non_empty_fields_comment = ['user_id', 'article_id', 'body', 'date']
 const all_fields_comment = ['id', 'user_id', 'article_id', 'body', 'date']
 const all_fields_plugin = ['id', "name", "status", "version"]
+const mandatory_non_empty_fields_plugin = ["name", "status", "version"]
 
 
 
 function is_plugin_status_valid(body) {
-  if (plugin_statuses.findIndex(status => status === body["status"]) === -1) {
+  if (pluginStatuses.findIndex(status => status === body["status"]) === -1) {
     return false
   }
   return true
@@ -23,7 +25,7 @@ function are_mandatory_fields_valid(body, mandatory_non_empty_fields) {
   for (let index = 0; index < mandatory_non_empty_fields.length; index++) {
     const element = mandatory_non_empty_fields[index];
     if (body[element] === undefined || body[element] === "" || body[element]?.length === 0) {
-      console.log(`Field validation: field ${element} not valid ${body[element]}`)
+      logDebug(`Field validation: field ${element} not valid ${body[element]}`)
       return false;
     }
   }
@@ -35,18 +37,18 @@ function are_all_fields_valid(body, all_possible_fields, mandatory_non_empty_fie
   for (let index = 0; index < keys.length; index++) {
     const key = keys[index];
     if (!all_possible_fields.includes(key)) {
-      console.log(`Field validation: ${key} not in ${all_possible_fields}`)
+      logDebug(`Field validation: ${key} not in ${all_possible_fields}`)
       return false
     }
     const element = body[key];
     if (element?.toString().length > max_field_length) {
-      console.log(`Field validation: ${key} longer than ${max_field_length}`)
+      logDebug(`Field validation: ${key} longer than ${max_field_length}`)
       return false;
     }
     if (mandatory_non_empty_fields.includes(key)) {
       if(element === undefined || element?.toString().length === 0) {
-        console.log(body)
-        console.log(`Field validation: ${key} is empty! Mandatory fields: ${mandatory_non_empty_fields}`)
+        logDebug('Body:', body)
+        logDebug(`Field validation: ${key} is empty! Mandatory fields: ${mandatory_non_empty_fields}`)
         return false;
       }
     }
@@ -68,7 +70,7 @@ const validations = (req, res, next) => {
       try {
         JSON.parse(req.body)
       } catch (error) {
-        console.log(error);
+        logDebug(`Error: ${JSON.stringify(error)}`);
         res.status(400).send(formatErrorResponse("Bad request - malformed JSON"));
         return
       }
@@ -155,13 +157,13 @@ const validations = (req, res, next) => {
         res.status(404).send(formatErrorResponse("User not found"));
         return
       }
-      console.log("foundUser:", foundUser)
+      logDebug("foundUser:", foundUser)
       // const userAuth = btoa(foundUser.email + ":" + foundUser.password);
       const userAuth = Buffer.from(foundUser.email + ":" + foundUser.password, 'utf8').toString('base64')
 
       const authorization = req.headers['authorization']
-      console.log("expected auth: ", userAuth)
-      console.log("actual headers:", authorization)
+      logDebug("expected auth: ", userAuth)
+      logDebug("actual headers:", authorization)
       if (authorization !== `Basic ${userAuth}`) {
         res.status(403).send(formatErrorResponse("Invalid authorization"));
         return
@@ -226,31 +228,37 @@ const validations = (req, res, next) => {
     // token and plugins
 
     if (req.method === 'GET' && urlEnds.includes('/api/token')) {
-      res.status(200).send({token: getRandomBasedOnDay(), validUntil: tomorrow()});
+      const body = {token: getRandomIdBasedOnDay(), validUntil: tomorrow()}
+      logDebug('GET /api/token', body)
+      res.status(200).send(body);
       return
     }
 
     if (req.method !== 'GET' && urlEnds.includes('/api/plugins')) {
-      // console.log(req.headers)
       const authorization = req.headers['authorization']
-      if (authorization !== basicAuth) {
+      const expectedToken = `Bearer ${getRandomIdBasedOnDay()}`
+      logDebug("expected auth: ", expectedToken)
+      logDebug("actual headers:", authorization)
+      if (authorization !== bearerToken && authorization !== expectedToken) {
         res.status(403).send(formatErrorResponse("Invalid authorization"));
         return
       }
       // validate fields:
-      if (!are_all_fields_valid(req.body, all_fields_plugin)) {
+      if (!are_all_fields_valid(req.body, all_fields_plugin, mandatory_non_empty_fields_plugin)) {
         res.status(422).send(formatErrorResponse("One of field is invalid (empty, invalid or too long) or there are some additional fields", all_fields_plugin));
         return
       }
       if (!is_plugin_status_valid(req.body)) {
-        res.status(422).send(formatErrorResponse("Plugin status is invalid", plugin_statuses));
+        res.status(422).send(formatErrorResponse("Plugin status is invalid", pluginStatuses));
         return
       }
     }
     if (req.method === 'GET' && urlEnds.includes('/api/plugins')) {
-      // console.log(req.headers)
       const authorization = req.headers['authorization']
-      if (authorization !== bearerToken || authorization !== `Bearer ${getRandomBasedOnDay()}`) {
+      const expectedToken = `Bearer ${getRandomIdBasedOnDay()}`
+      logDebug("expected auth: ", expectedToken)
+      logDebug("actual headers:", authorization)
+      if (authorization !== bearerToken && authorization !== expectedToken) {
         res.status(403).send(formatErrorResponse("Invalid token"));
         return
       }
