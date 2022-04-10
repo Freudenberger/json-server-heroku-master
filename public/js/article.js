@@ -348,7 +348,7 @@ const handleCommentCreate = () => {
   data = {
     article_id: article_id,
     body: container.querySelector("#body").value,
-    user_id: foundUser?.id ?? userEmail,
+    user_id: foundUser?.id ?? undefined,
     date: date,
   };
   issueCommentPostRequest(
