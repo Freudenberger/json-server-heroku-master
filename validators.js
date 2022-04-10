@@ -264,7 +264,7 @@ const validations = (req, res, next) => {
       const dbData = fs.readFileSync(path.join(__dirname, "db.json"), "utf8");
       const dbDataJson = JSON.parse(dbData);
       const foundUser = dbDataJson["users"].find((user) => {
-        if (user["id"]?.toString() === req.body["user_id"].toString()) {
+        if (user["id"]?.toString() === req.body["user_id"]?.toString()) {
           return user;
         }
       });
@@ -439,6 +439,39 @@ const validations = (req, res, next) => {
       res.status(200).send(body);
       return;
     }
+
+    // if (req.method === "GET" && urlEnds.includes("/api/token")) {
+    //   const userEmail = req.body["email"];
+    //   const password = req.body["password"];
+
+    //   if (userEmail === undefined || password === undefined) {
+    //     res.status(404).send(formatErrorResponse("User not found"));
+    //     return;
+    //   }
+    //   const dbData = fs.readFileSync(path.join(__dirname, "db.json"), "utf8");
+    //   const dbDataJson = JSON.parse(dbData);
+    //   const foundUser = dbDataJson["users"].find((user) => {
+    //     if (user["email"]?.toString() === userEmail.toString()) {
+    //       return user;
+    //     }
+    //   });
+    //   if (foundUser === undefined) {
+    //     res.status(404).send(formatErrorResponse("User not found"));
+    //     return;
+    //   }
+    //   logDebug("foundUser:", foundUser);
+
+    //   logDebug("expected auth: ", user["email"], user["password"]);
+    //   logDebug("actual headers:", userEmail, password);
+    //   if (userEmail !== user["email"] || password !== user["password"]) {
+    //     res.status(403).send(formatErrorResponse("Invalid authorization"));
+    //     return;
+    //   }
+    //   const body = { token: getRandomIdBasedOnDay(), validUntil: tomorrow() };
+    //   logDebug("GET /api/token", body);
+    //   res.status(200).send(body);
+    //   return;
+    // }
 
     if (req.method !== "GET" && urlEnds.includes("/api/plugins")) {
       const authorization = req.headers["authorization"];
