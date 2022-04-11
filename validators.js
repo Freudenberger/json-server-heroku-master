@@ -263,6 +263,25 @@ const validations = (req, res, next) => {
       }
       const dbData = fs.readFileSync(path.join(__dirname, "db.json"), "utf8");
       const dbDataJson = JSON.parse(dbData);
+      if (req.method !== "POST") {
+        const urlParts = urlEnds.split("/");
+        const commentId = urlParts[urlParts.length - 1];
+        const foundComment = dbDataJson["comments"].find((comment) => {
+          if (comment["id"]?.toString() === commentId?.toString()) {
+            return comment;
+          }
+        });
+        logDebug("api/comments foundUser:", foundComment);
+        if (foundComment === undefined) {
+          res.status(404).send(formatErrorResponse("Comment not found"));
+          return;
+        }
+        if (foundComment["user_id"]?.toString() !== req.body["user_id"]?.toString()) {
+          logDebug("Comment user id different from user id in request", foundComment, commentId);
+          res.status(403).send(formatErrorResponse("Invalid authorization"));
+          return;
+        }
+      }
       const foundUser = dbDataJson["users"].find((user) => {
         if (user["id"]?.toString() === req.body["user_id"]?.toString()) {
           return user;
@@ -272,7 +291,7 @@ const validations = (req, res, next) => {
         res.status(404).send(formatErrorResponse("User not found"));
         return;
       }
-      logDebug("foundUser:", foundUser);
+      logDebug("api/comments foundUser:", foundUser);
       // const userAuth = btoa(foundUser.email + ":" + foundUser.password);
       const userAuth = Buffer.from(
         foundUser.email + ":" + foundUser.password,
