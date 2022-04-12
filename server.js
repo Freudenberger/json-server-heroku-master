@@ -29,6 +29,12 @@ const customRoutes = (req, res, next) => {
             "utf8"
           )
         );
+        const schemaV2 = JSON.parse(
+          fs.readFileSync(
+            path.join(__dirname, "public/tools/schema/openapi_rest_demo_v2.json"),
+            "utf8"
+          )
+        );
         if (referer !== undefined) {
           const newAddr = `${referer.split(":")[0]}://${host}/api`;
           if (newAddr !== schema["servers"][0]["url"]) {
@@ -39,6 +45,16 @@ const customRoutes = (req, res, next) => {
                 "public/tools/schema/openapi_rest_demo.json"
               ),
               JSON.stringify(schema, null, 2)
+            );
+          }
+          if (newAddr !== schemaV2["servers"][0]["url"]) {
+            schemaV2["servers"][0]["url"] = newAddr;
+            fs.writeFileSync(
+              path.join(
+                __dirname,
+                "public/tools/schema/openapi_rest_demo_v2.json"
+              ),
+              JSON.stringify(schemaV2, null, 2)
             );
           }
           updatedSchema = true;

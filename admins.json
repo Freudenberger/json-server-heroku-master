@@ -13,6 +13,13 @@
       "firstname": "Till",
       "lastname": "Boo",
       "password": "test2"
+    },
+    {
+      "id": 3,
+      "email": "John.Doe@test.test.ca",
+      "firstname": "John",
+      "lastname": "Doe",
+      "password": "1234"
     }
   ]
 }
