@@ -2,7 +2,7 @@ const jsonServer = require("./json-server");
 const { validations } = require("./validators");
 const fs = require("fs");
 const jwt = require('jsonwebtoken')
-const authUserDb = './auth-users.json'
+const authUserDb = './admins.json'
 const userdb = JSON.parse(fs.readFileSync(authUserDb, 'UTF-8'))
 
 
@@ -10,6 +10,7 @@ let updatedSchema = false;
 
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
+const adminRouter = jsonServer.router("admin-db.json");
 const path = require("path");
 const { pluginStatuses, formatErrorResponse, getRandomIdBasedOnDay } = require("./consts");
 const { logDebug } = require("./loggerApi");
@@ -86,7 +87,7 @@ const customRoutes = (req, res, next) => {
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-
+// https://github.com/techiediaries/fake-api-jwt-json-server
 // JWT: based on https://github.com/techiediaries/fake-api-jwt-json-server/blob/master/server.js
 const SECRET_KEY = "123456789";
 
@@ -114,7 +115,7 @@ function isAuthenticated({ email, password }) {
 }
 
 // Register New User
-server.post("/auth/register", (req, res) => {
+server.post("/api/auth/register", (req, res) => {
   logDebug("register endpoint called; request body:");
   console.log(req.body);
   const { email, password } = req.body;
@@ -164,7 +165,7 @@ server.post("/auth/register", (req, res) => {
 });
 
 // Login to one of the users from ./users.json
-server.post("/auth/login", (req, res) => {
+server.post("/api/auth/login", (req, res) => {
   logDebug("login endpoint called; request body:");
   console.log(req.body);
   const { email, password } = req.body;
@@ -180,7 +181,7 @@ server.post("/auth/login", (req, res) => {
 });
 
 // server.use(/^(?!\/auth).*$/, (req, res, next) => {
-server.use(/(\/auth\/api).*$/, (req, res, next) => {
+server.use(/(\/api\/v2).*$/, (req, res, next) => {
   if (
     req.headers.authorization === undefined ||
     req.headers.authorization.split(" ")[0] !== "Bearer"
@@ -214,8 +215,8 @@ server.use(/(\/auth\/api).*$/, (req, res, next) => {
 
 server.use(customRoutes);
 server.use(validations);
+server.use("/api/v2", adminRouter);
 server.use("/api", router);
-server.use("/auth/api", router);
 
 server.listen(port, () => {
   logDebug(`Test Custom Data API listening on port ${port}!`);

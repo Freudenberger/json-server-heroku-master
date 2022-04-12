@@ -986,7 +986,7 @@
           "bearerAuth": []
         }],
         "tags": [
-          "admin"
+          "plugins"
         ],
         "summary": "Get plugins",
         "description": "Get list of plugins. Requires Bearer Authentication (also called token authentication). In Swagger UI use padlock on right to configure token.",
@@ -1014,7 +1014,7 @@
           "basicAuth": []
         }],
         "tags": [
-          "admin"
+          "plugins"
         ],
         "summary": "Add new plugin",
         "description": "Add new plugin. Requires Basic Authentication. In Swagger UI use padlock on right to configure token.",
@@ -1058,7 +1058,7 @@
           "bearerAuth": []
         }],
         "tags": [
-          "admin"
+          "plugins"
         ],
         "summary": "Find plugin by ID",
         "description": "Returns single plugin. Requires Bearer Authentication (also called token authentication). In Swagger UI use padlock on right to configure token.",
@@ -1101,7 +1101,7 @@
           "basicAuth": []
         }],
         "tags": [
-          "admin"
+          "plugins"
         ],
         "summary": "Updates a plugin",
         "description": "Updates a plugin. Requires Basic Authentication. In Swagger UI use padlock on right to configure token.",
@@ -1162,7 +1162,7 @@
           "basicAuth": []
         }],
         "tags": [
-          "admin"
+          "plugins"
         ],
         "summary": "Deletes a plugin",
         "operationId": "deletePlugin",
@@ -1455,7 +1455,7 @@
           }
         },
         "xml": {
-          "name": "Plugin"
+          "name": "Token"
         }
       }
     }

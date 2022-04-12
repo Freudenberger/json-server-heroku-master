@@ -1,0 +1,175 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST demo",
+    "description": "This is a sample REST serverform jaktestowac.pl .",
+    "termsOfService": "http://jaktestowac.pl/",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "admin",
+      "description": "Registration and login"
+    },
+    {
+      "name": "admin",
+      "description": "Registration and login"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "register new user",
+        "operationId": "adminLogin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginData"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLoginToken"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid data supplied",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "login as user",
+        "operationId": "adminLogin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginData"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLoginToken"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid data supplied",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/v2/products": {
+      "get": {
+        "security": [{
+          "bearerAuth": []
+        }],
+        "tags": [
+          "products"
+        ],
+        "summary": "Get products",
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plugin"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": { }
+          },
+          "404": {
+            "description": "Not found",
+            "content": { }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "AdminLoginData": {
+        "type": "object",
+        "required":  ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "AdminLoginData"
+        }
+      },
+      "AdminLoginToken": {
+        "type": "object",
+        "required":  ["access_token"],
+        "properties": {
+          "access_token": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "AdminLoginToken"
+        }
+      }
+    }
+  }
+}
