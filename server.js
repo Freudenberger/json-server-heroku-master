@@ -47,8 +47,9 @@ const customRoutes = (req, res, next) => {
               JSON.stringify(schema, null, 2)
             );
           }
-          if (newAddr !== schemaV2["servers"][0]["url"]) {
-            schemaV2["servers"][0]["url"] = newAddr;
+          const newAddrV2 = `${referer.split(":")[0]}://${host}/api/v2`;
+          if (newAddrV2 !== schemaV2["servers"][0]["url"]) {
+            schemaV2["servers"][0]["url"] = newAddrV2;
             fs.writeFileSync(
               path.join(
                 __dirname,
