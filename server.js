@@ -115,7 +115,7 @@ function isAuthenticated({ email, password }) {
 }
 
 // Register New User
-server.post("/api/auth/register", (req, res) => {
+server.post("/api/v2/register", (req, res) => {
   logDebug("register endpoint called; request body:");
   console.log(req.body);
   const { email, password } = req.body;
@@ -165,7 +165,7 @@ server.post("/api/auth/register", (req, res) => {
 });
 
 // Login to one of the users from ./users.json
-server.post("/api/auth/login", (req, res) => {
+server.post("/api/v2/login", (req, res) => {
   logDebug("login endpoint called; request body:");
   console.log(req.body);
   const { email, password } = req.body;

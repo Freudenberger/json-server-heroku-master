@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "REST demo",
-    "description": "This is a sample REST serverform jaktestowac.pl .",
+    "title": "REST demo (v2 for JWT)",
+    "description": "This is a sample REST serverform jaktestowac.pl.",
     "termsOfService": "http://jaktestowac.pl/",
     "version": "1.0.0"
   },
@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api"
+      "url": "http://localhost:3000/api/v2"
     }
   ],
   "tags": [
@@ -21,18 +21,16 @@
       "description": "Registration and login"
     },
     {
-      "name": "admin",
-      "description": "Registration and login"
+      "name": "plugins",
+      "description": "Plugin management"
     }
   ],
   "paths": {
-    "/auth/register": {
+    "/register": {
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "register new user",
-        "operationId": "adminLogin",
+        "operationId": "adminRegister",
         "requestBody": {
           "content": {
             "application/json": {
@@ -62,11 +60,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/auth/login": {
+    "/login": {
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "login as user",
         "operationId": "adminLogin",
         "requestBody": {
@@ -98,16 +94,101 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/v2/products": {
+    "/plugins": {
       "get": {
-        "security": [{
-          "bearerAuth": []
-        }],
-        "tags": [
-          "products"
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
-        "summary": "Get products",
-        "operationId": "getProducts",
+        "tags": ["plugins"],
+        "summary": "Get plugins",
+        "description": "Get list of plugins. Requires Bearer Authentication (also called token authentication). In Swagger UI use padlock on right to configure token.",
+        "operationId": "getPlugins",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plugins"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": ["plugins"],
+        "summary": "Add new plugin",
+        "description": "Add new plugin. Requires Basic Authentication. In Swagger UI use padlock on right to configure token.",
+        "operationId": "addPlugin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginCreate"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plugins"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid Basic Authentication",
+            "content": {}
+          },
+          "422": {
+            "description": "Invalid plugin supplied",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/plugins/{id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["plugins"],
+        "summary": "Find plugin by ID",
+        "description": "Returns single plugin. Requires Bearer Authentication (also called token authentication). In Swagger UI use padlock on right to configure token.",
+        "operationId": "getPluginById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of plugin to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -120,12 +201,110 @@
             }
           },
           "401": {
-            "description": "Invalid token",
-            "content": { }
+            "description": "Invalid Basic Authentication",
+            "content": {}
           },
           "404": {
-            "description": "Not found",
-            "content": { }
+            "description": "Plugin not found",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": ["plugins"],
+        "summary": "Updates a plugin",
+        "description": "Updates a plugin. Requires Basic Authentication. In Swagger UI use padlock on right to configure token.",
+        "operationId": "putPlugin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of article that need to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated plugin object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Plugin updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plugin"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - malformed JSON",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid Basic Authentication",
+            "content": {}
+          },
+          "404": {
+            "description": "Plugin not found",
+            "content": {}
+          },
+          "422": {
+            "description": "Invalid plugin supplied",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": ["plugins"],
+        "summary": "Deletes a plugin",
+        "operationId": "deletePlugin",
+        "description": "Deletes a plugin. Requires Basic Authentication. In Swagger UI use padlock on right to configure token.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Plugin id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plugin deleted",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid Basic Authentication",
+            "content": {}
+          },
+          "404": {
+            "description": "Plugin not found",
+            "content": {}
           }
         }
       }
@@ -143,9 +322,57 @@
       }
     },
     "schemas": {
+      "Plugin": {
+        "type": "object",
+        "required": ["name", "status", "version"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "xml": {
+          "name": "Plugin"
+        }
+      },
+      "PluginCreate": {
+        "type": "object",
+        "required": ["name", "status", "version"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "xml": {
+          "name": "Plugin"
+        }
+      },
+      "Plugins": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Plugin"
+        }
+      },
       "AdminLoginData": {
         "type": "object",
-        "required":  ["email", "password"],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string"
@@ -160,7 +387,7 @@
       },
       "AdminLoginToken": {
         "type": "object",
-        "required":  ["access_token"],
+        "required": ["access_token"],
         "properties": {
           "access_token": {
             "type": "string"
