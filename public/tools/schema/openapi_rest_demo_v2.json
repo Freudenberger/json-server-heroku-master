@@ -126,7 +126,7 @@
       "post": {
         "security": [
           {
-            "basicAuth": []
+            "bearerAuth": []
           }
         ],
         "tags": ["plugins"],
@@ -213,7 +213,7 @@
       "put": {
         "security": [
           {
-            "basicAuth": []
+            "bearerAuth": []
           }
         ],
         "tags": ["plugins"],
@@ -274,7 +274,7 @@
       "delete": {
         "security": [
           {
-            "basicAuth": []
+            "bearerAuth": []
           }
         ],
         "tags": ["plugins"],
