@@ -548,3 +548,4 @@ const validations = (req, res, next) => {
 };
 
 exports.validations = validations;
+exports.validateEmail = validateEmail;

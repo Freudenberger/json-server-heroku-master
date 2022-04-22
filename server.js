@@ -1,5 +1,5 @@
 const jsonServer = require("./json-server");
-const { validations } = require("./validators");
+const { validations, validateEmail } = require("./validators");
 const fs = require("fs");
 const jwt = require('jsonwebtoken')
 const authUserDb = './admins.json'
@@ -136,6 +136,13 @@ server.post("/api/v2/register", (req, res) => {
   logDebug("register endpoint called; request body:");
   console.log(req.body);
   const { email, password } = req.body;
+
+  if (!validateEmail(email)) {
+    const status = 422;
+    const message = "Invalid email";
+    res.status(status).json({ status, message });
+    return;
+  }
 
   if (isAuthenticated({ email, password }) === true) {
     const status = 401;
