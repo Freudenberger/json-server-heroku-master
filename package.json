@@ -1,7 +1,7 @@
 {
-  "name": "json-server-heroku",
+  "name": "rest-api-demo",
   "version": "1.0.0",
-  "description": "Simple json-base database to deploy to Heroku",
+  "description": "Simple application with GUI and API to deploy to Heroku",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,9 +9,9 @@
     "mockdata": "node mockdata.js"
   },
   "keywords": [
-    "json-server,heroku, node, REST API"
+    "json-server, heroku, node, REST API"
   ],
-  "author": "Jesper Orb",
+  "author": "jaktestowac.pl",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
